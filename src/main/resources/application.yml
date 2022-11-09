@@ -1,0 +1,29 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: nfast-as-api
+  jpa:
+    open-in-view: false
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+
+springfox:
+  documentation:
+    swagger:
+      v2:
+        path: /api-docs
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: ERROR
+
+auth_database:
+  host: localhost
+  port: 5432
+  username: postgres
+  password: p0stgres
