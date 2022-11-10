@@ -7,7 +7,6 @@ import javax.persistence.Table;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "tab_centro_custo")
 public class CentroCusto {
     @Id
     @Column(name = "cod_centro_custo")

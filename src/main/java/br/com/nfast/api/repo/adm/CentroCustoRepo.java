@@ -19,14 +19,13 @@ public class CentroCustoRepo extends DataRepository<CentroCusto, Integer> {
         CentroCusto item = nativeFind(query -> {
             query.add("SELECT ");
             query.add("  a.codigo as cod_centro_custo, ");
-            query.add("  a.nome, ");
+            query.add("  a.nome as des_centro_custo, ");
             query.add("  1 as cod_empresa, ");
             query.add("  CAST('2000-01-01' as DATE) as dta_inicio_validade, ");
             query.add("  CAST('2099-01-01' as DATE) as dta_fim_validade, ");
             query.add("  'A' as ind_tipo ");
-            query.add("SELECT a ");
             query.add("FROM centro_custo a ");
-            query.add("WHERE a.codCentroCusto = :codCentroCusto ");
+            query.add("WHERE a.codigo = :codCentroCusto ");
             query.set("codCentroCusto", codCentroCusto);
         }, CentroCusto.class);
         return item;
@@ -36,14 +35,14 @@ public class CentroCustoRepo extends DataRepository<CentroCusto, Integer> {
         List<CentroCusto> list = nativeFindAll(query -> {
             query.add("SELECT ");
             query.add("  a.codigo as cod_centro_custo, ");
-            query.add("  a.nome, ");
+            query.add("  a.nome as des_centro_custo, ");
             query.add("  1 as cod_empresa, ");
             query.add("  CAST('2000-01-01' as DATE) as dta_inicio_validade, ");
             query.add("  CAST('2099-01-01' as DATE) as dta_fim_validade, ");
             query.add("  'A' as ind_tipo ");
-            query.add("SELECT a ");
             query.add("FROM centro_custo a ");
             query.add("WHERE a.flag = 'A' ");
+
             //if (Numbers.isNonEmpty(codEmpresa))
             //query.add("AND a.codEmpresa = " + codEmpresa + " ");/
             if (Strings.isNonEmpty(filtro)) {

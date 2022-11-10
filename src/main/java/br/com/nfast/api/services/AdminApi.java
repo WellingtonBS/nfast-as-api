@@ -44,7 +44,7 @@ public interface AdminApi {
     ResponseEntity<TipoDespesa> tipoDespesa(
             @ApiParam(value = "Access Token", required = true) @RequestHeader("token") String token,
             @ApiParam(value = "Client ID", required = true) @RequestHeader("clientId") String clientId,
-            @ApiParam(value = "Código", required = true) @RequestParam("codTipoDespesa") Integer codTipoDespesa
+            @ApiParam(value = "Código", required = true) @RequestParam("codTipoDespesa") Long codTipoDespesa
     );
 
     @ApiOperation(value = "Tipos de Despesa", response = TipoDespesa.class, responseContainer = "List")

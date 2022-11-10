@@ -52,7 +52,7 @@ public interface EstoqueApi {
     ResponseEntity<SubgrupoItem> subgrupoItem(
             @ApiParam(value = "Access Token", required = true) @RequestHeader("token") String token,
             @ApiParam(value = "Client ID", required = true) @RequestHeader("clientId") String clientId,
-            @ApiParam(value = "Código", required = true) @RequestParam("codSubgrupoItem") Integer codSubgrupoItem
+            @ApiParam(value = "Código", required = true) @RequestParam("codSubgrupoItem") Long codSubgrupoItem
     );
 
     @ApiOperation(value = "Subgrupos de Produto", response = SubgrupoItem.class, responseContainer = "List")
@@ -72,7 +72,7 @@ public interface EstoqueApi {
     ResponseEntity<Almoxarifado> almoxarifado(
             @ApiParam(value = "Access Token", required = true) @RequestHeader("token") String token,
             @ApiParam(value = "Client ID", required = true) @RequestHeader("clientId") String clientId,
-            @ApiParam(value = "Código", required = true) @RequestParam("codAlmoxarifado") Integer codAlmoxarifado
+            @ApiParam(value = "Código", required = true) @RequestParam("codAlmoxarifado") Long codAlmoxarifado
     );
 
     @ApiOperation(value = "Almoxarifados", response = Almoxarifado.class, responseContainer = "List")
@@ -83,7 +83,7 @@ public interface EstoqueApi {
             @ApiParam(value = "Client ID", required = true) @RequestHeader("clientId") String clientId,
             @ApiParam(value = "Empresa", required = true) @RequestParam("codEmpresa") Integer codEmpresa,
             @ApiParam(value = "Tanque", required = true) @RequestParam("indTanque") String indTanque,
-            @ApiParam(value = "Combustivel", required = true) @RequestParam("codItemTanque") Integer codItemTanque,
+            @ApiParam(value = "Combustivel", required = true) @RequestParam("codItemTanque") Long codItemTanque,
             @ApiParam(value = "Filtro") @RequestParam(value = "filtro", required = false) String filtro,
             @ApiParam(value = "Limit", defaultValue = "50") @RequestParam(value = "limit", required = false) Integer limit,
             @ApiParam(value = "Offset") @RequestParam(value = "offset", required = false) Integer offset

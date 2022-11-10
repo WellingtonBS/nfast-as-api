@@ -18,28 +18,29 @@ public class CidadeRepo extends DataRepository<Cidade, Integer> {
         Cidade item = nativeFind(query -> {
             montaSqlCidade(query);
             query.add("WHERE TRUE ");
-
+            query.add("AND a.municipio IS NOT NULL ");
+            query.add("AND normalize(a.cidade) not in ('') ");
             if (Numbers.isNonEmpty(codCidade)) {
-                query.add("AND a.cod_cidade = :codCidade ");
+                query.add("AND a.municipio = :codCidade ");
                 query.set("codCidade", codCidade);
             }
 
             if (Strings.isNonEmpty(codIbge)) {
-                query.add("AND (c.cod_uf||c.cod_municipio) = :codIbge ");
+                query.add("AND a.municipio = :codIbge ");
                 query.set("codIbge", codIbge);
             }
 
             if (Strings.isNonEmpty(nomCidade)) {
-                query.add("AND a.nom_cidade ILIKE :nomCidade ");
+                query.add("AND normalize(a.cidade) ILIKE :nomCidade ");
                 query.set("nomCidade", Strings.normalize(nomCidade));
             }
 
             if (Strings.isNonEmpty(sglEstado)) {
-                query.add("AND b.sgl_estado ILIKE :sglEstado ");
+                query.add("AND normalize(a.estado) ILIKE :sglEstado ");
                 query.set("sglEstado", sglEstado);
             }
 
-            query.add("ORDER BY a.nom_cidade ");
+            query.add("ORDER BY normalize(a.cidade) ");
         });
 
         return item;
@@ -47,14 +48,12 @@ public class CidadeRepo extends DataRepository<Cidade, Integer> {
 
     private void montaSqlCidade(QueryBuilder query) {
         query.clear();
-        query.add("SELECT ");
-        query.add("  a.cod_cidade, ");
-        query.add("  a.nom_cidade, ");
-        query.add("  b.sgl_estado, ");
-        query.add("  (c.cod_uf||c.cod_municipio) as cod_ibge ");
-        query.add("FROM tab_cidade a ");
-        query.add("INNER JOIN tab_estado b ON(b.cod_estado = a.cod_estado) ");
-        query.add("INNER JOIN tab_municipio_ibge c ON(c.seq_municipio_ibge = a.seq_municipio_ibge) ");
+        query.add("SELECT DISTINCT ");
+        query.add("  a.municipio as cod_cidade, ");
+        query.add("  normalize(a.cidade) as nom_cidade, ");
+        query.add("  normalize(a.estado) as sgl_estado, ");
+        query.add("  a.municipio as cod_ibge ");
+        query.add("FROM pessoa a ");
     }
 
 }

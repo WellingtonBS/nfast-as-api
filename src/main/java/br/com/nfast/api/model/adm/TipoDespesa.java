@@ -10,7 +10,7 @@ import javax.persistence.Table;
 public class TipoDespesa {
     @Id
     @Column(name = "cod_tipo_despesa")
-    private Integer codTipoDespesa;
+    private Long codTipoDespesa;
     @Column(name = "des_tipo_despesa")
     private String desTipoDespesa;
     @Column(name = "ind_tipo_despesa")
@@ -20,11 +20,11 @@ public class TipoDespesa {
     @Column(name = "ind_status")
     private String indStatus;
 
-    public Integer getCodTipoDespesa() {
+    public Long getCodTipoDespesa() {
         return codTipoDespesa;
     }
 
-    public void setCodTipoDespesa(Integer codTipoDespesa) {
+    public void setCodTipoDespesa(Long codTipoDespesa) {
         this.codTipoDespesa = codTipoDespesa;
     }
 

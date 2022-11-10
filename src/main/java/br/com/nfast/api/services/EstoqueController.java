@@ -66,63 +66,26 @@ public class EstoqueController implements EstoqueApi {
     }
 
     @Override
-    public ResponseEntity<SubgrupoItem> subgrupoItem(String token, String clientId, Integer codSubgrupoItem) {
-        SubgrupoItem item = subgrupoItemRepo.findById(codSubgrupoItem).orElse(null);
+    public ResponseEntity<SubgrupoItem> subgrupoItem(String token, String clientId, Long codSubgrupoItem) {
+        SubgrupoItem item = subgrupoItemRepo.subGrupoItem(codSubgrupoItem);
         return new ResponseEntity<>(item, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<List<SubgrupoItem>> subgrupoItemList(String token, String clientId, String filtro, Integer limit, Integer offset) {
-        List<SubgrupoItem> list = subgrupoItemRepo.findAll(query -> {
-            query.add("SELECT a FROM SubgrupoItem a ");
-            if (Strings.isNonEmpty(filtro)) {
-                query.add("WHERE ( ");
-                query.add("  (CONCAT(a.codSubgrupoItem, '') LIKE :filtro) OR ");
-                query.add("  (LOWER(a.desSubgrupoItem) LIKE :filtro) ");
-                query.add(") ");
-                query.set("filtro", "%" + filtro.toLowerCase() + "%");
-            }
-            query.add("ORDER BY a.desSubgrupoItem");
-            if (Numbers.isNonEmpty(limit))
-                query.setLimit(limit);
-            if (Numbers.isNonEmpty(offset))
-                query.setOffset(offset);
-        });
+        List<SubgrupoItem> list = subgrupoItemRepo.subgrupoItemList(filtro, limit, offset );
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<Almoxarifado> almoxarifado(String token, String clientId, Integer codAlmoxarifado) {
-        Almoxarifado item = almoxarifadoRepo.findById(codAlmoxarifado).orElse(null);
+    public ResponseEntity<Almoxarifado> almoxarifado(String token, String clientId, Long codAlmoxarifado) {
+        Almoxarifado item = almoxarifadoRepo.almoxarifado(codAlmoxarifado);
         return new ResponseEntity<>(item, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<List<Almoxarifado>> almoxarifadoList(String token, String clientId, Integer codEmpresa, String indTanque, Integer codItemTanque, String filtro, Integer limit, Integer offset) {
-        List<Almoxarifado> list = almoxarifadoRepo.findAll(query -> {
-            query.add("SELECT a FROM Almoxarifado a ");
-            query.add("WHERE a.indDesativado = 'N' ");
-            if (Numbers.isNonEmpty(codEmpresa))
-                query.add("AND a.codEmpresa = " + codEmpresa);
-            if (Strings.isNonEmpty(indTanque)) {
-                query.add("AND a.indTanque = :indTanque ");
-                query.set("indTanque", indTanque);
-            }
-            if (Numbers.isNonEmpty(codItemTanque))
-                query.add("AND a.codItemTanque = " + codItemTanque);
-            if (Strings.isNonEmpty(filtro)) {
-                query.add("AND ( ");
-                query.add("  (CONCAT(a.codAlmoxarifado, '') LIKE :filtro) OR ");
-                query.add("  (LOWER(a.desAlmoxarifado) LIKE :filtro) ");
-                query.add(") ");
-                query.set("filtro", "%" + filtro.toLowerCase() + "%");
-            }
-            query.add("ORDER BY a.desAlmoxarifado");
-            if (Numbers.isNonEmpty(limit))
-                query.setLimit(limit);
-            if (Numbers.isNonEmpty(offset))
-                query.setOffset(offset);
-        });
+    public ResponseEntity<List<Almoxarifado>> almoxarifadoList(String token, String clientId, Integer codEmpresa, String indTanque, Long codItemTanque, String filtro, Integer limit, Integer offset) {
+        List<Almoxarifado> list = almoxarifadoRepo.almoxarifadoList(codEmpresa, indTanque, codItemTanque, filtro, limit, offset);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 

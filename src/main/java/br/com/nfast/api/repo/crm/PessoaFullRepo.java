@@ -34,7 +34,7 @@ public class PessoaFullRepo extends DataRepository<PessoaFull, Integer> {
             throw new RuntimeException("Cidade não informada");
 
         if (Numbers.isEmpty(pessoa.getCodPessoa()))
-            pessoa.setCodPessoa(nativeFindValue("SELECT COALESCE(MAX(cod_pessoa), 0) + 1 FROM tab_pessoa"));
+            pessoa.setCodPessoa(nativeFindValue("SELECT COALESCE(MAX(codigo), 0) + 1 FROM pessoa"));
         if (pessoa.getDtaCadastro() == null)
             pessoa.setDtaCadastro(LocalDate.now());
         if (Strings.isEmpty(pessoa.getHraCadastro()))

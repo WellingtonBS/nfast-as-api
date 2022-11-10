@@ -45,31 +45,14 @@ public class AdminController implements AdminApi {
     }
 
     @Override
-    public ResponseEntity<TipoDespesa> tipoDespesa(String token, String clientId, Integer codTipoDespesa) {
-        TipoDespesa item = tipoDespesaRepo.findById(codTipoDespesa).orElse(null);
+    public ResponseEntity<TipoDespesa> tipoDespesa(String token, String clientId, Long codTipoDespesa) {
+        TipoDespesa item = tipoDespesaRepo.tipoDespesa(codTipoDespesa);
         return new ResponseEntity<>(item, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<List<TipoDespesa>> tipoDespesaList(String token, String clientId, String indTipo, String filtro, Integer limit, Integer offset) {
-        List<TipoDespesa> list = tipoDespesaRepo.findAll(query -> {
-            query.add("SELECT a FROM TipoDespesa a ");
-            query.add("WHERE a.indStatus = 'A' ");
-            if (Strings.isNonEmpty(indTipo))
-                query.add("AND a.indTipo = '" + indTipo + "' ");
-            if (Strings.isNonEmpty(filtro)) {
-                query.add("AND ( ");
-                query.add("  (CONCAT(a.codTipoDespesa, '') LIKE :filtro) OR ");
-                query.add("  (LOWER(a.desTipoDespesa) LIKE :filtro) ");
-                query.add(") ");
-                query.set("filtro", "%" + filtro.toLowerCase() + "%");
-            }
-            query.add("ORDER BY a.desTipoDespesa ");
-            if (Numbers.isNonEmpty(limit))
-                query.setLimit(limit);
-            if (Numbers.isNonEmpty(offset))
-                query.setOffset(offset);
-        });
+        List<TipoDespesa> list = tipoDespesaRepo.tipoDespesaList(indTipo, filtro, limit, offset);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
