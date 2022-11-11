@@ -15,6 +15,9 @@ public class UnidadeRepo extends DataRepository<Unidade, Integer> {
 
     public Integer getUnidadeNfe(String sglUnidade, Integer codItem, String codItemFornecedor, Integer codFornecedor) {
         Integer codUnidade = null;
+
+
+
         if (Strings.isNonEmpty(codItemFornecedor) && Numbers.isNonEmpty(codFornecedor)) {
             codUnidade = nativeFindValue(query -> {
                 query.add("SELECT a.cod_unidade_agrupamento ");

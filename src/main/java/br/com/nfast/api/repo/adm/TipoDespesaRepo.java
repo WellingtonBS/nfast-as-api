@@ -6,7 +6,6 @@ import br.com.nfast.api.utils.Numbers;
 import br.com.nfast.api.utils.Strings;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigInteger;
 import java.util.List;
 
 @Repository
