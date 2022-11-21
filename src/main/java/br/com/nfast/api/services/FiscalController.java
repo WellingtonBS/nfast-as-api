@@ -33,36 +33,13 @@ public class FiscalController implements FiscalApi {
 
     @Override
     public ResponseEntity<Nop> nop(String token, String clientId, Integer codNaturezaOperacao) {
-        Nop item = nopRepo.findById(codNaturezaOperacao).orElse(null);
+        Nop item = nopRepo.nop(codNaturezaOperacao);
         return new ResponseEntity<>(item, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<List<Nop>> nopList(String token, String clientId, String indEntradaSaida, String indNopFrete, String indAtivoImobilizado, String indOrigemDestino, String filtro, Integer limit, Integer offset) {
-        List<Nop> list = nopRepo.findAll(query -> {
-            query.add("SELECT a FROM Nop a ");
-            query.add("WHERE a.indDesativada = 'N' ");
-            if (Strings.isNonEmpty(indEntradaSaida))
-                query.add("AND a.indEntradaSaida = '" + indEntradaSaida + "' ");
-            if (Strings.isNonEmpty(indNopFrete))
-                query.add("AND a.indNopFrete = '" + indNopFrete + "' ");
-            if (Strings.isNonEmpty(indAtivoImobilizado))
-                query.add("AND a.indAtivoImobilizado = '" + indAtivoImobilizado + "' ");
-            if (Strings.isNonEmpty(indOrigemDestino))
-                query.add("AND a.indOrigemDestino = '" + indOrigemDestino + "' ");
-            if (Strings.isNonEmpty(filtro)) {
-                query.add("AND ( ");
-                query.add("  (LOWER(a.numCfop) LIKE :filtro) OR ");
-                query.add("  (LOWER(a.desNaturezaOperacao) LIKE :filtro) ");
-                query.add(") ");
-                query.set("filtro", "%" + filtro.toLowerCase() + "%");
-            }
-            query.add("ORDER BY a.numCfop, a.desNaturezaOperacao ");
-            if (Numbers.isNonEmpty(limit))
-                query.setLimit(limit);
-            if (Numbers.isNonEmpty(offset))
-                query.setOffset(offset);
-        });
+        List<Nop> list = nopRepo.nopList(indEntradaSaida, indNopFrete, indAtivoImobilizado, indOrigemDestino, filtro, limit, offset);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 

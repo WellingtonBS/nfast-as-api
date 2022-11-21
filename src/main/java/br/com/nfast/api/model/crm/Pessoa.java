@@ -3,10 +3,8 @@ package br.com.nfast.api.model.crm;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 @Entity
-@Table(name = "tab_pessoa")
 public class Pessoa {
     @Id
     @Column(name = "cod_pessoa")

@@ -30,22 +30,7 @@ public class FinanceiroController implements FinanceiroApi {
 
     @Override
     public ResponseEntity<List<EspecieCaixa>> especieCaixaList(String token, String clientId, String filtro, Integer limit, Integer offset) {
-        List<EspecieCaixa> list = especieCaixaRepo.findAll(query -> {
-            query.add("SELECT a FROM EspecieCaixa a ");
-            query.add("WHERE a.indStatus = 'A' ");
-            if (Strings.isNonEmpty(filtro)) {
-                query.add("AND ( ");
-                query.add("  (CONCAT(a.codEspecieCaixa, '') LIKE :filtro) OR ");
-                query.add("  (LOWER(a.desEspecieCaixa) LIKE :filtro) ");
-                query.add(") ");
-                query.set("filtro", "%" + filtro.toLowerCase() + "%");
-            }
-            query.add("ORDER BY a.codEspecieCaixa ");
-            if (Numbers.isNonEmpty(limit))
-                query.setLimit(limit);
-            if (Numbers.isNonEmpty(offset))
-                query.setOffset(offset);
-        });
+        List<EspecieCaixa> list = especieCaixaRepo.especieCaixaList(filtro, limit, offset);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
@@ -63,34 +48,13 @@ public class FinanceiroController implements FinanceiroApi {
 
     @Override
     public ResponseEntity<TipoCobranca> tipoCobranca(String token, String clientId, Integer codTipoCobranca) {
-        TipoCobranca item = tipoCobrancaRepo.findById(codTipoCobranca).orElse(null);
+        TipoCobranca item = tipoCobrancaRepo.tipoCobranca(codTipoCobranca);
         return new ResponseEntity<>(item, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<List<TipoCobranca>> tipoCobrancaList(String token, String clientId, Integer codEmpresa, String filtro, Integer limit, Integer offset) {
-        List<TipoCobranca> list = tipoCobrancaRepo.findAll(query -> {
-            query.add("SELECT a FROM TipoCobranca a ");
-            query.add("WHERE a.indStatus = 'A' ");
-            if (Strings.isNonEmpty(filtro)) {
-                query.add("AND ( ");
-                query.add("  (CONCAT(a.codTipoCobranca, '') LIKE :filtro) OR ");
-                query.add("  (LOWER(a.desTipoCobranca) LIKE :filtro) ");
-                query.add(") ");
-                query.set("filtro", "%" + filtro.toLowerCase() + "%");
-            }
-            query.add("AND EXISTS( ");
-            query.add("  SELECT b FROM TipoCobrancaEmpresa b ");
-            query.add("  WHERE b.codTipoCobranca = a.codTipoCobranca ");
-            query.add("  AND b.codEmpresa = " + codEmpresa + " ");
-            query.add("  AND b.indTipo IN('P', 'T') ");
-            query.add(") ");
-            query.add("ORDER BY a.codTipoCobranca ");
-            if (Numbers.isNonEmpty(limit))
-                query.setLimit(limit);
-            if (Numbers.isNonEmpty(offset))
-                query.setOffset(offset);
-        });
+        List<TipoCobranca> list = tipoCobrancaRepo.tipoCobrancaList(codEmpresa, filtro, limit, offset);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 

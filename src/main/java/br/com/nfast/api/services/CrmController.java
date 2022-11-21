@@ -26,64 +26,19 @@ public class CrmController implements CrmApi {
 
     @Override
     public ResponseEntity<Pessoa> pessoa(String token, String clientId, Integer codPessoa, String numCnpjCpf) {
-        List<Pessoa> list = pessoaRepo.findAll(query -> {
-            query.add("SELECT a FROM Pessoa a ");
-            if (Numbers.isNonEmpty(codPessoa)) {
-                query.add("WHERE a.codPessoa = :codPessoa ");
-                query.set("codPessoa", codPessoa);
-            } else if (Strings.isNonEmpty(numCnpjCpf)) {
-                query.add("WHERE a.numCnpjCpf = :numCnpjCpf ");
-                query.set("numCnpjCpf", numCnpjCpf);
-            }
-        });
-
-        Pessoa pessoa = null;
-        for (Pessoa item : list) {
-            pessoa = item;
-            if (Strings.equals(pessoa.getIndPessoaAtiva(), "S"))
-                break;
-        }
-
+        Pessoa pessoa = pessoaRepo.pessoa(codPessoa, numCnpjCpf);
         return new ResponseEntity<>(pessoa, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<List<Pessoa>> pessoaList(String token, String clientId, String filtro, Integer limit, Integer offset) {
-        List<Pessoa> list = pessoaRepo.findAll(query -> {
-            query.add("SELECT a FROM Pessoa a ");
-            query.add("WHERE a.indPessoaAtiva = 'S' ");
-            if (Strings.isNonEmpty(filtro)) {
-                query.add("AND ( ");
-                query.add("  (CONCAT(a.codPessoa, '') LIKE :filtro) OR ");
-                query.add("  (LOWER(a.numCnpjCpf) LIKE :filtro) OR ");
-                query.add("  (LOWER(a.nomPessoa) LIKE :filtro) ");
-                query.add(") ");
-                query.set("filtro", "%" + filtro.toLowerCase() + "%");
-            }
-            query.add("ORDER BY a.nomPessoa");
-            if (Numbers.isNonEmpty(limit))
-                query.setLimit(limit);
-            if (Numbers.isNonEmpty(offset))
-                query.setOffset(offset);
-        });
+        List<Pessoa> list = pessoaRepo.pessoaList(filtro, limit, offset);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<List<Pessoa>> pessoaListCnpjCpf(String token, String clientId, String cnpjCpf, Integer limit, Integer offset) {
-        List<Pessoa> list = pessoaRepo.findAll(query -> {
-            query.add("SELECT a FROM Pessoa a ");
-            query.add("WHERE a.indPessoaAtiva = 'S' ");
-            if (Strings.isNonEmpty(cnpjCpf)) {
-                query.add("AND a.numCnpjCpf = :cnpjCpf ");
-                query.set("cnpjCpf", cnpjCpf);
-            }
-            query.add("ORDER BY a.nomPessoa");
-            if (Numbers.isNonEmpty(limit))
-                query.setLimit(limit);
-            if (Numbers.isNonEmpty(offset))
-                query.setOffset(offset);
-        });
+        List<Pessoa> list = pessoaRepo.pessoaListCnpjCpf(cnpjCpf, limit, offset);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 

@@ -3,12 +3,10 @@ package br.com.nfast.api.model.crm;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "tab_pessoa")
 public class PessoaFull {
     @Id
     @Column(name = "cod_pessoa")
