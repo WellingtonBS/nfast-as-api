@@ -45,38 +45,13 @@ public class FiscalController implements FiscalApi {
 
     @Override
     public ResponseEntity<Tributacao> tributacao(String token, String clientId, Integer codTributacao) {
-        Tributacao item = tributacaoRepo.findById(codTributacao).orElse(null);
+        Tributacao item = tributacaoRepo.tributacao(codTributacao);
         return new ResponseEntity<>(item, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<List<Tributacao>> tributacaoList(String token, String clientId, String indEntradaSaida, String indTipoTributo, String filtro, Integer limit, Integer offset) {
-        List<Tributacao> list = tributacaoRepo.findAll(query -> {
-            query.add("SELECT a FROM Tributacao a ");
-            query.add("WHERE a.indInativa = 'N' ");
-            if (Strings.isNonEmpty(indEntradaSaida)) {
-                if (Strings.equals(indEntradaSaida, "E+"))
-                    query.add("AND COALESCE(a.indEntradaSaida, '') <> 'S' ");
-                else if (Strings.equals(indEntradaSaida, "S+"))
-                    query.add("AND COALESCE(a.indEntradaSaida, '') <> 'E' ");
-                else query.add("AND a.indEntradaSaida = '" + indEntradaSaida + "' ");
-            }
-            if (Strings.isNonEmpty(indTipoTributo))
-                query.add("AND a.indTipoTributo = '" + indTipoTributo + "' ");
-            if (Strings.isNonEmpty(filtro)) {
-                query.add("AND ( ");
-                query.add("  (CONCAT(a.codTributacao, '') LIKE :filtro) OR ");
-                query.add("  (LOWER(a.codSituacaoTributaria) LIKE :filtro) OR ");
-                query.add("  (LOWER(a.desTributacao) LIKE :filtro) ");
-                query.add(") ");
-                query.set("filtro", "%" + filtro.toLowerCase() + "%");
-            }
-            query.add("ORDER BY a.codSituacaoTributaria, a.desTributacao ");
-            if (Numbers.isNonEmpty(limit))
-                query.setLimit(limit);
-            if (Numbers.isNonEmpty(offset))
-                query.setOffset(offset);
-        });
+        List<Tributacao> list = tributacaoRepo.tributacaoList(indEntradaSaida, indTipoTributo, filtro, limit, offset);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
@@ -162,32 +137,13 @@ public class FiscalController implements FiscalApi {
 
     @Override
     public ResponseEntity<Ncm> ncm(String token, String clientId, Integer seqNcm) {
-        Ncm item = ncmRepo.findById(seqNcm).orElse(null);
+        Ncm item = ncmRepo.ncm(seqNcm);
         return new ResponseEntity<>(item, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<List<Ncm>> ncmList(String token, String clientId, String codNcm, String filtro, Integer limit, Integer offset) {
-        List<Ncm> list = ncmRepo.findAll(query -> {
-            query.add("SELECT a FROM Ncm a ");
-            query.add("WHERE a.seqNcm > 0 ");
-            if (Strings.isNonEmpty(codNcm)) {
-                query.add("AND a.codNcm = :codNcm ");
-                query.set("codNcm", codNcm);
-            }
-            if (Strings.isNonEmpty(filtro)) {
-                query.add("AND ( ");
-                query.add("  (a.codNcm LIKE :filtro) OR ");
-                query.add("  (LOWER(a.desNcm) LIKE :filtro) ");
-                query.add(") ");
-                query.set("filtro", "%" + filtro.toLowerCase() + "%");
-            }
-            query.add("ORDER BY a.codNcm ");
-            if (Numbers.isNonEmpty(limit))
-                query.setLimit(limit);
-            if (Numbers.isNonEmpty(offset))
-                query.setOffset(offset);
-        });
+        List<Ncm> list = ncmRepo.ncmList(codNcm, filtro, limit, offset);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 

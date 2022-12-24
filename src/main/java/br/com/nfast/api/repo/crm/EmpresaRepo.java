@@ -127,12 +127,15 @@ public class EmpresaRepo extends DataRepository<Empresa, Integer> {
 
         LimiteRetroativo item = nativeFind(query -> {
             query.add("SELECT ");
-            query.add("  a.cod_empresa, ");
-            query.add("  a.ind_tipo_limite_retroativo, ");
-            query.add("  CAST(a.dta_limite_retroativo as DATE) as dta_limite_retroativo, ");
-            query.add("  COALESCE(a.qtd_dias_limite_retroacao, 0) as qtd_dias_limite_retroacao ");
-            query.add("FROM tab_empresa a ");
-            query.add("WHERE a.cod_empresa = " + codEmpresa);
+            query.add("  a.codigo AS cod_empresa, ");
+            query.add("  'DA' AS ind_tipo_limite_retroativo, ");
+            query.add("  max(b.data) as dta_limite_retroativo, ");
+            query.add("  0 as qtd_dias_limite_retroacao ");
+            query.add("FROM empresa a ");
+            query.add("INNER JOIN fechamento b ON (a.grid = b.empresa) ");
+            query.add("WHERE a.codigo = " + codEmpresa );
+            query.add("GROUP BY a.codigo, ");
+            query.add("         2,4 ");
         }, LimiteRetroativo.class);
 
         if (item != null) {

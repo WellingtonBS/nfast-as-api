@@ -55,13 +55,13 @@ public class AlmoxarifadoRepo extends DataRepository<Almoxarifado, Integer> {
             query.add("AND a.flag = 'A' ");
 
             if (Numbers.isNonEmpty(codEmpresa))
-                query.add("AND b.codigo = " + codEmpresa);
+                query.add("AND b.codigo = '" + codEmpresa + "' ");
             if (Strings.isNonEmpty(indTanque)) {
                 query.add("AND CASE WHEN a.produto IS NULL THEN 'N' ELSE 'S' END = :indTanque ");
                 query.set("indTanque", indTanque);
             }
             if (Numbers.isNonEmpty(codItemTanque))
-                query.add("AND c.codigo = " + codItemTanque);
+                query.add("AND c.codigo = '" + codItemTanque + "' ");
             if (Strings.isNonEmpty(filtro)) {
                 query.add("AND ( ");
                 query.add("  (CONCAT(a.codigo, '') LIKE :filtro) OR ");

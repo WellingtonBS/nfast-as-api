@@ -20,6 +20,21 @@ public class EspecieCaixaRepo extends DataRepository<EspecieCaixa, Integer> {
         return vlrSaldo;
     }
 
+    public EspecieCaixa especieCaixa(Integer codEspecieCaixa) {
+
+        EspecieCaixa item = nativeFind(query -> {
+            query.add("SELECT  ");
+            query.add("  codigo AS cod_especie_caixa,");
+            query.add("  normalize(nome) AS des_especie_caixa,");
+            query.add("  'S' AS ind_status");
+            query.add("FROM motivo_movto a ");
+            query.add("WHERE codigo = 1 ");
+
+        });
+
+        return item;
+    }
+
     public List<EspecieCaixa> especieCaixaList(String filtro, Integer limit, Integer offset) {
 
         List<EspecieCaixa> list = nativeFindAll(query -> {

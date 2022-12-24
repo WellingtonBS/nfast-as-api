@@ -49,10 +49,10 @@ public class CidadeRepo extends DataRepository<Cidade, Integer> {
     private void montaSqlCidade(QueryBuilder query) {
         query.clear();
         query.add("SELECT DISTINCT ");
-        query.add("  a.codigo as cod_cidade, ");
-        query.add("  normalize(a.municipio) as nom_cidade, ");
-        query.add("  normalize(a.uf) as sgl_estado, ");
-        query.add("  a.codigo as cod_ibge ");
+        query.add("  a.codigo AS cod_cidade, ");
+        query.add("  normalize(a.municipio) AS nom_cidade, ");
+        query.add("  normalize(a.uf) AS sgl_estado, ");
+        query.add("  CAST(a.codigo AS TEXT) AS cod_ibge ");
         query.add("FROM municipio_view a ");
     }
 

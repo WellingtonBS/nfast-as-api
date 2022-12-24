@@ -6,7 +6,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "tab_unidade")
 public class Unidade {
     @Id
     @Column(name = "cod_unidade")

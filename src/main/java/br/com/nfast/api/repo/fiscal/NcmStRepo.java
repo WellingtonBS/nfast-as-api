@@ -15,20 +15,19 @@ public class NcmStRepo extends DataRepository<NcmSt, Integer> {
 
     public NcmSt ncmSt(Integer codItem, String uf, LocalDate data) {
         NcmSt item = nativeFind(query -> {
-            query.add("SELECT a.seq_ncm, a.per_aliquota, a.per_mark_up, a.val_unitario, a.val_preco ");
-            query.add("FROM tab_ncm_st a ");
-            query.add("INNER JOIN tab_item b ON(b.seq_ncm = a.seq_ncm) ");
-            query.add("INNER JOIN tab_estado c ON(c.cod_estado = a.cod_estado) ");
-            query.add("WHERE b.cod_item = :cod_item ");
-            query.add("AND c.sgl_estado = :uf ");
-            query.add("AND a.ind_operacao = 'E' ");
-            query.add("AND a.dta_inicio_validade <= :data ");
-            query.add("AND ((a.dta_fim_validade IS NULL) OR (a.dta_fim_validade >= :data)) ");
-            query.add("ORDER BY a.dta_inicio_validade DESC LIMIT 1 ");
+            query.add("SELECT  ");
+            query.add("  only_numbers(a.codigo) AS seq_ncm, ");
+            query.add("  0 AS per_aliquota, ");
+            query.add("  0 AS per_mark_up, ");
+            query.add("  0 AS val_unitario, ");
+            query.add("  0 AS val_preco ");
+            query.add("FROM ncm a ");
+            query.add("INNER JOIN produto b ON (a.codigo = b.codigo_ncm) ");
+            query.add("WHERE b.codigo = ' " + codItem +"' ");
 
-            query.set("cod_item", codItem);
-            query.set("uf", uf);
-            query.set("data", data);
+            //query.set("cod_item", codItem);
+            //query.set("uf", uf);
+            //query.set("data", data);
         });
 
         return item;

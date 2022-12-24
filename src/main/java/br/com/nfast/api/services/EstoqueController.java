@@ -91,32 +91,13 @@ public class EstoqueController implements EstoqueApi {
 
     @Override
     public ResponseEntity<Unidade> unidade(String token, String clientId, Integer codUnidade) {
-        Unidade item = unidadeRepo.findById(codUnidade).orElse(null);
+        Unidade item = unidadeRepo.unidade(codUnidade);
         return new ResponseEntity<>(item, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<List<Unidade>> unidadeList(String token, String clientId, String sglUnidade, String filtro, Integer limit, Integer offset) {
-        List<Unidade> list = unidadeRepo.findAll(query -> {
-            query.add("SELECT a FROM Unidade a ");
-            query.add("WHERE a.codUnidade > 0 ");
-            if (Strings.isNonEmpty(sglUnidade)) {
-                query.add("AND LOWER(a.sglUnidade) = :sglUnidade ");
-                query.set("sglUnidade", sglUnidade.toLowerCase());
-            }
-            if (Strings.isNonEmpty(filtro)) {
-                query.add("AND ( ");
-                query.add("  (LOWER(a.desUnidade) LIKE :filtro) OR ");
-                query.add("  (LOWER(a.sglUnidade) LIKE :filtro) ");
-                query.add(") ");
-                query.set("filtro", "%" + filtro.toLowerCase() + "%");
-            }
-            query.add("ORDER BY a.desUnidade");
-            if (Numbers.isNonEmpty(limit))
-                query.setLimit(limit);
-            if (Numbers.isNonEmpty(offset))
-                query.setOffset(offset);
-        });
+        List<Unidade> list = unidadeRepo.unidadeList(sglUnidade, filtro, limit, offset);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 

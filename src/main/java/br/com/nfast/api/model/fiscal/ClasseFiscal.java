@@ -6,7 +6,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "tab_classe_fiscal")
 public class ClasseFiscal {
     @Id
     @Column(name = "cod_classe_fiscal")

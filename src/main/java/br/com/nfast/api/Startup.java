@@ -25,8 +25,8 @@ public class Startup implements ServletContextInitializer {
     public static void main(String[] args) {
         if (args.length == 0) {
             List<String> items = new ArrayList<>();
-            items.add("--server.port=8080");
-            items.add("--server.file=C:\\Server\\impulse\\nfast\\nfast-api.properties");
+            items.add("--server.port=8085");
+            items.add("--server.file=D:\\Impulse\\Projetos\\DevImpulse\\Nfast\\nfast-as-api\\nfast-api.properties");
             args = items.toArray(new String[0]);
         }
         SpringApplication.run(Startup.class, args);

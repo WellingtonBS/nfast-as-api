@@ -24,7 +24,7 @@ public class FinanceiroController implements FinanceiroApi {
 
     @Override
     public ResponseEntity<EspecieCaixa> especieCaixa(String token, String clientId, Integer codEspecieCaixa) {
-        EspecieCaixa item = especieCaixaRepo.findById(codEspecieCaixa).orElse(null);
+        EspecieCaixa item = especieCaixaRepo.especieCaixa(codEspecieCaixa);
         return new ResponseEntity<>(item, HttpStatus.OK);
     }
 
