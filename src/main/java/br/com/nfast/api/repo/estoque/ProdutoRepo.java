@@ -58,17 +58,17 @@ public class ProdutoRepo extends DataRepository<Produto, Integer> {
             break;
             default: { //Preço Unitário da Última NF
                 vlrCusto = nativeFindValue(query -> {
-                    query.add("SELECT CAST(CAST((a.val_bruto_item / a.qtd_item_convertido) as NUMERIC(15, 6)) as DOUBLE PRECISION) ");
-                    query.add("FROM tab_item_nfe a ");
-                    query.add("INNER JOIN tab_nota_fiscal_entrada b ON(b.seq_nota = a.seq_nota) ");
-                    query.add("INNER JOIN tab_natureza_operacao c ON(c.cod_natureza_operacao = a.cod_natureza_operacao) ");
-                    query.add("WHERE a.cod_item = " + codItem + " ");
-                    query.add("AND b.cod_empresa = " + codEmpresa + " ");
-                    query.add("AND c.ind_devolucao = 'N' ");
-                    query.add("AND c.ind_gera_financeiro = 'S' ");
-                    query.add("AND ((c.ind_transferencia IS NULL) OR (c.ind_transferencia = 'N')) ");
-                    query.add("AND a.qtd_item_convertido > 0.0 ");
-                    query.add("ORDER BY b.dta_entrada DESC, b.seq_nota DESC ");
+                    query.add("SELECT CAST(CAST((a.valor / a.quantidade) as NUMERIC(15, 6)) as DOUBLE PRECISION) ");
+                    query.add("FROM nota_fiscal_produto a ");
+                    query.add("INNER JOIN nota_fiscal b ON(b.grid = a.nota_fiscal) ");
+                    query.add("INNER JOIN produto c ON(c.grid = a.produto) ");
+                    query.add("INNER JOIN empresa d ON(d.grid = b.empresa)  ");
+                    query.add("WHERE c.codigo = '" + codItem + "' ");
+                    query.add("AND d.codigo = " + codEmpresa + " ");
+                    query.add("AND a.cfop not in ('1201','1202','1203','1204','1208','1209','1410','1411','2201','2202','2203','2204','2208','2209','2410','2411','5201','5202','5203'," +
+                            "'5204','5208','5209','5410','5411','6201','6202','6203','6204','6208','6209','6410','6411')"); // ind_devolução
+                    query.add("AND a.quantidade > 0.0 ");
+                    query.add("ORDER BY b.data_emissao DESC ");
                     query.add("LIMIT 1 ");
                 });
             }

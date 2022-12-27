@@ -6,7 +6,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "tab_almoxarifado")
 public class Almoxarifado {
     @Id
     @Column(name = "cod_almoxarifado")

@@ -3,10 +3,8 @@ package br.com.nfast.api.model.financeiro;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 @Entity
-@Table(name = "tab_tipo_cobranca")
 public class TipoCobranca {
     @Id
     @Column(name = "cod_tipo_cobranca")

@@ -10,8 +10,6 @@ import br.com.nfast.api.repo.adm.DespesaRepo;
 import br.com.nfast.api.repo.adm.RateioPadraoRepo;
 import br.com.nfast.api.repo.adm.TipoDespesaRepo;
 import br.com.nfast.api.repo.crm.EmpresaRepo;
-import br.com.nfast.api.utils.Numbers;
-import br.com.nfast.api.utils.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -70,13 +68,13 @@ public class AdminController implements AdminApi {
 
     @Override
     public ResponseEntity<String> parametroSistema(String token, String clientId, Integer codParametro) {
-        String value = empresaRepo.nativeFindValue("SELECT val_parametro FROM tab_parametro_sistema WHERE cod_parametro = " + codParametro);
+        String value = empresaRepo.parametroSistema(codParametro);
         return new ResponseEntity<>(value, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<String> parametroEmpresa(String token, String clientId, Integer codParametro, Integer codEmpresa) {
-        String value = empresaRepo.nativeFindValue("SELECT val_parametro FROM tab_parametro_empresa WHERE cod_parametro = " + codParametro + " AND cod_empresa = " + codEmpresa);
+        String value = empresaRepo.parametroEmpresa(codParametro);
         return new ResponseEntity<>(value, HttpStatus.OK);
     }
 

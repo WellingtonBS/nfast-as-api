@@ -43,7 +43,7 @@ public class JpaConfig {
         params.put(Environment.MULTI_TENANT_CONNECTION_PROVIDER, provider);
         params.put(Environment.MULTI_TENANT_IDENTIFIER_RESOLVER, resolver);
         params.put("hibernate.temp.use_jdbc_metadata_defaults", "false");
-        //params.put("hibernate.show_sql", "true");
+        params.put("hibernate.show_sql", "true");
 
         LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
         emf.setJpaVendorAdapter(new HibernateJpaVendorAdapter());

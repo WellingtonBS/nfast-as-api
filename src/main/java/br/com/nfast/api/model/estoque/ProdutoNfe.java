@@ -17,15 +17,15 @@ public class ProdutoNfe {
     private String indItemAtivo;
 
     @Column(name = "cod_unidade")
-    private Integer codUnidade;
+    private String codUnidade;
     @Column(name = "cod_unidade_agrupamento_1")
-    private Integer codUnidadeAgrupamento1;
+    private String codUnidadeAgrupamento1;
     @Column(name = "sgl_unidade_agrupamento_1")
     private String sglUnidadeAgrupamento1;
     @Column(name = "qtd_unidade_agrupamento_1")
     private Double qtdUnidadeAgrupamento1;
     @Column(name = "cod_unidade_agrupamento_2")
-    private Integer codUnidadeAgrupamento2;
+    private String codUnidadeAgrupamento2;
     @Column(name = "sgl_unidade_agrupamento_2")
     private String sglUnidadeAgrupamento2;
     @Column(name = "qtd_unidade_agrupamento_2")
@@ -84,19 +84,19 @@ public class ProdutoNfe {
         this.indItemAtivo = indItemAtivo;
     }
 
-    public Integer getCodUnidade() {
+    public String getCodUnidade() {
         return codUnidade;
     }
 
-    public void setCodUnidade(Integer codUnidade) {
+    public void setCodUnidade(String codUnidade) {
         this.codUnidade = codUnidade;
     }
 
-    public Integer getCodUnidadeAgrupamento1() {
+    public String getCodUnidadeAgrupamento1() {
         return codUnidadeAgrupamento1;
     }
 
-    public void setCodUnidadeAgrupamento1(Integer codUnidadeAgrupamento1) {
+    public void setCodUnidadeAgrupamento1(String codUnidadeAgrupamento1) {
         this.codUnidadeAgrupamento1 = codUnidadeAgrupamento1;
     }
 
@@ -116,11 +116,11 @@ public class ProdutoNfe {
         this.qtdUnidadeAgrupamento1 = qtdUnidadeAgrupamento1;
     }
 
-    public Integer getCodUnidadeAgrupamento2() {
+    public String getCodUnidadeAgrupamento2() {
         return codUnidadeAgrupamento2;
     }
 
-    public void setCodUnidadeAgrupamento2(Integer codUnidadeAgrupamento2) {
+    public void setCodUnidadeAgrupamento2(String codUnidadeAgrupamento2) {
         this.codUnidadeAgrupamento2 = codUnidadeAgrupamento2;
     }
 

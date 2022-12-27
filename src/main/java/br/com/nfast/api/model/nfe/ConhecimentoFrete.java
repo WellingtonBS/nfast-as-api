@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "tab_conhecimento_frete_nfe")
 public class ConhecimentoFrete {
     @Id
     @JsonIgnore

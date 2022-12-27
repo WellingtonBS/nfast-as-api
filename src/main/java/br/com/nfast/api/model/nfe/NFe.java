@@ -1,5 +1,6 @@
 package br.com.nfast.api.model.nfe;
 
+import br.com.nfast.api.utils.Numbers;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Where;
@@ -11,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "tab_nota_fiscal_entrada")
 public class NFe {
     @Id
     @Column(name = "seq_nota")
@@ -271,6 +271,7 @@ public class NFe {
 
     @Transient
     private String atualizaNcm;
+
 
     @OneToOne(mappedBy = "nfe", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private ConhecimentoFrete conhecimentoFrete;
@@ -1373,5 +1374,17 @@ public class NFe {
     public void setAjustes(List<AjusteDocFiscal> ajustes) {
         this.ajustes = ajustes;
     }
+
+    public ItemNFe getItem(Integer codigo) {
+        if ((itens == null) || (itens.size() == 0))
+            return null;
+        for (ItemNFe item: itens) {
+            if (Numbers.equals(item.getCodItem(), codigo)) {
+                return item;
+            }
+        }
+        return null;
+    }
+
 
 }

@@ -3,10 +3,8 @@ package br.com.nfast.api.model.fiscal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 @Entity
-@Table(name = "tab_natureza_operacao")
 public class Nop {
     @Id
     @Column(name = "cod_natureza_operacao")

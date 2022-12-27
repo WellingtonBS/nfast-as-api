@@ -25,7 +25,9 @@ public class CTeRepo extends DataRepository<CTeResumo, Integer> {
                 items.append(",");
             items.append("'").append(chave).append("'");
         }
+        StringList sql = new StringList();
 
+/*
         StringList sql = new StringList();
         sql.add("SELECT ");
         sql.add("  a.seq_nota as seq_conhecimento, ");
@@ -48,6 +50,7 @@ public class CTeRepo extends DataRepository<CTeResumo, Integer> {
         if (Numbers.isNonEmpty(codEmpresa))
             sql.add("AND a.cod_empresa = " + codEmpresa + " ");
         sql.add("ORDER BY 1 ");
+*/
 
         Query query = em.createNativeQuery(sql.toString(), CTeResumo.class);
         return Cast.of(query.getResultList());

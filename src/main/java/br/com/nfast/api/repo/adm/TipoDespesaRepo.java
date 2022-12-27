@@ -15,11 +15,11 @@ public class TipoDespesaRepo extends DataRepository<TipoDespesa, Integer> {
         super(TipoDespesa.class);
     }
 
-    public TipoDespesa tipoDespesa (Long codTipoDespesa) {
+    public TipoDespesa tipoDespesa(Long codTipoDespesa) {
         TipoDespesa item = nativeFind(query -> {
             query.add("SELECT ");
             query.add("  a.grid AS cod_tipo_despesa,  ");
-            query.add("  a.nome AS des_tipo_despesa, ");
+            query.add("  normalize(a.nome)  AS des_tipo_despesa, ");
             query.add("  CAST('A' AS CHAR(1)) AS ind_tipo_despesa, ");
             query.add("  CAST('A' AS CHAR(1)) AS ind_tipo, ");
             query.add("  CASE WHEN a.lancar = 't' THEN 'S' ELSE 'N' END AS ind_status  ");
@@ -37,25 +37,25 @@ public class TipoDespesaRepo extends DataRepository<TipoDespesa, Integer> {
         List<TipoDespesa> list = nativeFindAll(query -> {
             query.add("SELECT ");
             query.add("  a.grid AS cod_tipo_despesa,  ");
-            query.add("  a.nome AS des_tipo_despesa, ");
+            query.add("  normalize(a.nome)  AS des_tipo_despesa, ");
             query.add("  CAST('A' AS CHAR(1)) AS ind_tipo_despesa, ");
-            query.add("  CAST('A' AS CHAR(1)) AS ind_tipo, ");
+            query.add("  CASE WHEN EXISTS (SELECT 1 FROM conta bb WHERE bb.codigo ILIKE (a.codigo||'.%')) THEN 'S' ELSE 'A' END AS ind_tipo, ");
             query.add("  CASE WHEN a.lancar = 't' THEN 'S' ELSE 'N' END AS ind_status  ");
             query.add("FROM conta a ");
             query.add("WHERE tipo_despesa = 't' ");
             query.add("AND credor = 'f' ");
 
-            /*if (Numbers.isNonEmpty(indTipo))
-            query.add("AND a.indTipo = " + indTipo + " ");*/
+            if (Strings.isNonEmpty(indTipo))
+                query.add("AND CASE WHEN EXISTS (SELECT 1 FROM conta bb WHERE bb.codigo ILIKE (a.codigo||'.%')) THEN 'S' ELSE 'A' END = '" + indTipo + "' ");
 
             if (Strings.isNonEmpty(filtro)) {
                 query.add("AND ( ");
                 query.add("  (CONCAT(a.grid, '') LIKE :filtro) OR ");
-                query.add("  (LOWER(a.nome) LIKE :filtro) ");
+                query.add("  (LOWER(normalize(a.nome) ) LIKE :filtro) ");
                 query.add(") ");
                 query.set("filtro", "%" + filtro.toLowerCase() + "%");
             }
-            query.add("ORDER BY a.nome ");
+            query.add("ORDER BY normalize(a.nome)  ");
             if (Numbers.isNonEmpty(limit))
                 query.setLimit(limit);
             if (Numbers.isNonEmpty(offset))
