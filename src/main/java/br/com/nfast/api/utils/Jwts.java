@@ -10,7 +10,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import java.time.LocalDateTime;
 
 public class Jwts {
-    private static final String issuer = "udisoft";
+    private static final String issuer = "impulse";
     private static final Algorithm algorithm = Algorithm.HMAC256("mvbVzlYkqhD85OqO9ux2smHkDzVJFbW7");
     private static final JWTVerifier verifier = JWT.require(algorithm).withIssuer(issuer).build();
 
