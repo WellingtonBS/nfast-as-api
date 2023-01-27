@@ -1,20 +1,11 @@
 image: maven:3.6.3-jdk-11
 
 pipelines:
-  branches:
-    main:
-      - step:
-          name: Build for Production
-          caches:
-            - maven 
-          script:
-            - mvn -s settings.xml clean -U -B package
-            - curl -X POST "https://${BITBUCKET_DEPLOY_USER}:${BITBUCKET_DEPLOY_PASS}@api.bitbucket.org/2.0/repositories/${BITBUCKET_REPO_OWNER}/${BITBUCKET_REPO_SLUG}/downloads" --form files=@"target/nfast-as-api-1.0.jar"
-    qa:
-      - step:
-          name: Build for Tests
-          caches:
-            - maven
-          script:
-            - mvn -s settings.xml clean -U -B package
-            - curl -X POST "https://${BITBUCKET_DEPLOY_USER}:${BITBUCKET_DEPLOY_PASS}@api.bitbucket.org/2.0/repositories/${BITBUCKET_REPO_OWNER}/${BITBUCKET_REPO_SLUG}/downloads" --form files=@"target/nfast-as-api-1.0.jar"
+  default:
+    - step:
+        name: Generate Artifact
+        caches:
+          - maven
+        script:
+          - mvn -s settings.xml clean -U -B package -DfinalName='${BITBUCKET_REPO_SLUG}-${BITBUCKET_BRANCH}'
+          - curl -X POST "https://${BITBUCKET_DEPLOY_USER}:${BITBUCKET_DEPLOY_PASS}@api.bitbucket.org/2.0/repositories/${BITBUCKET_REPO_OWNER}/${BITBUCKET_REPO_SLUG}/downloads" --form files=@"target/${BITBUCKET_REPO_SLUG}-${BITBUCKET_BRANCH}.jar"
