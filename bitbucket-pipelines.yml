@@ -9,3 +9,12 @@ pipelines:
         script:
           - mvn -s settings.xml clean -U -B package -DfinalName='${BITBUCKET_REPO_SLUG}-${BITBUCKET_BRANCH}'
           - curl -X POST "https://${BITBUCKET_DEPLOY_USER}:${BITBUCKET_DEPLOY_PASS}@api.bitbucket.org/2.0/repositories/${BITBUCKET_REPO_OWNER}/${BITBUCKET_REPO_SLUG}/downloads" --form files=@"target/${BITBUCKET_REPO_SLUG}-${BITBUCKET_BRANCH}.jar"
+  branches:
+    main:
+      - step:
+          name: Generate Artifact for Production
+          caches:
+            - maven
+          script:
+            - mvn -s settings.xml clean -U -B package -DfinalName='${BITBUCKET_REPO_SLUG}'
+            - curl -X POST "https://${BITBUCKET_DEPLOY_USER}:${BITBUCKET_DEPLOY_PASS}@api.bitbucket.org/2.0/repositories/${BITBUCKET_REPO_OWNER}/${BITBUCKET_REPO_SLUG}/downloads" --form files=@"target/${BITBUCKET_REPO_SLUG}.jar"
