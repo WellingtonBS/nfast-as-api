@@ -1,6 +1,7 @@
 package br.com.nfast.api.utils;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,42 @@ public class Numbers {
 
     public static boolean isNonEmpty(Double item) {
         return (item != null) && (item > 0.0);
+    }
+
+    public static boolean isEmpty(BigDecimal item) {
+        return (item == null) || (item.compareTo(BigDecimal.ZERO) <= 0);
+    }
+
+    public static boolean isNonEmpty(BigDecimal item) {
+        return (item != null) && (item.compareTo(BigDecimal.ZERO) > 0.0);
+    }
+
+    public static boolean isEmpty(BigInteger item) {
+        return (item == null) || (item.compareTo(BigInteger.ZERO) <= 0);
+    }
+
+    public static boolean isNonEmpty(BigInteger item) {
+        return (item != null) && (item.compareTo(BigInteger.ZERO) > 0.0);
+    }
+
+    public static boolean isZeroOrNull(Integer item) {
+        return (item == null) || item.equals(0);
+    }
+
+    public static boolean isZeroOrNull(Long item) {
+        return (item == null) || item.equals(0L);
+    }
+
+    public static boolean isZeroOrNull(Double item) {
+        return (item == null) || item.equals(0.0);
+    }
+
+    public static boolean isZeroOrNull(BigDecimal item) {
+        return (item == null) || (item.compareTo(BigDecimal.ZERO) == 0);
+    }
+
+    public static boolean isZeroOrNull(BigInteger item) {
+        return (item == null) || (item.compareTo(BigInteger.ZERO) == 0);
     }
 
     public static boolean isAnyEmpty(Integer... items) {
@@ -73,6 +110,38 @@ public class Numbers {
         return false;
     }
 
+    public static boolean isAnyEmpty(BigDecimal... items) {
+        for (BigDecimal item : items) {
+            if (isEmpty(item))
+                return true;
+        }
+        return false;
+    }
+
+    public static boolean isAnyNonEmpty(BigDecimal... items) {
+        for (BigDecimal item : items) {
+            if (isNonEmpty(item))
+                return true;
+        }
+        return false;
+    }
+
+    public static boolean isAnyEmpty(BigInteger... items) {
+        for (BigInteger item : items) {
+            if (isEmpty(item))
+                return true;
+        }
+        return false;
+    }
+
+    public static boolean isAnyNonEmpty(BigInteger... items) {
+        for (BigInteger item : items) {
+            if (isNonEmpty(item))
+                return true;
+        }
+        return false;
+    }
+
     public static boolean isAllEmpty(Integer... items) {
         for (Integer item : items) {
             if ((item != null) && (item > 0)) return false;
@@ -111,6 +180,38 @@ public class Numbers {
     public static boolean isAllNonEmpty(Double... items) {
         for (Double item : items) {
             if ((item == null) || (item <= 0.0)) return false;
+        }
+        return true;
+    }
+
+    public static boolean isAllEmpty(BigDecimal... items) {
+        for (BigDecimal item : items) {
+            if (isNonEmpty(item))
+                return false;
+        }
+        return true;
+    }
+
+    public static boolean isAllNonEmpty(BigDecimal... items) {
+        for (BigDecimal item : items) {
+            if (isEmpty(item))
+                return false;
+        }
+        return true;
+    }
+
+    public static boolean isAllNonEmpty(BigInteger... items) {
+        for (BigInteger item : items) {
+            if (isEmpty(item))
+                return false;
+        }
+        return true;
+    }
+
+    public static boolean isAllEmpty(BigInteger... items) {
+        for (BigInteger item : items) {
+            if (isNonEmpty(item))
+                return false;
         }
         return true;
     }
@@ -244,6 +345,24 @@ public class Numbers {
         try {
             String text = value != null ? value.toString() : null;
             return Strings.isEmpty(text) ? def : new BigDecimal(text.replace(',', '.'));
+        } catch (Exception e) {
+            return def;
+        }
+    }
+
+    public static BigInteger asBigInteger(Object value) {
+        try {
+            String text = value != null ? value.toString() : null;
+            return Strings.isEmpty(text) ? BigInteger.ZERO : new BigInteger(text.replace(',', '.'));
+        } catch (Exception e) {
+            return BigInteger.ZERO;
+        }
+    }
+
+    public static BigInteger asBigInteger(Object value, BigInteger def) {
+        try {
+            String text = value != null ? value.toString() : null;
+            return Strings.isEmpty(text) ? def : new BigInteger(text.replace(',', '.'));
         } catch (Exception e) {
             return def;
         }

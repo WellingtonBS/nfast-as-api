@@ -34,28 +34,13 @@ public class EstoqueController implements EstoqueApi {
 
     @Override
     public ResponseEntity<Produto> produto(String token, String clientId, Integer codItem) {
-        Produto item = produtoRepo.findById(codItem).orElse(null);
+        Produto item = produtoRepo.produto(codItem);
         return new ResponseEntity<>(item, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<List<Produto>> produtoList(String token, String clientId, String filtro, Integer limit, Integer offset) {
-        List<Produto> list = produtoRepo.findAll(query -> {
-            query.add("SELECT a FROM Produto a ");
-            query.add("WHERE a.codItem > 0 ");
-            if (Strings.isNonEmpty(filtro)) {
-                query.add("AND ( ");
-                query.add("  (CONCAT(a.codItem, '') LIKE :filtro) OR ");
-                query.add("  (LOWER(a.desItem) LIKE :filtro) ");
-                query.add(") ");
-                query.set("filtro", "%" + filtro.toLowerCase() + "%");
-            }
-            query.add("ORDER BY a.desItem");
-            if (Numbers.isNonEmpty(limit))
-                query.setLimit(limit);
-            if (Numbers.isNonEmpty(offset))
-                query.setOffset(offset);
-        });
+        List<Produto> list = produtoRepo.produtoList(filtro, limit, offset);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
@@ -73,7 +58,7 @@ public class EstoqueController implements EstoqueApi {
 
     @Override
     public ResponseEntity<List<SubgrupoItem>> subgrupoItemList(String token, String clientId, String filtro, Integer limit, Integer offset) {
-        List<SubgrupoItem> list = subgrupoItemRepo.subgrupoItemList(filtro, limit, offset );
+        List<SubgrupoItem> list = subgrupoItemRepo.subgrupoItemList(filtro, limit, offset);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 

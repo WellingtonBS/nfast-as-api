@@ -14,7 +14,7 @@ public class ConhecimentoFrete {
     @Id
     @JsonIgnore
     @Column(name = "seq_nota")
-    private Integer seqNota;
+    private Long seqNota;
 
     @MapsId
     @OneToOne
@@ -110,11 +110,11 @@ public class ConhecimentoFrete {
     @OneToMany(mappedBy = "id.conhecimento", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ConhecimentoFretePag> parcelas = new ArrayList<>();
 
-    public Integer getSeqNota() {
+    public Long getSeqNota() {
         return seqNota;
     }
 
-    public void setSeqNota(Integer seqNota) {
+    public void setSeqNota(Long seqNota) {
         this.seqNota = seqNota;
     }
 

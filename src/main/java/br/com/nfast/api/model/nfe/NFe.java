@@ -15,7 +15,7 @@ import java.util.List;
 public class NFe {
     @Id
     @Column(name = "seq_nota")
-    private Integer seqNota;
+    private Long seqNota;
     @Column(name = "cod_empresa")
     private Integer codEmpresa;
     @Column(name = "cod_modelo_documento")
@@ -276,14 +276,10 @@ public class NFe {
     @OneToOne(mappedBy = "nfe", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private ConhecimentoFrete conhecimentoFrete;
 
-    @OrderBy("seq_item")
-    @Fetch(FetchMode.SELECT)
-    @OneToMany(mappedBy = "id.nfe", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @Transient
     private List<ItemNFe> itens = new ArrayList<>();
 
-    @OrderBy("seq_parcela")
-    @Fetch(FetchMode.SELECT)
-    @OneToMany(mappedBy = "id.nfe", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @Transient
     private List<ParcelaNFe> parcelas = new ArrayList<>();
 
     @OrderBy("seq_pagamento")
@@ -303,11 +299,11 @@ public class NFe {
     @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<AjusteDocFiscal> ajustes = new ArrayList<>();
 
-    public Integer getSeqNota() {
+    public Long getSeqNota() {
         return seqNota;
     }
 
-    public void setSeqNota(Integer seqNota) {
+    public void setSeqNota(Long seqNota) {
         this.seqNota = seqNota;
     }
 

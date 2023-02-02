@@ -31,7 +31,7 @@ public class CustoNFe {
     @Column(name = "per_variacao")
     private Double perVariacao;
     @Column(name = "seq_nota")
-    private Integer seqNota;
+    private Long seqNota;
     @Column(name = "num_nota")
     private String numNota;
     @Column(name = "nom_fornecedor")
@@ -133,11 +133,11 @@ public class CustoNFe {
         this.perVariacao = perVariacao;
     }
 
-    public Integer getSeqNota() {
+    public Long getSeqNota() {
         return seqNota;
     }
 
-    public void setSeqNota(Integer seqNota) {
+    public void setSeqNota(Long seqNota) {
         this.seqNota = seqNota;
     }
 

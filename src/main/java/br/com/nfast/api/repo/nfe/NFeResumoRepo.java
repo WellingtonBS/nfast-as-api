@@ -7,14 +7,45 @@ import br.com.nfast.api.utils.*;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-public class NFeResumoRepo extends DataRepository<NFeResumo, Integer> {
+public class NFeResumoRepo extends DataRepository<NFeResumo, Long> {
 
     public NFeResumoRepo() {
         super(NFeResumo.class);
+    }
+
+    public NFeResumo obtem(BigInteger notaFiscal) {
+        StringList sql = new StringList();
+        sql.add("SELECT ");
+        sql.add("  a.grid AS seq_nota, ");
+        sql.add("  a.numero_nota AS num_nota, ");
+        sql.add("  a.data_emissao AS dta_emissao, ");
+        sql.add("  a.data_saida AS dta_entrada, ");
+        sql.add("  a.valor_nota AS val_total_nota, ");
+        sql.add("  g.usuario AS nom_usuario, ");
+        sql.add("  g.data AS dta_digitacao, ");
+        sql.add("  '' AS hra_digitacao, ");
+        sql.add("  d.codigo AS cod_pessoa_fornecedor, ");
+        sql.add("  d.nome_reduzido AS nom_pessoa_fornecedor, ");
+        sql.add("  e.codigo AS cod_empresa, ");
+        sql.add("  e.nome_reduzido AS nom_fantasia, ");
+        sql.add("  f.chave_acesso AS num_chave_nfe ");
+        sql.add("FROM nota_fiscal a ");
+        sql.add("INNER JOIN nota_fiscal_pessoa b ON (b.grid = a.emitente) ");
+        sql.add("INNER JOIN nota_fiscal_pessoa c ON (c.grid = a.destinatario) ");
+        sql.add("INNER JOIN pessoa d ON (d.grid = b.pessoa) ");
+        sql.add("INNER JOIN pessoa e ON (e.grid = b.pessoa) ");
+        sql.add("INNER JOIN nfe f ON (f.nota_fiscal = a.grid) ");
+        sql.add("INNER JOIN lancto g on (g.mlid = a.mlid) ");
+        sql.add("WHERE a.grid = " + notaFiscal);
+
+        Query query = em.createNativeQuery(sql.toString(), NFeResumo.class);
+        List<NFeResumo> list = Cast.of(query.getResultList());
+        return list.isEmpty() ? null : list.get(0);
     }
 
     public List<NFeResumo> listagem(LocalDate dataIni, LocalDate dataFim, String codEmpresas, String nomUsuario) {
@@ -79,7 +110,7 @@ public class NFeResumoRepo extends DataRepository<NFeResumo, Integer> {
         sql.add("FROM nota_fiscal a ");
         sql.add("INNER JOIN empresa b ON (b.grid = a.empresa)  ");
         sql.add("INNER JOIN pessoa c ON (c.grid = a.pessoa)  ");
-        sql.add("INNER JOIN lancto d ON (a.mlid = a.mlid) ");
+        sql.add("INNER JOIN lancto d ON (d.mlid = a.mlid) ");
         sql.add("INNER JOIN nfe e ON (e.nota_fiscal = a.grid) ");
         sql.add("WHERE b.codigo = " + codEmpresa + " ");
         sql.add("AND e.chave_acesso IN(" + items.toString() + ") ");

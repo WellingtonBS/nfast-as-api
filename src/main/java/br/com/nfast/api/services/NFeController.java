@@ -23,14 +23,14 @@ public class NFeController implements NFeApi {
     private NFeResumoRepo nfeResumoRepo;
 
     @Override
-    public ResponseEntity<NFe> nfe(String token, String clientId, Integer seqNota) {
+    public ResponseEntity<NFe> nfe(String token, String clientId, Long seqNota) {
         NFe item = nfeRepo.findById(seqNota).orElse(null);
         return new ResponseEntity<>(item, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<NFe> gravaNFe(String token, String clientId, NFe nfe) {
-        NFe item = nfeRepo.gravaNFe(nfe);
+    public ResponseEntity<NFeResumo> gravaNFe(String token, String clientId, NFe nfe) {
+        NFeResumo item = nfeRepo.gravaNFe(nfe);
         return new ResponseEntity<>(item, HttpStatus.OK);
     }
 

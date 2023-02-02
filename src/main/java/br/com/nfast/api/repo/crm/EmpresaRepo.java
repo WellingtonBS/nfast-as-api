@@ -23,8 +23,8 @@ public class EmpresaRepo extends DataRepository<Empresa, Integer> {
             query.add("SELECT ");
             query.add("  a.codigo AS cod_empresa, ");
             query.add("  only_numbers(a.cpf) AS num_cnpj, ");
-            query.add("  a.nome AS nom_razao_social, ");
-            query.add("  a.nome_reduzido AS nom_fantasia, ");
+            query.add("  normalize(a.nome) AS nom_razao_social, ");
+            query.add("  normalize(a.nome_reduzido) AS nom_fantasia, ");
             query.add("  a.uf AS sgl_estado, ");
             query.add("  CASE a.flag WHEN 't' THEN 'S' ELSE 'N' END AS ind_ativo, ");
             query.add("  CASE WHEN c.valor not in ('None') ");
@@ -32,7 +32,7 @@ public class EmpresaRepo extends DataRepository<Empresa, Integer> {
             query.add("        ELSE (SELECT distinct bb.deposito ");
             query.add("  			  FROM empresa_conta aa ");
             query.add("              INNER JOIN caixa_conf bb ON (bb.conta = aa.conta) ");
-            query.add("              WHERE aa.empresa = a.grid ) ");
+            query.add("              WHERE aa.empresa = a.grid limit 1 ) ");
             query.add("        END AS cod_almoxarifado_venda, ");
             query.add("  'N' AS ind_verificar_saldo_caixa, ");
             query.add("  'S' AS ind_contribuinte_icms, ");
@@ -56,8 +56,8 @@ public class EmpresaRepo extends DataRepository<Empresa, Integer> {
             query.add("SELECT ");
             query.add("  a.codigo AS cod_empresa, ");
             query.add("  only_numbers(a.cpf) AS num_cnpj, ");
-            query.add("  a.nome AS nom_razao_social, ");
-            query.add("  a.nome_reduzido AS nom_fantasia, ");
+            query.add("  normalize(a.nome) AS nom_razao_social, ");
+            query.add("  normalize(a.nome_reduzido) AS nom_fantasia, ");
             query.add("  a.uf AS sgl_estado, ");
             query.add("  CASE a.flag WHEN 't' THEN 'S' ELSE 'N' END AS ind_ativo, ");
             query.add("  CASE WHEN c.valor not in ('None') ");
@@ -65,7 +65,7 @@ public class EmpresaRepo extends DataRepository<Empresa, Integer> {
             query.add("        ELSE (SELECT distinct bb.deposito ");
             query.add("  			  FROM empresa_conta aa ");
             query.add("              INNER JOIN caixa_conf bb ON (bb.conta = aa.conta) ");
-            query.add("              WHERE aa.empresa = a.grid ) ");
+            query.add("              WHERE aa.empresa = a.grid limit 1) ");
             query.add("        END AS cod_almoxarifado_venda, ");
             query.add("  'N' AS ind_verificar_saldo_caixa, ");
             query.add("  'S' AS ind_contribuinte_icms, ");

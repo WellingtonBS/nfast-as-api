@@ -23,13 +23,13 @@ public interface NFeApi {
     ResponseEntity<NFe> nfe(
             @ApiParam(value = "Access Token", required = true) @RequestHeader("token") String token,
             @ApiParam(value = "Client ID", required = true) @RequestHeader("clientId") String clientId,
-            @ApiParam(value = "Sequência", required = true) @RequestParam("seqNota") Integer seqNota
+            @ApiParam(value = "Sequência", required = true) @RequestParam("seqNota") Long seqNota
     );
 
-    @ApiOperation(value = "Grava NFE", response = NFe.class)
-    @ApiResponse(code = 200, message = "Sucesso", response = NFe.class)
+    @ApiOperation(value = "Grava NFE", response = NFeResumo.class)
+    @ApiResponse(code = 200, message = "Sucesso", response = NFeResumo.class)
     @RequestMapping(value = "/grava-nfe", method = RequestMethod.POST, produces = "application/json")
-    ResponseEntity<NFe> gravaNFe(
+    ResponseEntity<NFeResumo> gravaNFe(
             @ApiParam(value = "Access Token", required = true) @RequestHeader("token") String token,
             @ApiParam(value = "Client ID", required = true) @RequestHeader("clientId") String clientId,
             @ApiParam(value = "Nota Fiscal", required = true) @RequestBody(required = false) NFe nfe

@@ -1,19 +1,60 @@
 package br.com.nfast.api.repo.estoque;
 
 import br.com.nfast.api.config.jpa.DataRepository;
+import br.com.nfast.api.model.estoque.Almoxarifado;
 import br.com.nfast.api.model.estoque.PrecoProduto;
 import br.com.nfast.api.model.estoque.Produto;
-import br.com.nfast.api.utils.Dates;
-import br.com.nfast.api.utils.Numbers;
+import br.com.nfast.api.utils.*;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.Query;
+import java.math.BigInteger;
 import java.time.LocalDate;
+import java.util.List;
 
 @Repository
 public class ProdutoRepo extends DataRepository<Produto, Integer> {
 
     public ProdutoRepo() {
         super(Produto.class);
+    }
+
+    public Produto produto(Integer codProduto) {
+
+        Produto item = nativeFind(query -> {
+            query.add("SELECT ");
+            query.add("  a.codigo AS cod_item, ");
+            query.add("  a.nome AS des_item ");
+            query.add("FROM produto a ");
+            query.add("WHERE TRUE = 't' ");
+            query.set("codProduto", codProduto);
+        }, Produto.class);
+        return item;
+    }
+
+    public List<Produto> produtoList(String filtro, Integer limit, Integer offset) {
+        List<Produto> list = nativeFindAll(query -> {
+            query.add("SELECT ");
+            query.add("  a.codigo AS cod_item, ");
+            query.add("  a.nome AS des_item ");
+            query.add("FROM produto a ");
+            query.add("WHERE flag = 'A' ");
+
+            if (Strings.isNonEmpty(filtro)) {
+                query.add("AND ( ");
+                query.add("  (CONCAT(a.codigo, '') LIKE :filtro) OR ");
+                query.add("  (LOWER(a.nome) LIKE :filtro) ");
+                query.add(") ");
+                query.set("filtro", "%" + filtro.toLowerCase() + "%");
+            }
+            query.add("ORDER BY a.nome");
+            if (Numbers.isNonEmpty(limit))
+                query.setLimit(limit);
+            if (Numbers.isNonEmpty(offset))
+                query.setOffset(offset);
+        });
+
+        return list;
     }
 
     public Double getSaldoEstoque(Integer codEmpresa, Integer codItem, Integer codAlmoxarifado, LocalDate data) {
@@ -82,27 +123,19 @@ public class ProdutoRepo extends DataRepository<Produto, Integer> {
     public PrecoProduto getPrecoProduto(Integer codEmpresa, Integer codItem) {
         PrecoProduto precoProduto = nativeFind(query -> {
             query.add("SELECT ");
-            query.add("  (a.cod_item||'-'||a.cod_empresa) as id, ");
-            query.add("  a.cod_item, ");
-            query.add("  a.cod_empresa, ");
-            query.add("  COALESCE(( ");
-            query.add("    SELECT x.val_preco_venda_a ");
-            query.add("    FROM tab_preco_venda x ");
-            query.add("    WHERE x.cod_item = a.cod_item ");
-            query.add("    AND x.cod_empresa = a.cod_empresa ");
-            query.add("    AND x.cod_pessoa IS NULL ");
-            query.add("    AND x.cod_condicao_pagamento IS NULL ");
-            query.add("    AND x.dta_inicio <= CURRENT_DATE ");
-            query.add("    ORDER BY x.dta_inicio DESC ");
-            query.add("    LIMIT 1 ");
-            query.add("  ), 0.0) as val_preco_venda, ");
-            query.add("  a.per_margem_desejada as per_margem, ");
-            query.add("  a.per_margem as per_markup ");
-            query.add("FROM tab_item_empresa a ");
-            query.add("WHERE a.cod_item = :codItem ");
-            query.add("AND a.cod_empresa = :codEmpresa ");
-            query.set("codItem", codItem);
-            query.set("codEmpresa", codEmpresa);
+            query.add("  (b.codigo||'-'||c.codigo) as id, ");
+            query.add("  CAST(b.codigo AS INTEGER) AS cod_item, ");
+            query.add("  CAST(c.codigo AS INTEGER) AS cod_empresa, ");
+            query.add("  a.preco_unit as val_preco_venda, ");
+            query.add("  a.margem_lucro_padrao as per_margem, ");
+            query.add("  a.margem_lucro as per_markup ");
+            query.add("FROM produto_empresa a ");
+            query.add("INNER JOIN produto b ON (a.produto = b.grid) ");
+            query.add("INNER JOIN empresa c ON (c.grid = a.empresa) ");
+            query.add("WHERE CAST(b.codigo AS TEXT) = :codItem ");
+            query.add("AND CAST(c.codigo AS TEXT)  = :codEmpresa ");
+            query.set("codItem", codItem.toString());
+            query.set("codEmpresa", codEmpresa.toString());
         }, PrecoProduto.class);
         return precoProduto;
     }
@@ -143,37 +176,23 @@ public class ProdutoRepo extends DataRepository<Produto, Integer> {
     }
 
     public void vinculaProdutoEan(Integer codItem, String codBarra, Integer codEmpresa) {
-        executeNative(q -> {
-            q.add("INSERT INTO tab_item_embalagem(cod_item, cod_barra, ind_embalagem, des_item_resumido) ");
-            q.add("SELECT a.cod_item, :codBarra, 'N', CAST(a.des_item as VARCHAR(30)) ");
-            q.add("FROM tab_item a ");
-            q.add("WHERE a.cod_item = :codItem ");
-            q.add("AND a.cod_barra <> :codBarra ");
-            q.add("AND NOT EXISTS( ");
-            q.add("  SELECT 1 ");
-            q.add("  FROM tab_item_embalagem x ");
-            q.add("  WHERE x.cod_barra = :codBarra ");
-            //q.add("  AND x.cod_item = a.cod_item ");
-            //q.add("  AND x.ind_embalagem = 'N' ");
-            q.add(") ");
-            q.set("codItem", codItem);
-            q.set("codBarra", codBarra);
-        });
 
-        executeNative(q -> {
-            q.add("INSERT INTO tab_item_embalagem_empresa(cod_barra, cod_empresa, qtd_item_embalagem, val_preco_unitario, ind_sincronizado, ind_solicita_vendedor) ");
-            q.add("SELECT a.cod_barra, :codEmpresa, 1.0, 0.0, 'N', 'N' ");
-            q.add("FROM tab_item_embalagem a ");
-            q.add("WHERE a.cod_barra = :codBarra ");
-            q.add("AND NOT EXISTS( ");
-            q.add("  SELECT 1 ");
-            q.add("  FROM tab_item_embalagem_empresa x ");
-            q.add("  WHERE x.cod_barra = a.cod_barra ");
-            q.add("  AND x.cod_empresa = :codEmpresa ");
-            q.add(") ");
-            q.set("codBarra", codBarra);
-            q.set("codEmpresa", codEmpresa);
-        });
+        StringList sql = new StringList();
+
+        sql.clear();
+        sql.add("INSERT INTO produto_codigo_barra (produto, codigo_barra)  ");
+        sql.add("  SELECT a.grid AS produto,  ");
+        sql.add("        '" + codBarra + "' AS codigo_barra  ");
+        sql.add("  FROM produto a  ");
+        sql.add("  WHERE a.codigo = '" + codItem + "'" );
+        sql.add("  AND a.codigo_barra <> '" + codBarra + "'");
+        sql.add("  AND NOT EXISTS(  ");
+        sql.add("        SELECT 1  ");
+        sql.add("        FROM produto_codigo_barra x  ");
+        sql.add("        WHERE x.codigo_barra = '" + codBarra + "'" );
+
+        Query q = em.createNativeQuery(sql.toString());
+
     }
 
 }

@@ -9,7 +9,7 @@ import java.time.LocalDate;
 public class NFeResumo {
     @Id
     @Column(name = "seq_nota")
-    private Integer seqNota;
+    private Long seqNota;
     @Column(name = "num_nota")
     private String numNota;
     @Column(name = "dta_emissao")
@@ -35,11 +35,11 @@ public class NFeResumo {
     @Column(name = "num_chave_nfe")
     private String numChaveNfe;
 
-    public Integer getSeqNota() {
+    public Long getSeqNota() {
         return seqNota;
     }
 
-    public void setSeqNota(Integer seqNota) {
+    public void setSeqNota(Long seqNota) {
         this.seqNota = seqNota;
     }
 

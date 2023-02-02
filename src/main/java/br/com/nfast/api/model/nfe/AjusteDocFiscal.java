@@ -16,7 +16,7 @@ public class AjusteDocFiscal {
 
     @JsonIgnore
     @Column(name = "seq_nota")
-    private Integer seqNota;
+    private Long seqNota;
     @JsonIgnore
     @Column(name = "seq_item")
     private Integer seqItem;
@@ -49,11 +49,11 @@ public class AjusteDocFiscal {
         this.seqAjDocFiscal = seqAjDocFiscal;
     }
 
-    public Integer getSeqNota() {
+    public Long getSeqNota() {
         return seqNota;
     }
 
-    public void setSeqNota(Integer seqNota) {
+    public void setSeqNota(Long seqNota) {
         this.seqNota = seqNota;
     }
 

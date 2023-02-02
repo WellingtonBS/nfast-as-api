@@ -68,7 +68,7 @@ public class ItemNFe {
     @Column(name = "val_custo")
     private Double valCusto = 0.0;
     @Column(name = "seq_nota_devolucao")
-    private Integer seqNotaDevolucao;
+    private Long seqNotaDevolucao;
     @Column(name = "seq_lote")
     private Integer seqLote;
     @Column(name = "seq_pedido")
@@ -510,11 +510,11 @@ public class ItemNFe {
         this.valCusto = valCusto;
     }
 
-    public Integer getSeqNotaDevolucao() {
+    public Long getSeqNotaDevolucao() {
         return seqNotaDevolucao;
     }
 
-    public void setSeqNotaDevolucao(Integer seqNotaDevolucao) {
+    public void setSeqNotaDevolucao(Long seqNotaDevolucao) {
         this.seqNotaDevolucao = seqNotaDevolucao;
     }
 

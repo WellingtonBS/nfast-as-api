@@ -9,7 +9,6 @@ import javax.persistence.Table;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "tab_item_pedido_compra")
 public class ItemPedidoCompra {
     @EmbeddedId
     @JsonIgnore

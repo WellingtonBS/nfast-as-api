@@ -21,7 +21,7 @@ public class Empresa {
     private String indAtivo;
 
     @Column(name = "cod_almoxarifado_venda")
-    private Integer codAlmoxarifadoVenda;
+    private Long codAlmoxarifadoVenda;
     @Column(name = "ind_verificar_saldo_caixa")
     private String indVerificarSaldoCaixa;
 
@@ -81,11 +81,11 @@ public class Empresa {
         this.indAtivo = indAtivo;
     }
 
-    public Integer getCodAlmoxarifadoVenda() {
+    public Long getCodAlmoxarifadoVenda() {
         return codAlmoxarifadoVenda;
     }
 
-    public void setCodAlmoxarifadoVenda(Integer codAlmoxarifadoVenda) {
+    public void setCodAlmoxarifadoVenda(Long codAlmoxarifadoVenda) {
         this.codAlmoxarifadoVenda = codAlmoxarifadoVenda;
     }
 
