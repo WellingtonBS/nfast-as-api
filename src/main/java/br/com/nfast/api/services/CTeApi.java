@@ -20,7 +20,7 @@ public interface CTeApi {
     ResponseEntity<List<CTeResumo>> listaChave(
             @ApiParam(value = "Access Token", required = true) @RequestHeader("token") String token,
             @ApiParam(value = "Client ID", required = true) @RequestHeader("clientId") String clientId,
-            @ApiParam(value = "Empresa") @RequestParam(value = "codEmpresa", required = false) Integer codEmpresa,
+            @ApiParam(value = "Empresa") @RequestParam(value = "codEmpresa", required = false) Long codEmpresa,
             @ApiParam(value = "Chaves", required = true) @RequestBody(required = false) String chaves
     );
 

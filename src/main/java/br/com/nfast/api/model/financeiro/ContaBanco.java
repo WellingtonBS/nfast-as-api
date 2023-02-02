@@ -22,7 +22,7 @@ public class ContaBanco {
     @Column(name = "ind_ativo")
     private String indAtivo;
     @Column(name = "cod_empresa")
-    private Integer codEmpresa;
+    private Long codEmpresa;
 
     public Integer getSeqContaBanco() {
         return seqContaBanco;
@@ -80,11 +80,11 @@ public class ContaBanco {
         this.indAtivo = indAtivo;
     }
 
-    public Integer getCodEmpresa() {
+    public Long getCodEmpresa() {
         return codEmpresa;
     }
 
-    public void setCodEmpresa(Integer codEmpresa) {
+    public void setCodEmpresa(Long codEmpresa) {
         this.codEmpresa = codEmpresa;
     }
 

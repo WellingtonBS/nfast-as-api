@@ -8,7 +8,7 @@ import javax.persistence.Id;
 public class Empresa {
     @Id
     @Column(name = "cod_empresa")
-    private Integer codEmpresa;
+    private Long codEmpresa;
     @Column(name = "num_cnpj")
     private String numCnpj;
     @Column(name = "nom_razao_social")
@@ -41,11 +41,11 @@ public class Empresa {
     @Column(name = "ind_nfe_pedido")
     private String indNfePedido;
 
-    public Integer getCodEmpresa() {
+    public Long getCodEmpresa() {
         return codEmpresa;
     }
 
-    public void setCodEmpresa(Integer codEmpresa) {
+    public void setCodEmpresa(Long codEmpresa) {
         this.codEmpresa = codEmpresa;
     }
 

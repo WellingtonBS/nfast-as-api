@@ -10,27 +10,27 @@ public class ProdutoEmpresaIdCad implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Column(name = "cod_item", insertable = false, updatable = false)
-    private Integer codItem;
+    private Long codItem;
     @Column(name = "cod_empresa", insertable = false, updatable = false)
-    private Integer codEmpresa;
+    private Long codEmpresa;
 
     public ProdutoEmpresaIdCad() {
 
     }
 
-    public Integer getCodItem() {
+    public Long getCodItem() {
         return codItem;
     }
 
-    public void setCodItem(Integer codItem) {
+    public void setCodItem(Long codItem) {
         this.codItem = codItem;
     }
 
-    public Integer getCodEmpresa() {
+    public Long getCodEmpresa() {
         return codEmpresa;
     }
 
-    public void setCodEmpresa(Integer codEmpresa) {
+    public void setCodEmpresa(Long codEmpresa) {
         this.codEmpresa = codEmpresa;
     }
 

@@ -30,7 +30,7 @@ public class TipoCobrancaRepo extends DataRepository<TipoCobranca, Integer> {
         return item;
     }
 
-    public List<TipoCobranca> tipoCobrancaList(Integer codEmpresa, String filtro, Integer limit, Integer offset) {
+    public List<TipoCobranca> tipoCobrancaList(Long codEmpresa, String filtro, Integer limit, Integer offset) {
         List<TipoCobranca> list = nativeFindAll(query -> {
             query.add("SELECT ");
             query.add("  codigo AS cod_tipo_cobranca, ");

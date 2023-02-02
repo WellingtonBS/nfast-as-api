@@ -11,11 +11,11 @@ public class CustoNFe {
     @Column(name = "seq_movimento")
     private Integer seqMovimento;
     @Column(name = "cod_item")
-    private Integer codItem;
+    private Long codItem;
     @Column(name = "des_item")
     private String desItem;
     @Column(name = "cod_empresa")
-    private Integer codEmpresa;
+    private Long codEmpresa;
     @Column(name = "dta_entrada")
     private LocalDate dtaEntrada;
     @Column(name = "qtd_bruto")
@@ -41,7 +41,7 @@ public class CustoNFe {
     @Column(name = "nom_fantasia")
     private String nomFantasia;
     @Column(name = "cod_almoxarifado")
-    private Integer codAlmoxarifado;
+    private Long codAlmoxarifado;
     @Column(name = "des_almoxarifado")
     private String desAlmoxarifado;
 
@@ -53,11 +53,11 @@ public class CustoNFe {
         this.seqMovimento = seqMovimento;
     }
 
-    public Integer getCodItem() {
+    public Long getCodItem() {
         return codItem;
     }
 
-    public void setCodItem(Integer codItem) {
+    public void setCodItem(Long codItem) {
         this.codItem = codItem;
     }
 
@@ -69,11 +69,11 @@ public class CustoNFe {
         this.desItem = desItem;
     }
 
-    public Integer getCodEmpresa() {
+    public Long getCodEmpresa() {
         return codEmpresa;
     }
 
-    public void setCodEmpresa(Integer codEmpresa) {
+    public void setCodEmpresa(Long codEmpresa) {
         this.codEmpresa = codEmpresa;
     }
 
@@ -173,11 +173,11 @@ public class CustoNFe {
         this.nomFantasia = nomFantasia;
     }
 
-    public Integer getCodAlmoxarifado() {
+    public Long getCodAlmoxarifado() {
         return codAlmoxarifado;
     }
 
-    public void setCodAlmoxarifado(Integer codAlmoxarifado) {
+    public void setCodAlmoxarifado(Long codAlmoxarifado) {
         this.codAlmoxarifado = codAlmoxarifado;
     }
 

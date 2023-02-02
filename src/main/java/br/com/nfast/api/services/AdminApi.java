@@ -24,7 +24,7 @@ public interface AdminApi {
     ResponseEntity<Empresa> empresa(
             @ApiParam(value = "Access Token", required = true) @RequestHeader("token") String token,
             @ApiParam(value = "Client ID", required = true) @RequestHeader("clientId") String clientId,
-            @ApiParam(value = "Código", required = true) @RequestParam("codEmpresa") Integer codEmpresa
+            @ApiParam(value = "Código", required = true) @RequestParam("codEmpresa") Long codEmpresa
     );
 
     @ApiOperation(value = "Empresas", response = Empresa.class, responseContainer = "List")
@@ -65,7 +65,7 @@ public interface AdminApi {
     ResponseEntity<CentroCusto> centroCusto(
             @ApiParam(value = "Access Token", required = true) @RequestHeader("token") String token,
             @ApiParam(value = "Client ID", required = true) @RequestHeader("clientId") String clientId,
-            @ApiParam(value = "Código", required = true) @RequestParam("codCentroCusto") Integer codCentroCusto
+            @ApiParam(value = "Código", required = true) @RequestParam("codCentroCusto") Long codCentroCusto
     );
 
     @ApiOperation(value = "Centros de Custo", response = CentroCusto.class, responseContainer = "List")
@@ -74,7 +74,7 @@ public interface AdminApi {
     ResponseEntity<List<CentroCusto>> centroCustoList(
             @ApiParam(value = "Access Token", required = true) @RequestHeader("token") String token,
             @ApiParam(value = "Client ID", required = true) @RequestHeader("clientId") String clientId,
-            @ApiParam(value = "Empresa") @RequestParam(value = "codEmpresa", required = false) Integer codEmpresa,
+            @ApiParam(value = "Empresa") @RequestParam(value = "codEmpresa", required = false) Long codEmpresa,
             @ApiParam(value = "Filtro") @RequestParam(value = "filtro", required = false) String filtro,
             @ApiParam(value = "Limit", defaultValue = "50") @RequestParam(value = "limit", required = false) Integer limit,
             @ApiParam(value = "Offset") @RequestParam(value = "offset", required = false) Integer offset
@@ -96,7 +96,7 @@ public interface AdminApi {
             @ApiParam(value = "Access Token", required = true) @RequestHeader("token") String token,
             @ApiParam(value = "Client ID", required = true) @RequestHeader("clientId") String clientId,
             @ApiParam(value = "Código", required = true) @RequestParam("codParametro") Integer codParametro,
-            @ApiParam(value = "Empresa", required = true) @RequestParam("codEmpresa") Integer codEmpresa
+            @ApiParam(value = "Empresa", required = true) @RequestParam("codEmpresa") Long codEmpresa
     );
 
     @ApiOperation(value = "Despesa", response = Despesa.class)
@@ -123,8 +123,8 @@ public interface AdminApi {
     ResponseEntity<List<RateioPadrao>> rateioPadraoDespesa(
             @ApiParam(value = "Access Token", required = true) @RequestHeader("token") String token,
             @ApiParam(value = "Client ID", required = true) @RequestHeader("clientId") String clientId,
-            @ApiParam(value = "Tipo de Despesa", required = true) @RequestParam(value = "codTipoDespesa") Integer codTipoDespesa,
-            @ApiParam(value = "Empresa", required = true) @RequestParam(value = "codEmpresa") Integer codEmpresa
+            @ApiParam(value = "Tipo de Despesa", required = true) @RequestParam(value = "codTipoDespesa") Long codTipoDespesa,
+            @ApiParam(value = "Empresa", required = true) @RequestParam(value = "codEmpresa") Long codEmpresa
     );
 
 }

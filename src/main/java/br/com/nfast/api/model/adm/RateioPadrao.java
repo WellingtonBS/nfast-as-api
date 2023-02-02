@@ -16,7 +16,7 @@ public class RateioPadrao {
     @Column(name = "ind_origem")
     private String indOrigem;
     @Column(name = "cod_centro_custo")
-    private Integer codCentroCusto;
+    private Long codCentroCusto;
     @Column(name = "per_rateio")
     private Double perRateio;
 
@@ -44,11 +44,11 @@ public class RateioPadrao {
         this.indOrigem = indOrigem;
     }
 
-    public Integer getCodCentroCusto() {
+    public Long getCodCentroCusto() {
         return codCentroCusto;
     }
 
-    public void setCodCentroCusto(Integer codCentroCusto) {
+    public void setCodCentroCusto(Long codCentroCusto) {
         this.codCentroCusto = codCentroCusto;
     }
 

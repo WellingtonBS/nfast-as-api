@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.time.LocalDate;
 
 @Entity
@@ -20,7 +19,7 @@ public class ItemPedidoCompra {
     private Integer seqItem;
 
     @Column(name = "cod_item")
-    private Integer codItem;
+    private Long codItem;
     @Column(name = "qtd_item")
     private Double qtdItem = 0.0;
     @Column(name = "qtd_item_convertido")
@@ -42,7 +41,7 @@ public class ItemPedidoCompra {
     @Column(name = "sgl_unidade")
     private String sglUnidade;
     @Column(name = "cod_almoxarifado")
-    private Integer codAlmoxarifado;
+    private Long codAlmoxarifado;
     @Column(name = "des_almoxarifado")
     private String desAlmoxarifado;
     @Column(name = "cod_natureza_operacao")
@@ -50,9 +49,9 @@ public class ItemPedidoCompra {
     @Column(name = "des_natureza_operacao")
     private String desNaturezaOperacao;
     @Column(name = "cod_tipo_despesa")
-    private Integer codTipoDespesa;
+    private Long codTipoDespesa;
     @Column(name = "cod_centro_custo")
-    private Integer codCentroCusto;
+    private Long codCentroCusto;
     @Column(name = "des_observacao")
     private String desObservacao;
     @Column(name = "dta_previsao_entrega")
@@ -89,11 +88,11 @@ public class ItemPedidoCompra {
         this.seqItem = seqItem;
     }
 
-    public Integer getCodItem() {
+    public Long getCodItem() {
         return codItem;
     }
 
-    public void setCodItem(Integer codItem) {
+    public void setCodItem(Long codItem) {
         this.codItem = codItem;
     }
 
@@ -177,11 +176,11 @@ public class ItemPedidoCompra {
         this.sglUnidade = sglUnidade;
     }
 
-    public Integer getCodAlmoxarifado() {
+    public Long getCodAlmoxarifado() {
         return codAlmoxarifado;
     }
 
-    public void setCodAlmoxarifado(Integer codAlmoxarifado) {
+    public void setCodAlmoxarifado(Long codAlmoxarifado) {
         this.codAlmoxarifado = codAlmoxarifado;
     }
 
@@ -209,19 +208,19 @@ public class ItemPedidoCompra {
         this.desNaturezaOperacao = desNaturezaOperacao;
     }
 
-    public Integer getCodTipoDespesa() {
+    public Long getCodTipoDespesa() {
         return codTipoDespesa;
     }
 
-    public void setCodTipoDespesa(Integer codTipoDespesa) {
+    public void setCodTipoDespesa(Long codTipoDespesa) {
         this.codTipoDespesa = codTipoDespesa;
     }
 
-    public Integer getCodCentroCusto() {
+    public Long getCodCentroCusto() {
         return codCentroCusto;
     }
 
-    public void setCodCentroCusto(Integer codCentroCusto) {
+    public void setCodCentroCusto(Long codCentroCusto) {
         this.codCentroCusto = codCentroCusto;
     }
 

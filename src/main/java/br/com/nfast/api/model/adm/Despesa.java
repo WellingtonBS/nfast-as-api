@@ -15,13 +15,13 @@ public class Despesa {
     @Column(name = "seq_despesa")
     private Integer seqDespesa;
     @Column(name = "cod_empresa")
-    private Integer codEmpresa;
+    private Long codEmpresa;
     @Column(name = "dta_despesa")
     private LocalDate dtaDespesa;
     @Column(name = "cod_tipo_despesa")
-    private Integer codTipoDespesa;
+    private Long codTipoDespesa;
     @Column(name = "cod_tipo_despesa_sint")
-    private Integer codTipoDespesaSint;
+    private Long codTipoDespesaSint;
     @Column(name = "cod_pessoa_favorecido")
     private Integer codPessoaFavorecido;
     @Column(name = "num_doc_despesa")
@@ -106,11 +106,11 @@ public class Despesa {
         this.seqDespesa = seqDespesa;
     }
 
-    public Integer getCodEmpresa() {
+    public Long getCodEmpresa() {
         return codEmpresa;
     }
 
-    public void setCodEmpresa(Integer codEmpresa) {
+    public void setCodEmpresa(Long codEmpresa) {
         this.codEmpresa = codEmpresa;
     }
 
@@ -122,19 +122,19 @@ public class Despesa {
         this.dtaDespesa = dtaDespesa;
     }
 
-    public Integer getCodTipoDespesa() {
+    public Long getCodTipoDespesa() {
         return codTipoDespesa;
     }
 
-    public void setCodTipoDespesa(Integer codTipoDespesa) {
+    public void setCodTipoDespesa(Long codTipoDespesa) {
         this.codTipoDespesa = codTipoDespesa;
     }
 
-    public Integer getCodTipoDespesaSint() {
+    public Long getCodTipoDespesaSint() {
         return codTipoDespesaSint;
     }
 
-    public void setCodTipoDespesaSint(Integer codTipoDespesaSint) {
+    public void setCodTipoDespesaSint(Long codTipoDespesaSint) {
         this.codTipoDespesaSint = codTipoDespesaSint;
     }
 

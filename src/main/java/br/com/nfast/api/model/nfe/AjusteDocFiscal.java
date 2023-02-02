@@ -24,9 +24,9 @@ public class AjusteDocFiscal {
     private String indTipo;
 
     @Column(name = "cod_empresa")
-    private Integer codEmpresa;
+    private Long codEmpresa;
     @Column(name = "cod_item")
-    private Integer codItem;
+    private Long codItem;
     @Column(name = "seq_aj_apur_icms")
     private Integer seqAjApurIcms;
     @Column(name = "des_observacao")
@@ -73,19 +73,19 @@ public class AjusteDocFiscal {
         this.indTipo = indTipo;
     }
 
-    public Integer getCodEmpresa() {
+    public Long getCodEmpresa() {
         return codEmpresa;
     }
 
-    public void setCodEmpresa(Integer codEmpresa) {
+    public void setCodEmpresa(Long codEmpresa) {
         this.codEmpresa = codEmpresa;
     }
 
-    public Integer getCodItem() {
+    public Long getCodItem() {
         return codItem;
     }
 
-    public void setCodItem(Integer codItem) {
+    public void setCodItem(Long codItem) {
         this.codItem = codItem;
     }
 

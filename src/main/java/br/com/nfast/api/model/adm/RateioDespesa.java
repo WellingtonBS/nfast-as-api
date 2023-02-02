@@ -15,7 +15,7 @@ public class RateioDespesa {
     private RateioDespesaId id;
 
     @Column(name = "cod_centro_custo", insertable = false, updatable = false)
-    private Integer codCentroCusto;
+    private Long codCentroCusto;
     @Column(name = "val_rateio")
     private Double valRateio = 0.0;
 
@@ -27,11 +27,11 @@ public class RateioDespesa {
         this.id = id;
     }
 
-    public Integer getCodCentroCusto() {
+    public Long getCodCentroCusto() {
         return codCentroCusto;
     }
 
-    public void setCodCentroCusto(Integer codCentroCusto) {
+    public void setCodCentroCusto(Long codCentroCusto) {
         this.codCentroCusto = codCentroCusto;
     }
 

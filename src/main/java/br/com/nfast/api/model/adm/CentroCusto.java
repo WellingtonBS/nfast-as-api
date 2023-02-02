@@ -3,18 +3,17 @@ package br.com.nfast.api.model.adm;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import java.time.LocalDate;
 
 @Entity
 public class CentroCusto {
     @Id
     @Column(name = "cod_centro_custo")
-    private Integer codCentroCusto;
+    private Long codCentroCusto;
     @Column(name = "des_centro_custo")
     private String desCentroCusto;
     @Column(name = "cod_empresa")
-    private Integer codEmpresa;
+    private Long codEmpresa;
     @Column(name = "dta_inicio_validade")
     private LocalDate dtaInicioValidade;
     @Column(name = "dta_fim_validade")
@@ -22,11 +21,11 @@ public class CentroCusto {
     @Column(name = "ind_tipo")
     private String indTipo;
 
-    public Integer getCodCentroCusto() {
+    public Long getCodCentroCusto() {
         return codCentroCusto;
     }
 
-    public void setCodCentroCusto(Integer codCentroCusto) {
+    public void setCodCentroCusto(Long codCentroCusto) {
         this.codCentroCusto = codCentroCusto;
     }
 
@@ -38,11 +37,11 @@ public class CentroCusto {
         this.desCentroCusto = desCentroCusto;
     }
 
-    public Integer getCodEmpresa() {
+    public Long getCodEmpresa() {
         return codEmpresa;
     }
 
-    public void setCodEmpresa(Integer codEmpresa) {
+    public void setCodEmpresa(Long codEmpresa) {
         this.codEmpresa = codEmpresa;
     }
 

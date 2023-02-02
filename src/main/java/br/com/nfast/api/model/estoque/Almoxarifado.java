@@ -3,19 +3,18 @@ package br.com.nfast.api.model.estoque;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 @Entity
 public class Almoxarifado {
     @Id
     @Column(name = "cod_almoxarifado")
-    private Integer codAlmoxarifado;
+    private Long codAlmoxarifado;
     @Column(name = "des_almoxarifado")
     private String desAlmoxarifado;
     @Column(name = "cod_empresa")
-    private Integer codEmpresa;
+    private Long codEmpresa;
     @Column(name = "cod_item_tanque")
-    private Integer codItemTanque;
+    private Long codItemTanque;
     @Column(name = "qtd_capacidade_tanque")
     private Double qtdCapacidadeTanque = 0.0;
     @Column(name = "qtd_lastro_tanque")
@@ -25,11 +24,11 @@ public class Almoxarifado {
     @Column(name = "ind_desativado")
     private String indDesativado;
 
-    public Integer getCodAlmoxarifado() {
+    public Long getCodAlmoxarifado() {
         return codAlmoxarifado;
     }
 
-    public void setCodAlmoxarifado(Integer codAlmoxarifado) {
+    public void setCodAlmoxarifado(Long codAlmoxarifado) {
         this.codAlmoxarifado = codAlmoxarifado;
     }
 
@@ -41,19 +40,19 @@ public class Almoxarifado {
         this.desAlmoxarifado = desAlmoxarifado;
     }
 
-    public Integer getCodEmpresa() {
+    public Long getCodEmpresa() {
         return codEmpresa;
     }
 
-    public void setCodEmpresa(Integer codEmpresa) {
+    public void setCodEmpresa(Long codEmpresa) {
         this.codEmpresa = codEmpresa;
     }
 
-    public Integer getCodItemTanque() {
+    public Long getCodItemTanque() {
         return codItemTanque;
     }
 
-    public void setCodItemTanque(Integer codItemTanque) {
+    public void setCodItemTanque(Long codItemTanque) {
         this.codItemTanque = codItemTanque;
     }
 

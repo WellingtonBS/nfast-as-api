@@ -64,7 +64,7 @@ public class NopRepo extends DataRepository<Nop, Integer> {
             query.add("  64 AS cod_tipo_movimento_estoque, ");
             query.add("  'S' AS ind_desativada ");
             query.add("FROM cfop a ");
-            query.add("WHERE TRUE  ");
+            query.add("WHERE TRUE ");
             if (Strings.isNonEmpty(indEntradaSaida))
                 query.add("AND CASE WHEN CAST(only_numbers(a.codigo) AS INTEGER) > 5000 THEN 'S' ELSE 'E' END = '" + indEntradaSaida + "' ");
             if (Strings.isNonEmpty(indNopFrete))

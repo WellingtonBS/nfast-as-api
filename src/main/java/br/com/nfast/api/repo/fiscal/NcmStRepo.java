@@ -13,9 +13,9 @@ public class NcmStRepo extends DataRepository<NcmSt, Integer> {
         super(NcmSt.class);
     }
 
-    public NcmSt ncmSt(Integer codItem, String uf, LocalDate data) {
+    public NcmSt ncmSt(Long codItem, String uf, LocalDate data) {
         NcmSt item = nativeFind(query -> {
-            query.add("SELECT  ");
+            query.add("SELECT ");
             query.add("  only_numbers(a.codigo) AS seq_ncm, ");
             query.add("  0 AS per_aliquota, ");
             query.add("  0 AS per_mark_up, ");
@@ -23,7 +23,7 @@ public class NcmStRepo extends DataRepository<NcmSt, Integer> {
             query.add("  0 AS val_preco ");
             query.add("FROM ncm a ");
             query.add("INNER JOIN produto b ON (a.codigo = b.codigo_ncm) ");
-            query.add("WHERE b.codigo = ' " + codItem +"' ");
+            query.add("WHERE b.codigo = ' " + codItem + "' ");
 
             //query.set("cod_item", codItem);
             //query.set("uf", uf);

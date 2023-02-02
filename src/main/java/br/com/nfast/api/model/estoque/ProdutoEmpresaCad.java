@@ -15,9 +15,9 @@ public class ProdutoEmpresaCad {
     private ProdutoEmpresaIdCad id;
 
     @Column(name = "cod_item", insertable = false, updatable = false)
-    private Integer codItem;
+    private Long codItem;
     @Column(name = "cod_empresa", insertable = false, updatable = false)
-    private Integer codEmpresa;
+    private Long codEmpresa;
 
     @Column(name = "qtd_estoque_minimo")
     private Double qtdEstoqueMinimo = 0.0;
@@ -120,19 +120,19 @@ public class ProdutoEmpresaCad {
         this.id = id;
     }
 
-    public Integer getCodItem() {
+    public Long getCodItem() {
         return codItem;
     }
 
-    public void setCodItem(Integer codItem) {
+    public void setCodItem(Long codItem) {
         this.codItem = codItem;
     }
 
-    public Integer getCodEmpresa() {
+    public Long getCodEmpresa() {
         return codEmpresa;
     }
 
-    public void setCodEmpresa(Integer codEmpresa) {
+    public void setCodEmpresa(Long codEmpresa) {
         this.codEmpresa = codEmpresa;
     }
 

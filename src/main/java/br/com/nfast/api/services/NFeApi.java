@@ -42,7 +42,7 @@ public interface NFeApi {
             @ApiParam(value = "Access Token", required = true) @RequestHeader("token") String token,
             @ApiParam(value = "Client ID", required = true) @RequestHeader("clientId") String clientId,
             @ApiParam(value = "Chave", required = true) @RequestParam(value = "numChaveNfe") String numChaveNfe,
-            @ApiParam(value = "Empresa", required = true) @RequestParam(value = "codEmpresa") Integer codEmpresa
+            @ApiParam(value = "Empresa", required = true) @RequestParam(value = "codEmpresa") Long codEmpresa
     );
 
     @ApiOperation(value = "Listagem por Usuário", response = NFeResumo.class, responseContainer = "List")
@@ -63,7 +63,7 @@ public interface NFeApi {
     ResponseEntity<List<NFeResumo>> listaNFeChave(
             @ApiParam(value = "Access Token", required = true) @RequestHeader("token") String token,
             @ApiParam(value = "Client ID", required = true) @RequestHeader("clientId") String clientId,
-            @ApiParam(value = "Empresa", required = true) @RequestParam(value = "codEmpresa") Integer codEmpresa,
+            @ApiParam(value = "Empresa", required = true) @RequestParam(value = "codEmpresa") Long codEmpresa,
             @ApiParam(value = "Chaves", required = true) @RequestBody(required = false) String chaves
     );
 

@@ -8,9 +8,9 @@ import javax.persistence.Id;
 public class TributacaoNfe {
     @Id
     @Column(name = "cod_item")
-    private Integer codItem;
+    private Long codItem;
     @Column(name = "cod_empresa")
-    private Integer codEmpresa;
+    private Long codEmpresa;
     @Column(name = "cod_icms")
     private Integer codIcms;
     @Column(name = "cod_ipi")
@@ -20,19 +20,19 @@ public class TributacaoNfe {
     @Column(name = "cod_cofins")
     private Integer codCofins;
 
-    public Integer getCodItem() {
+    public Long getCodItem() {
         return codItem;
     }
 
-    public void setCodItem(Integer codItem) {
+    public void setCodItem(Long codItem) {
         this.codItem = codItem;
     }
 
-    public Integer getCodEmpresa() {
+    public Long getCodEmpresa() {
         return codEmpresa;
     }
 
-    public void setCodEmpresa(Integer codEmpresa) {
+    public void setCodEmpresa(Long codEmpresa) {
         this.codEmpresa = codEmpresa;
     }
 

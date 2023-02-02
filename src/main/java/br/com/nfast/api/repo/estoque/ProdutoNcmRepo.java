@@ -5,7 +5,7 @@ import br.com.nfast.api.model.estoque.ProdutoNcm;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ProdutoNcmRepo extends DataRepository<ProdutoNcm, Integer> {
+public class ProdutoNcmRepo extends DataRepository<ProdutoNcm, Long> {
 
     public ProdutoNcmRepo() {
         super(ProdutoNcm.class);

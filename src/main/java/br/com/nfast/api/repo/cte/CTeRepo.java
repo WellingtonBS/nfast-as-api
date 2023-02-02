@@ -3,7 +3,6 @@ package br.com.nfast.api.repo.cte;
 import br.com.nfast.api.config.jpa.DataRepository;
 import br.com.nfast.api.model.cte.CTeResumo;
 import br.com.nfast.api.utils.Cast;
-import br.com.nfast.api.utils.Numbers;
 import br.com.nfast.api.utils.StringList;
 import br.com.nfast.api.utils.Strings;
 import org.springframework.stereotype.Repository;
@@ -18,7 +17,7 @@ public class CTeRepo extends DataRepository<CTeResumo, Integer> {
         super(CTeResumo.class);
     }
 
-    public List<CTeResumo> listaChave(Integer codEmpresa, String chaves) {
+    public List<CTeResumo> listaChave(Long codEmpresa, String chaves) {
         StringBuilder items = new StringBuilder();
         for (String chave : Strings.split(chaves, ",")) {
             if (items.length() > 0)

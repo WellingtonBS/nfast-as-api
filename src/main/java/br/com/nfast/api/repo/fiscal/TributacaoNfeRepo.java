@@ -12,7 +12,7 @@ public class TributacaoNfeRepo extends DataRepository<TributacaoNfe, Integer> {
         super(TributacaoNfe.class);
     }
 
-    public TributacaoNfe getTributacaoNfe(Integer codItem, Integer codEmpresa, String natureza, String uf) {
+    public TributacaoNfe getTributacaoNfe(Long codItem, Long codEmpresa, String natureza, String uf) {
         TributacaoNfe item = nativeFind(query -> {
             query.add("SELECT ");
             query.add("  a.cod_item, ");

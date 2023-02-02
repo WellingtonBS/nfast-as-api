@@ -156,7 +156,7 @@ public class PessoaFull {
     @Column(name = "ind_proprietario")
     private String indProprietario = "N";
     @Column(name = "cod_empresa_cadastro")
-    private Integer codEmpresaCadastro;
+    private Long codEmpresaCadastro;
     @Column(name = "ind_responsavel_obra")
     private String indResponsavelObra = "N";
     @Column(name = "ind_atividade_economica")
@@ -772,11 +772,11 @@ public class PessoaFull {
         this.indProprietario = indProprietario;
     }
 
-    public Integer getCodEmpresaCadastro() {
+    public Long getCodEmpresaCadastro() {
         return codEmpresaCadastro;
     }
 
-    public void setCodEmpresaCadastro(Integer codEmpresaCadastro) {
+    public void setCodEmpresaCadastro(Long codEmpresaCadastro) {
         this.codEmpresaCadastro = codEmpresaCadastro;
     }
 

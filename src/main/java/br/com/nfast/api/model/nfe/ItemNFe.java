@@ -20,9 +20,9 @@ public class ItemNFe {
     @Column(name = "seq_item", insertable = false, updatable = false)
     private Integer seqItem;
     @Column(name = "cod_item")
-    private Integer codItem;
+    private Long codItem;
     @Column(name = "cod_almoxarifado")
-    private Integer codAlmoxarifado;
+    private Long codAlmoxarifado;
     @Column(name = "qtd_item")
     private Double qtdItem = 0.0;
     @Column(name = "cod_unidade_compra")
@@ -171,7 +171,7 @@ public class ItemNFe {
     @Column(name = "val_base_cofins")
     private Double valBaseCofins = 0.0;
     @Column(name = "cod_almoxarifado_retorno")
-    private Integer codAlmoxarifadoRetorno;
+    private Long codAlmoxarifadoRetorno;
     @Column(name = "val_bc_st_scanc")
     private Double valBcStScanc = 0.0;
     @Column(name = "val_st_scanc")
@@ -259,7 +259,7 @@ public class ItemNFe {
     @Column(name = "num_cnpj_fabricante")
     private String numCnpjFabricante;
     @Column(name = "cod_centro_custo")
-    private Integer codCentroCusto;
+    private Long codCentroCusto;
     @Column(name = "ind_gera_custo")
     private String indGeraCusto;
     @Column(name = "val_icms_desoneracao")
@@ -318,19 +318,19 @@ public class ItemNFe {
         this.seqItem = seqItem;
     }
 
-    public Integer getCodItem() {
+    public Long getCodItem() {
         return codItem;
     }
 
-    public void setCodItem(Integer codItem) {
+    public void setCodItem(Long codItem) {
         this.codItem = codItem;
     }
 
-    public Integer getCodAlmoxarifado() {
+    public Long getCodAlmoxarifado() {
         return codAlmoxarifado;
     }
 
-    public void setCodAlmoxarifado(Integer codAlmoxarifado) {
+    public void setCodAlmoxarifado(Long codAlmoxarifado) {
         this.codAlmoxarifado = codAlmoxarifado;
     }
 
@@ -918,11 +918,11 @@ public class ItemNFe {
         this.valBaseCofins = valBaseCofins;
     }
 
-    public Integer getCodAlmoxarifadoRetorno() {
+    public Long getCodAlmoxarifadoRetorno() {
         return codAlmoxarifadoRetorno;
     }
 
-    public void setCodAlmoxarifadoRetorno(Integer codAlmoxarifadoRetorno) {
+    public void setCodAlmoxarifadoRetorno(Long codAlmoxarifadoRetorno) {
         this.codAlmoxarifadoRetorno = codAlmoxarifadoRetorno;
     }
 
@@ -1270,11 +1270,11 @@ public class ItemNFe {
         this.numCnpjFabricante = numCnpjFabricante;
     }
 
-    public Integer getCodCentroCusto() {
+    public Long getCodCentroCusto() {
         return codCentroCusto;
     }
 
-    public void setCodCentroCusto(Integer codCentroCusto) {
+    public void setCodCentroCusto(Long codCentroCusto) {
         this.codCentroCusto = codCentroCusto;
     }
 

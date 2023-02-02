@@ -51,25 +51,25 @@ public class NFeResumoRepo extends DataRepository<NFeResumo, Long> {
     public List<NFeResumo> listagem(LocalDate dataIni, LocalDate dataFim, String codEmpresas, String nomUsuario) {
         StringList sql = new StringList();
         sql.add("SELECT DISTINCT ");
-        sql.add("  a.grid AS seq_nota,  ");
-        sql.add("  a.numero_nota AS num_nota,  ");
-        sql.add("  a.data_emissao AS dta_emissao,  ");
-        sql.add("  a.data_emissao AS dta_entrada,  ");
-        sql.add("  a.valor_nota AS val_total_nota,  ");
-        sql.add("  d.usuario AS nom_usuario,  ");
-        sql.add("  d.data_doc AS dta_digitacao,  ");
-        sql.add("  SUBSTRING(CAST(d.hora AS TEXT) from 12 for 5) AS hra_digitacao,  ");
-        sql.add("  c.codigo AS cod_pessoa_fornecedor,  ");
-        sql.add("  normalize(c.nome) AS nom_pessoa_fornecedor,  ");
-        sql.add("  b.codigo AS cod_empresa,  ");
-        sql.add("  b.nome_reduzido AS nom_fantasia,  ");
-        sql.add("  e.chave_acesso AS num_chave_nfe  ");
+        sql.add("  a.grid AS seq_nota, ");
+        sql.add("  a.numero_nota AS num_nota, ");
+        sql.add("  a.data_emissao AS dta_emissao, ");
+        sql.add("  a.data_emissao AS dta_entrada, ");
+        sql.add("  a.valor_nota AS val_total_nota, ");
+        sql.add("  d.usuario AS nom_usuario, ");
+        sql.add("  d.data_doc AS dta_digitacao, ");
+        sql.add("  SUBSTRING(CAST(d.hora AS TEXT) from 12 for 5) AS hra_digitacao, ");
+        sql.add("  c.codigo AS cod_pessoa_fornecedor, ");
+        sql.add("  normalize(c.nome) AS nom_pessoa_fornecedor, ");
+        sql.add("  b.codigo AS cod_empresa, ");
+        sql.add("  b.nome_reduzido AS nom_fantasia, ");
+        sql.add("  e.chave_acesso AS num_chave_nfe ");
         sql.add("FROM nota_fiscal a ");
-        sql.add("INNER JOIN empresa b ON (b.grid = a.empresa)  ");
-        sql.add("INNER JOIN pessoa c ON (c.grid = a.pessoa)  ");
+        sql.add("INNER JOIN empresa b ON (b.grid = a.empresa) ");
+        sql.add("INNER JOIN pessoa c ON (c.grid = a.pessoa) ");
         sql.add("INNER JOIN lancto d ON (a.mlid = a.mlid) ");
         sql.add("INNER JOIN nfe e ON (e.nota_fiscal = a.grid) ");
-        sql.add("WHERE TRUE   ");
+        sql.add("WHERE TRUE ");
         if (dataIni != null)
             sql.add("AND a.data_emissao >= '" + Dates.format(dataIni, "yyyy-MM-dd") + "' ");
         if (dataFim != null)
@@ -84,7 +84,7 @@ public class NFeResumoRepo extends DataRepository<NFeResumo, Long> {
         return Cast.of(query.getResultList());
     }
 
-    public List<NFeResumo> listaChave(Integer codEmpresa, String chaves) {
+    public List<NFeResumo> listaChave(Long codEmpresa, String chaves) {
         StringBuilder items = new StringBuilder();
         for (String chave : Strings.split(chaves, ",")) {
             if (items.length() > 0)
@@ -94,22 +94,22 @@ public class NFeResumoRepo extends DataRepository<NFeResumo, Long> {
 
         StringList sql = new StringList();
         sql.add("SELECT DISTINCT ");
-        sql.add("  a.grid AS seq_nota,  ");
-        sql.add("  a.numero_nota AS num_nota,  ");
-        sql.add("  a.data_emissao AS dta_emissao,  ");
-        sql.add("  a.data_emissao AS dta_entrada,  ");
-        sql.add("  a.valor_nota AS val_total_nota,  ");
-        sql.add("  d.usuario AS nom_usuario,  ");
-        sql.add("  d.data_doc AS dta_digitacao,  ");
-        sql.add("  SUBSTRING(CAST(d.hora AS TEXT) from 12 for 5) AS hra_digitacao,  ");
-        sql.add("  c.codigo AS cod_pessoa_fornecedor,  ");
-        sql.add("  normalize(c.nome) AS nom_pessoa_fornecedor,  ");
-        sql.add("  b.codigo AS cod_empresa,  ");
-        sql.add("  b.nome_reduzido AS nom_fantasia,  ");
-        sql.add("  e.chave_acesso AS num_chave_nfe  ");
+        sql.add("  a.grid AS seq_nota, ");
+        sql.add("  a.numero_nota AS num_nota, ");
+        sql.add("  a.data_emissao AS dta_emissao, ");
+        sql.add("  a.data_emissao AS dta_entrada, ");
+        sql.add("  a.valor_nota AS val_total_nota, ");
+        sql.add("  d.usuario AS nom_usuario, ");
+        sql.add("  d.data_doc AS dta_digitacao, ");
+        sql.add("  SUBSTRING(CAST(d.hora AS TEXT) from 12 for 5) AS hra_digitacao, ");
+        sql.add("  c.codigo AS cod_pessoa_fornecedor, ");
+        sql.add("  normalize(c.nome) AS nom_pessoa_fornecedor, ");
+        sql.add("  b.codigo AS cod_empresa, ");
+        sql.add("  b.nome_reduzido AS nom_fantasia, ");
+        sql.add("  e.chave_acesso AS num_chave_nfe ");
         sql.add("FROM nota_fiscal a ");
-        sql.add("INNER JOIN empresa b ON (b.grid = a.empresa)  ");
-        sql.add("INNER JOIN pessoa c ON (c.grid = a.pessoa)  ");
+        sql.add("INNER JOIN empresa b ON (b.grid = a.empresa) ");
+        sql.add("INNER JOIN pessoa c ON (c.grid = a.pessoa) ");
         sql.add("INNER JOIN lancto d ON (d.mlid = a.mlid) ");
         sql.add("INNER JOIN nfe e ON (e.nota_fiscal = a.grid) ");
         sql.add("WHERE b.codigo = " + codEmpresa + " ");
@@ -163,7 +163,7 @@ public class NFeResumoRepo extends DataRepository<NFeResumo, Long> {
         if (Numbers.isNonEmpty(codFornecedor))
             sql.add("  AND b.cod_pessoa_fornecedor = " + codFornecedor + " ");
         if (Strings.isNonEmpty(filtroProduto)) {
-            Integer codItem = Numbers.asInteger(filtroProduto, 0);
+            Long codItem = Numbers.asLong(filtroProduto, 0L);
             sql.add("  AND ( ");
             if (codItem > 0)
                 sql.add("    (a.cod_item = " + codItem + ") OR ");

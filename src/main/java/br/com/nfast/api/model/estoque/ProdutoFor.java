@@ -8,17 +8,17 @@ import javax.persistence.Id;
 public class ProdutoFor {
     @Id
     @Column(name = "cod_item")
-    private Integer codItem;
+    private Long codItem;
     @Column(name = "cod_unidade_agrupamento")
     private Integer codUnidadeAgrupamento;
     @Column(name = "qtd_unidade_agrupamento")
     private Double qtdUnidadeAgrupamento = 1.0;
 
-    public Integer getCodItem() {
+    public Long getCodItem() {
         return codItem;
     }
 
-    public void setCodItem(Integer codItem) {
+    public void setCodItem(Long codItem) {
         this.codItem = codItem;
     }
 

@@ -10,7 +10,7 @@ import java.util.List;
 public class ProdutoCad {
     @Id
     @Column(name = "cod_item")
-    private Integer codItem;
+    private Long codItem;
     @Column(name = "des_item")
     private String desItem;
     @Column(name = "cod_barra")
@@ -104,11 +104,11 @@ public class ProdutoCad {
     @Transient
     private List<ProdutoEmpresaCad> empresas = new ArrayList<>();
 
-    public Integer getCodItem() {
+    public Long getCodItem() {
         return codItem;
     }
 
-    public void setCodItem(Integer codItem) {
+    public void setCodItem(Long codItem) {
         this.codItem = codItem;
     }
 

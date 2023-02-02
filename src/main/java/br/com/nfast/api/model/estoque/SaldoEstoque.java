@@ -1,32 +1,32 @@
 package br.com.nfast.api.model.estoque;
 
 public class SaldoEstoque {
-    private Integer codItem;
-    private Integer codEmpresa;
-    private Integer codAlmoxarifado;
+    private Long codItem;
+    private Long codEmpresa;
+    private Long codAlmoxarifado;
     private Double qtdSaldo = 0.0;
 
-    public Integer getCodItem() {
+    public Long getCodItem() {
         return codItem;
     }
 
-    public void setCodItem(Integer codItem) {
+    public void setCodItem(Long codItem) {
         this.codItem = codItem;
     }
 
-    public Integer getCodEmpresa() {
+    public Long getCodEmpresa() {
         return codEmpresa;
     }
 
-    public void setCodEmpresa(Integer codEmpresa) {
+    public void setCodEmpresa(Long codEmpresa) {
         this.codEmpresa = codEmpresa;
     }
 
-    public Integer getCodAlmoxarifado() {
+    public Long getCodAlmoxarifado() {
         return codAlmoxarifado;
     }
 
-    public void setCodAlmoxarifado(Integer codAlmoxarifado) {
+    public void setCodAlmoxarifado(Long codAlmoxarifado) {
         this.codAlmoxarifado = codAlmoxarifado;
     }
 

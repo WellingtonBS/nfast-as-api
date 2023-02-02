@@ -8,7 +8,7 @@ import javax.persistence.Id;
 public class ProdutoNfe {
     @Id
     @Column(name = "cod_item")
-    private Integer codItem;
+    private Long codItem;
     @Column(name = "des_item")
     private String desItem;
     @Column(name = "cod_barra")
@@ -32,7 +32,7 @@ public class ProdutoNfe {
     private Double qtdUnidadeAgrupamento2;
 
     @Column(name = "cod_tipo_despesa")
-    private Integer codTipoDespesa;
+    private Long codTipoDespesa;
 
     @Column(name = "cod_ncm")
     private String codNcm;
@@ -52,11 +52,11 @@ public class ProdutoNfe {
     @Column(name = "cod_cofins")
     private Integer codCofins;
 
-    public Integer getCodItem() {
+    public Long getCodItem() {
         return codItem;
     }
 
-    public void setCodItem(Integer codItem) {
+    public void setCodItem(Long codItem) {
         this.codItem = codItem;
     }
 
@@ -140,11 +140,11 @@ public class ProdutoNfe {
         this.qtdUnidadeAgrupamento2 = qtdUnidadeAgrupamento2;
     }
 
-    public Integer getCodTipoDespesa() {
+    public Long getCodTipoDespesa() {
         return codTipoDespesa;
     }
 
-    public void setCodTipoDespesa(Integer codTipoDespesa) {
+    public void setCodTipoDespesa(Long codTipoDespesa) {
         this.codTipoDespesa = codTipoDespesa;
     }
 

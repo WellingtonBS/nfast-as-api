@@ -4,8 +4,6 @@ import br.com.nfast.api.model.financeiro.*;
 import br.com.nfast.api.repo.financeiro.ContaBancoRepo;
 import br.com.nfast.api.repo.financeiro.EspecieCaixaRepo;
 import br.com.nfast.api.repo.financeiro.TipoCobrancaRepo;
-import br.com.nfast.api.utils.Numbers;
-import br.com.nfast.api.utils.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +39,7 @@ public class FinanceiroController implements FinanceiroApi {
     }
 
     @Override
-    public ResponseEntity<List<ContaBanco>> contaBancoList(String token, String clientId, Integer codEmpresa, String filtro, Integer limit, Integer offset) {
+    public ResponseEntity<List<ContaBanco>> contaBancoList(String token, String clientId, Long codEmpresa, String filtro, Integer limit, Integer offset) {
         List<ContaBanco> list = contaBancoRepo.contasBanco(codEmpresa, filtro, limit, offset);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
@@ -53,13 +51,13 @@ public class FinanceiroController implements FinanceiroApi {
     }
 
     @Override
-    public ResponseEntity<List<TipoCobranca>> tipoCobrancaList(String token, String clientId, Integer codEmpresa, String filtro, Integer limit, Integer offset) {
+    public ResponseEntity<List<TipoCobranca>> tipoCobrancaList(String token, String clientId, Long codEmpresa, String filtro, Integer limit, Integer offset) {
         List<TipoCobranca> list = tipoCobrancaRepo.tipoCobrancaList(codEmpresa, filtro, limit, offset);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<SaldoCaixa> saldoCaixa(String token, String clientId, Integer codEmpresa, Integer codEspecieCaixa) {
+    public ResponseEntity<SaldoCaixa> saldoCaixa(String token, String clientId, Long codEmpresa, Integer codEspecieCaixa) {
         SaldoCaixa saldoCaixa = new SaldoCaixa();
         saldoCaixa.setCodEmpresa(codEmpresa);
         saldoCaixa.setCodEspecieCaixa(codEspecieCaixa);
@@ -68,7 +66,7 @@ public class FinanceiroController implements FinanceiroApi {
     }
 
     @Override
-    public ResponseEntity<SaldoBanco> saldoBanco(String token, String clientId, Integer codEmpresa, String numMnemonico) {
+    public ResponseEntity<SaldoBanco> saldoBanco(String token, String clientId, Long codEmpresa, String numMnemonico) {
         SaldoBanco saldoBanco = new SaldoBanco();
         saldoBanco.setCodEmpresa(codEmpresa);
         saldoBanco.setNumMnemonico(numMnemonico);

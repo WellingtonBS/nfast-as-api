@@ -15,7 +15,7 @@ public class CTeController implements CTeApi {
     private CTeRepo cteRepo;
 
     @Override
-    public ResponseEntity<List<CTeResumo>> listaChave(String token, String clientId, Integer codEmpresa, String chaves) {
+    public ResponseEntity<List<CTeResumo>> listaChave(String token, String clientId, Long codEmpresa, String chaves) {
         List<CTeResumo> list = cteRepo.listaChave(codEmpresa, chaves);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }

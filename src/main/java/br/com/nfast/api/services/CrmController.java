@@ -6,8 +6,6 @@ import br.com.nfast.api.model.crm.PessoaFull;
 import br.com.nfast.api.repo.crm.CidadeRepo;
 import br.com.nfast.api.repo.crm.PessoaFullRepo;
 import br.com.nfast.api.repo.crm.PessoaRepo;
-import br.com.nfast.api.utils.Numbers;
-import br.com.nfast.api.utils.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

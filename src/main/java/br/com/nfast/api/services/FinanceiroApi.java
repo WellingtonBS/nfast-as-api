@@ -52,7 +52,7 @@ public interface FinanceiroApi {
     ResponseEntity<List<ContaBanco>> contaBancoList(
             @ApiParam(value = "Access Token", required = true) @RequestHeader("token") String token,
             @ApiParam(value = "Client ID", required = true) @RequestHeader("clientId") String clientId,
-            @ApiParam(value = "Empresa", required = true) @RequestParam(value = "codEmpresa") Integer codEmpresa,
+            @ApiParam(value = "Empresa", required = true) @RequestParam(value = "codEmpresa") Long codEmpresa,
             @ApiParam(value = "Filtro") @RequestParam(value = "filtro", required = false) String filtro,
             @ApiParam(value = "Limit", defaultValue = "50") @RequestParam(value = "limit", required = false) Integer limit,
             @ApiParam(value = "Offset") @RequestParam(value = "offset", required = false) Integer offset
@@ -73,7 +73,7 @@ public interface FinanceiroApi {
     ResponseEntity<List<TipoCobranca>> tipoCobrancaList(
             @ApiParam(value = "Access Token", required = true) @RequestHeader("token") String token,
             @ApiParam(value = "Client ID", required = true) @RequestHeader("clientId") String clientId,
-            @ApiParam(value = "Empresa", required = true) @RequestParam(value = "codEmpresa") Integer codEmpresa,
+            @ApiParam(value = "Empresa", required = true) @RequestParam(value = "codEmpresa") Long codEmpresa,
             @ApiParam(value = "Filtro") @RequestParam(value = "filtro", required = false) String filtro,
             @ApiParam(value = "Limit", defaultValue = "50") @RequestParam(value = "limit", required = false) Integer limit,
             @ApiParam(value = "Offset") @RequestParam(value = "offset", required = false) Integer offset
@@ -85,7 +85,7 @@ public interface FinanceiroApi {
     ResponseEntity<SaldoCaixa> saldoCaixa(
             @ApiParam(value = "Access Token", required = true) @RequestHeader("token") String token,
             @ApiParam(value = "Client ID", required = true) @RequestHeader("clientId") String clientId,
-            @ApiParam(value = "Empresa", required = true) @RequestParam("codEmpresa") Integer codEmpresa,
+            @ApiParam(value = "Empresa", required = true) @RequestParam("codEmpresa") Long codEmpresa,
             @ApiParam(value = "Código", required = true) @RequestParam("codEspecieCaixa") Integer codEspecieCaixa
     );
 
@@ -95,7 +95,7 @@ public interface FinanceiroApi {
     ResponseEntity<SaldoBanco> saldoBanco(
             @ApiParam(value = "Access Token", required = true) @RequestHeader("token") String token,
             @ApiParam(value = "Client ID", required = true) @RequestHeader("clientId") String clientId,
-            @ApiParam(value = "Empresa", required = true) @RequestParam("codEmpresa") Integer codEmpresa,
+            @ApiParam(value = "Empresa", required = true) @RequestParam("codEmpresa") Long codEmpresa,
             @ApiParam(value = "Mnemonico", required = true) @RequestParam("numMnemonico") String numMnemonico
     );
 

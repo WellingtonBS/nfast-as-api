@@ -15,7 +15,7 @@ public class EspecieCaixaRepo extends DataRepository<EspecieCaixa, Integer> {
         super(EspecieCaixa.class);
     }
 
-    public Double getSaldoCaixa(Integer codEmpresa, Integer codEspecieCaixa) {
+    public Double getSaldoCaixa(Long codEmpresa, Integer codEspecieCaixa) {
         Double vlrSaldo = nativeFindValue("SELECT sp_obtem_saldo_caixa(" + codEmpresa + ", " + codEspecieCaixa + ") ");
         return vlrSaldo;
     }
@@ -23,7 +23,7 @@ public class EspecieCaixaRepo extends DataRepository<EspecieCaixa, Integer> {
     public EspecieCaixa especieCaixa(Integer codEspecieCaixa) {
 
         EspecieCaixa item = nativeFind(query -> {
-            query.add("SELECT  ");
+            query.add("SELECT ");
             query.add("  codigo AS cod_especie_caixa,");
             query.add("  normalize(nome) AS des_especie_caixa,");
             query.add("  'S' AS ind_status");
@@ -38,7 +38,7 @@ public class EspecieCaixaRepo extends DataRepository<EspecieCaixa, Integer> {
     public List<EspecieCaixa> especieCaixaList(String filtro, Integer limit, Integer offset) {
 
         List<EspecieCaixa> list = nativeFindAll(query -> {
-            query.add("SELECT  ");
+            query.add("SELECT ");
             query.add("  codigo AS cod_especie_caixa,");
             query.add("  normalize(nome) AS des_especie_caixa,");
             query.add("  'S' AS ind_status");

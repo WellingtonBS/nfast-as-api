@@ -1,15 +1,15 @@
 package br.com.nfast.api.model.financeiro;
 
 public class SaldoCaixa {
-    private Integer codEmpresa;
+    private Long codEmpresa;
     private Integer codEspecieCaixa;
     private Double vlrSaldo = 0.0;
 
-    public Integer getCodEmpresa() {
+    public Long getCodEmpresa() {
         return codEmpresa;
     }
 
-    public void setCodEmpresa(Integer codEmpresa) {
+    public void setCodEmpresa(Long codEmpresa) {
         this.codEmpresa = codEmpresa;
     }
 

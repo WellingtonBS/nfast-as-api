@@ -3,21 +3,20 @@ package br.com.nfast.api.model.estoque;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 @Entity
 public class Produto {
     @Id
     @Column(name = "cod_item")
-    private Integer codItem;
+    private Long codItem;
     @Column(name = "des_item")
     private String desItem;
 
-    public Integer getCodItem() {
+    public Long getCodItem() {
         return codItem;
     }
 
-    public void setCodItem(Integer codItem) {
+    public void setCodItem(Long codItem) {
         this.codItem = codItem;
     }
 

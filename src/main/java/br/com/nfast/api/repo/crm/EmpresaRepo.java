@@ -18,7 +18,7 @@ public class EmpresaRepo extends DataRepository<Empresa, Integer> {
         super(Empresa.class);
     }
 
-    public Empresa empresa(Integer codEmpresa) {
+    public Empresa empresa(Long codEmpresa) {
         Empresa item = nativeFind(query -> {
             query.add("SELECT ");
             query.add("  a.codigo AS cod_empresa, ");
@@ -89,7 +89,7 @@ public class EmpresaRepo extends DataRepository<Empresa, Integer> {
                 query.add(") ");
                 query.set("filtro", "%" + filtro.toLowerCase() + "%");
             }
-            query.add("ORDER BY a.codigo  ");
+            query.add("ORDER BY a.codigo ");
             if (Numbers.isNonEmpty(limit))
                 query.setLimit(limit);
             if (Numbers.isNonEmpty(offset))
@@ -117,7 +117,7 @@ public class EmpresaRepo extends DataRepository<Empresa, Integer> {
     }
 
 
-    public boolean validaDataLimite(Integer codEmpresa, LocalDate data) {
+    public boolean validaDataLimite(Long codEmpresa, LocalDate data) {
         if (data == null)
             return true;
 
@@ -133,7 +133,7 @@ public class EmpresaRepo extends DataRepository<Empresa, Integer> {
             query.add("  0 as qtd_dias_limite_retroacao ");
             query.add("FROM empresa a ");
             query.add("INNER JOIN fechamento b ON (a.grid = b.empresa) ");
-            query.add("WHERE a.codigo = " + codEmpresa );
+            query.add("WHERE a.codigo = " + codEmpresa);
             query.add("GROUP BY a.codigo, ");
             query.add("         2,4 ");
         }, LimiteRetroativo.class);

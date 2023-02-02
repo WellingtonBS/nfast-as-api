@@ -14,7 +14,7 @@ public class ModeloDocumento {
     @Column(name = "des_modelo_documento")
     private String desModeloDocumento;
     @Column(name = "cod_empresa")
-    private Integer codEmpresa;
+    private Long codEmpresa;
     @Column(name = "num_serie")
     private String numSerie;
     @Column(name = "num_sub_serie")
@@ -50,11 +50,11 @@ public class ModeloDocumento {
         this.desModeloDocumento = desModeloDocumento;
     }
 
-    public Integer getCodEmpresa() {
+    public Long getCodEmpresa() {
         return codEmpresa;
     }
 
-    public void setCodEmpresa(Integer codEmpresa) {
+    public void setCodEmpresa(Long codEmpresa) {
         this.codEmpresa = codEmpresa;
     }
 

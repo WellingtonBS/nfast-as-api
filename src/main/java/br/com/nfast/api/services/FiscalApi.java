@@ -71,8 +71,8 @@ public interface FiscalApi {
     ResponseEntity<TributacaoNfe> tributacaoNfe(
             @ApiParam(value = "Access Token", required = true) @RequestHeader("token") String token,
             @ApiParam(value = "Client ID", required = true) @RequestHeader("clientId") String clientId,
-            @ApiParam(value = "Produto", required = true) @RequestParam("codItem") Integer codItem,
-            @ApiParam(value = "Empresa", required = true) @RequestParam("codEmpresa") Integer codEmpresa,
+            @ApiParam(value = "Produto", required = true) @RequestParam("codItem") Long codItem,
+            @ApiParam(value = "Empresa", required = true) @RequestParam("codEmpresa") Long codEmpresa,
             @ApiParam(value = "Natureza") @RequestParam(value = "natureza", required = false) String natureza,
             @ApiParam(value = "UF") @RequestParam(value = "uf", required = false) String uf
     );
@@ -83,8 +83,8 @@ public interface FiscalApi {
     ResponseEntity<String> icmsNfe(
             @ApiParam(value = "Access Token", required = true) @RequestHeader("token") String token,
             @ApiParam(value = "Client ID", required = true) @RequestHeader("clientId") String clientId,
-            @ApiParam(value = "Produto", required = true) @RequestParam("codItem") Integer codItem,
-            @ApiParam(value = "Empresa", required = true) @RequestParam("codEmpresa") Integer codEmpresa,
+            @ApiParam(value = "Produto", required = true) @RequestParam("codItem") Long codItem,
+            @ApiParam(value = "Empresa", required = true) @RequestParam("codEmpresa") Long codEmpresa,
             @ApiParam(value = "Natureza", required = true) @RequestParam(value = "natureza") String natureza,
             @ApiParam(value = "UF", required = true) @RequestParam(value = "uf") String uf,
             @ApiParam(value = "CST", required = true) @RequestParam(value = "cst") String cst,
@@ -108,7 +108,7 @@ public interface FiscalApi {
     ResponseEntity<List<ModeloDocumento>> modeloDocumentoList(
             @ApiParam(value = "Access Token", required = true) @RequestHeader("token") String token,
             @ApiParam(value = "Client ID", required = true) @RequestHeader("clientId") String clientId,
-            @ApiParam(value = "Empresa") @RequestParam(value = "codEmpresa", required = false) Integer codEmpresa,
+            @ApiParam(value = "Empresa") @RequestParam(value = "codEmpresa", required = false) Long codEmpresa,
             @ApiParam(value = "Tipo Documento") @RequestParam(value = "codModeloDocAnexo7", required = false) String codModeloDocAnexo7,
             @ApiParam(value = "Entrada") @RequestParam(value = "indEntrada", required = false) String indEntrada,
             @ApiParam(value = "Saída") @RequestParam(value = "indSaida", required = false) String indSaida,
@@ -164,7 +164,7 @@ public interface FiscalApi {
     ResponseEntity<NcmSt> ncmSt(
             @ApiParam(value = "Access Token", required = true) @RequestHeader("token") String token,
             @ApiParam(value = "Client ID", required = true) @RequestHeader("clientId") String clientId,
-            @ApiParam(value = "Produto", required = true) @RequestParam("codItem") Integer codItem,
+            @ApiParam(value = "Produto", required = true) @RequestParam("codItem") Long codItem,
             @ApiParam(value = "UF", required = true) @RequestParam(value = "uf") String uf,
             @ApiParam(value = "Data", required = true) @RequestParam("data") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate data
     );

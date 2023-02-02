@@ -31,7 +31,7 @@ public class AdminController implements AdminApi {
     private RateioPadraoRepo rateioPadraoRepo;
 
     @Override
-    public ResponseEntity<Empresa> empresa(String token, String clientId, Integer codEmpresa) {
+    public ResponseEntity<Empresa> empresa(String token, String clientId, Long codEmpresa) {
         Empresa item = empresaRepo.empresa(codEmpresa);
         return new ResponseEntity<>(item, HttpStatus.OK);
     }
@@ -55,13 +55,13 @@ public class AdminController implements AdminApi {
     }
 
     @Override
-    public ResponseEntity<CentroCusto> centroCusto(String token, String clientId, Integer codCentroCusto) {
+    public ResponseEntity<CentroCusto> centroCusto(String token, String clientId, Long codCentroCusto) {
         CentroCusto item = centroCustoRepo.centroCusto(codCentroCusto);
         return new ResponseEntity<>(item, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<List<CentroCusto>> centroCustoList(String token, String clientId, Integer codEmpresa, String filtro, Integer limit, Integer offset) {
+    public ResponseEntity<List<CentroCusto>> centroCustoList(String token, String clientId, Long codEmpresa, String filtro, Integer limit, Integer offset) {
         List<CentroCusto> list = centroCustoRepo.centroCustoList(codEmpresa, filtro, limit, offset);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
@@ -73,7 +73,7 @@ public class AdminController implements AdminApi {
     }
 
     @Override
-    public ResponseEntity<String> parametroEmpresa(String token, String clientId, Integer codParametro, Integer codEmpresa) {
+    public ResponseEntity<String> parametroEmpresa(String token, String clientId, Integer codParametro, Long codEmpresa) {
         String value = empresaRepo.parametroEmpresa(codParametro);
         return new ResponseEntity<>(value, HttpStatus.OK);
     }
@@ -91,7 +91,7 @@ public class AdminController implements AdminApi {
     }
 
     @Override
-    public ResponseEntity<List<RateioPadrao>> rateioPadraoDespesa(String token, String clientId, Integer codTipoDespesa, Integer codEmpresa) {
+    public ResponseEntity<List<RateioPadrao>> rateioPadraoDespesa(String token, String clientId, Long codTipoDespesa, Long codEmpresa) {
         List<RateioPadrao> list = rateioPadraoRepo.findAll(query -> {
             query.add("SELECT a FROM RateioPadrao a ");
             query.add("WHERE a.seqOrigem = " + codTipoDespesa);

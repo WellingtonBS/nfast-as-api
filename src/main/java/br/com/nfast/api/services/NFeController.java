@@ -35,7 +35,7 @@ public class NFeController implements NFeApi {
     }
 
     @Override
-    public ResponseEntity<ApiSuccess> excluiNFe(String token, String clientId, String numChaveNfe, Integer codEmpresa) {
+    public ResponseEntity<ApiSuccess> excluiNFe(String token, String clientId, String numChaveNfe, Long codEmpresa) {
         nfeRepo.excluiNFe(numChaveNfe, codEmpresa);
         return new ResponseEntity<>(new ApiSuccess("Ok"), HttpStatus.OK);
     }
@@ -54,7 +54,7 @@ public class NFeController implements NFeApi {
     }
 
     @Override
-    public ResponseEntity<List<NFeResumo>> listaNFeChave(String token, String clientId, Integer codEmpresa, String chaves) {
+    public ResponseEntity<List<NFeResumo>> listaNFeChave(String token, String clientId, Long codEmpresa, String chaves) {
         List<NFeResumo> list = nfeResumoRepo.listaChave(codEmpresa, chaves);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }

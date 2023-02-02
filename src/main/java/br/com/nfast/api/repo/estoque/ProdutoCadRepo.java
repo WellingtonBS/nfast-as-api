@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ProdutoCadRepo extends DataRepository<ProdutoCad, Integer> {
+public class ProdutoCadRepo extends DataRepository<ProdutoCad, Long> {
     @Autowired
     ProdutoRepo produtoRepo;
     @Autowired

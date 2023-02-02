@@ -11,7 +11,7 @@ public class PedidoCompra {
     @Column(name = "seq_pedido")
     private Integer seqPedido;
     @Column(name = "cod_empresa")
-    private Integer codEmpresa;
+    private Long codEmpresa;
     @Column(name = "cod_pessoa_fornecedor")
     private Integer codPessoaFornecedor;
     @Column(name = "num_pedido_fornecedor")
@@ -39,11 +39,11 @@ public class PedidoCompra {
         this.seqPedido = seqPedido;
     }
 
-    public Integer getCodEmpresa() {
+    public Long getCodEmpresa() {
         return codEmpresa;
     }
 
-    public void setCodEmpresa(Integer codEmpresa) {
+    public void setCodEmpresa(Long codEmpresa) {
         this.codEmpresa = codEmpresa;
     }
 

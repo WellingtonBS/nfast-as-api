@@ -36,9 +36,9 @@ public class TributacaoRepo extends DataRepository<Tributacao, Integer> {
             query.add("FROM tributacao a ");
             query.add("INNER JOIN nfast_tributacao b ON (a.codigo = b.codigo) ");
             query.add("WHERE TRUE ");
-            query.add("AND b.cod_tributacao = " + codTributacao );
+            query.add("AND b.cod_tributacao = " + codTributacao);
             query.add("UNION ALL ");
-            query.add("SELECT  ");
+            query.add("SELECT ");
             query.add("  b.cod_tributacao AS cod_tributacao, ");
             query.add("  a.descricao AS des_tributacao, ");
             query.add("  'PIS' AS ind_tipo_tributo, ");
@@ -54,9 +54,9 @@ public class TributacaoRepo extends DataRepository<Tributacao, Integer> {
             query.add("FROM cst_pis a ");
             query.add("INNER JOIN nfast_tributacao b ON (a.codigo = b.codigo) ");
             query.add("WHERE a.tipo IN ('E', 'ES') ");
-            query.add("AND b.cod_tributacao = " + codTributacao );
+            query.add("AND b.cod_tributacao = " + codTributacao);
             query.add("UNION ALL ");
-            query.add("SELECT  ");
+            query.add("SELECT ");
             query.add("  b.cod_tributacao AS cod_tributacao, ");
             query.add("  a.descricao AS des_tributacao, ");
             query.add("  'COFINS' AS ind_tipo_tributo, ");
@@ -72,7 +72,7 @@ public class TributacaoRepo extends DataRepository<Tributacao, Integer> {
             query.add("FROM cst_cofins a ");
             query.add("INNER JOIN nfast_tributacao b ON (a.codigo = b.codigo) ");
             query.add("WHERE a.tipo IN ('E', 'ES') ");
-            query.add("AND b.cod_tributacao = " + codTributacao );
+            query.add("AND b.cod_tributacao = " + codTributacao);
 
 
             query.add("ORDER BY 1 ");
@@ -120,7 +120,7 @@ public class TributacaoRepo extends DataRepository<Tributacao, Integer> {
                 query.set("filtro", "%" + filtro.toLowerCase() + "%");
             }
             query.add("UNION ALL ");
-            query.add("SELECT  ");
+            query.add("SELECT ");
             query.add("  b.cod_tributacao AS cod_tributacao, ");
             query.add("  a.descricao AS des_tributacao, ");
             query.add("  'PIS' AS ind_tipo_tributo, ");
@@ -148,7 +148,7 @@ public class TributacaoRepo extends DataRepository<Tributacao, Integer> {
             }
 
             query.add("UNION ALL ");
-            query.add("SELECT  ");
+            query.add("SELECT ");
             query.add("  b.cod_tributacao AS cod_tributacao, ");
             query.add("  a.descricao AS des_tributacao, ");
             query.add("  'COFINS' AS ind_tipo_tributo, ");
@@ -184,11 +184,11 @@ public class TributacaoRepo extends DataRepository<Tributacao, Integer> {
         return list;
     }
 
-    public Integer getIcmsNfe(Integer codItem, Integer codEmpresa, String natureza, String uf, String cst, double perAliquota, double perReducaoBc, String verificaClasseIcms) {
+    public Integer getIcmsNfe(Long codItem, Long codEmpresa, String natureza, String uf, String cst, double perAliquota, double perReducaoBc, String verificaClasseIcms) {
         Integer codIcms = null;
         if (Strings.equals(verificaClasseIcms, "S")) {
             codIcms = nativeFindValue(query -> {
-                query.add("SELECT  ");
+                query.add("SELECT ");
                 query.add("  CAST(b.tributacao AS INTEGER) AS cod_tributacao");
                 query.add("FROM produto a ");
                 query.add("INNER JOIN produto_tributacao b ON (b.produto = a.grid) ");
@@ -198,8 +198,8 @@ public class TributacaoRepo extends DataRepository<Tributacao, Integer> {
         } else {
             if (Numbers.isAllNonEmpty(codItem, codEmpresa) && Strings.isAllNonEmpty(natureza, uf)) {
                 codIcms = nativeFindValue(query -> {
-                    query.add("SELECT  ");
-                    query.add("  CAST(b.tributacao AS INTEGER)  AS cod_tributacao ");
+                    query.add("SELECT ");
+                    query.add("  CAST(b.tributacao AS INTEGER) as cod_tributacao ");
                     query.add("FROM produto a ");
                     query.add("INNER JOIN produto_tributacao b ON (b.produto = a.grid) ");
                     query.add("INNER JOIN tributacao c ON (c.codigo = b.tributacao) ");
@@ -213,7 +213,7 @@ public class TributacaoRepo extends DataRepository<Tributacao, Integer> {
 
             if (Numbers.isEmpty(codIcms)) {
                 codIcms = nativeFindValue(query -> {
-                    query.add("SELECT CAST(a.codigo AS INTEGER)  AS cod_tributacao ");
+                    query.add("SELECT CAST(a.codigo AS INTEGER) AS cod_tributacao ");
                     query.add("FROM tributacao a ");
                     query.add("WHERE a.cst = '" + cst + "' ");
                     query.add("AND a.tributacao = " + perAliquota);

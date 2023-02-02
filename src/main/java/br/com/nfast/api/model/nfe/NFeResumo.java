@@ -29,7 +29,7 @@ public class NFeResumo {
     @Column(name = "nom_pessoa_fornecedor")
     private String nomPessoaFornecedor;
     @Column(name = "cod_empresa")
-    private Integer codEmpresa;
+    private Long codEmpresa;
     @Column(name = "nom_fantasia")
     private String nomFantasia;
     @Column(name = "num_chave_nfe")
@@ -115,11 +115,11 @@ public class NFeResumo {
         this.nomPessoaFornecedor = nomPessoaFornecedor;
     }
 
-    public Integer getCodEmpresa() {
+    public Long getCodEmpresa() {
         return codEmpresa;
     }
 
-    public void setCodEmpresa(Integer codEmpresa) {
+    public void setCodEmpresa(Long codEmpresa) {
         this.codEmpresa = codEmpresa;
     }
 

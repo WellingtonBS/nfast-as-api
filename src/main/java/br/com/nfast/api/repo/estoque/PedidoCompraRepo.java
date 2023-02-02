@@ -36,7 +36,7 @@ public class PedidoCompraRepo extends DataRepository<PedidoCompra, Integer> {
         return item;
     }
 
-    public List<PedidoCompra> pedidoCompraList(String cnpjCpfFor, String cnpjEmpresa, Integer codItem, String filtro, Integer limit, Integer offset) {
+    public List<PedidoCompra> pedidoCompraList(String cnpjCpfFor, String cnpjEmpresa, Long codItem, String filtro, Integer limit, Integer offset) {
         List<PedidoCompra> list = nativeFindAll(query -> {
             query.add("SELECT ");
             query.add("  a.seq_pedido, ");

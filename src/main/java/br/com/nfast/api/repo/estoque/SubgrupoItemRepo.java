@@ -1,7 +1,6 @@
 package br.com.nfast.api.repo.estoque;
 
 import br.com.nfast.api.config.jpa.DataRepository;
-import br.com.nfast.api.model.adm.TipoDespesa;
 import br.com.nfast.api.model.estoque.SubgrupoItem;
 import br.com.nfast.api.utils.Numbers;
 import br.com.nfast.api.utils.Strings;
@@ -19,7 +18,7 @@ public class SubgrupoItemRepo extends DataRepository<SubgrupoItem, Integer> {
     public SubgrupoItem subGrupoItem(Long codSubgrupoItem) {
         SubgrupoItem item = nativeFind(query -> {
             query.add("SELECT ");
-            query.add("  a.grid AS cod_subgrupo_item,  ");
+            query.add("  a.grid AS cod_subgrupo_item, ");
             query.add("  normalize(a.nome) AS des_subgrupo_item ");
             query.add("FROM subgrupo_produto a ");
             query.add("WHERE TRUE = 't' ");
@@ -33,7 +32,7 @@ public class SubgrupoItemRepo extends DataRepository<SubgrupoItem, Integer> {
     public List<SubgrupoItem> subgrupoItemList(String filtro, Integer limit, Integer offset) {
         List<SubgrupoItem> list = nativeFindAll(query -> {
             query.add("SELECT ");
-            query.add("  a.grid AS cod_subgrupo_item,  ");
+            query.add("  a.grid AS cod_subgrupo_item, ");
             query.add("  normalize(a.nome) AS des_subgrupo_item ");
             query.add("FROM subgrupo_produto a ");
             query.add("WHERE TRUE = 't' ");

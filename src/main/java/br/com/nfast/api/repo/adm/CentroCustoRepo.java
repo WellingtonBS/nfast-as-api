@@ -15,7 +15,7 @@ public class CentroCustoRepo extends DataRepository<CentroCusto, Integer> {
         super(CentroCusto.class);
     }
 
-    public CentroCusto centroCusto(Integer codCentroCusto) {
+    public CentroCusto centroCusto(Long codCentroCusto) {
         CentroCusto item = nativeFind(query -> {
             query.add("SELECT ");
             query.add("  a.codigo as cod_centro_custo, ");
@@ -31,7 +31,7 @@ public class CentroCustoRepo extends DataRepository<CentroCusto, Integer> {
         return item;
     }
 
-    public List<CentroCusto> centroCustoList(Integer codEmpresa, String filtro, Integer limit, Integer offset) {
+    public List<CentroCusto> centroCustoList(Long codEmpresa, String filtro, Integer limit, Integer offset) {
         List<CentroCusto> list = nativeFindAll(query -> {
             query.add("SELECT ");
             query.add("  a.codigo as cod_centro_custo, ");

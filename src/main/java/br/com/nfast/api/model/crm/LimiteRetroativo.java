@@ -9,7 +9,7 @@ import java.time.LocalDate;
 public class LimiteRetroativo {
     @Id
     @Column(name = "cod_empresa")
-    private Integer codEmpresa;
+    private Long codEmpresa;
     @Column(name = "ind_tipo_limite_retroativo")
     private String indTipoLimiteRetroativo;
     @Column(name = "dta_limite_retroativo")
@@ -17,11 +17,11 @@ public class LimiteRetroativo {
     @Column(name = "qtd_dias_limite_retroacao")
     private Integer qtdDiasLimiteRetroacao = 0;
 
-    public Integer getCodEmpresa() {
+    public Long getCodEmpresa() {
         return codEmpresa;
     }
 
-    public void setCodEmpresa(Integer codEmpresa) {
+    public void setCodEmpresa(Long codEmpresa) {
         this.codEmpresa = codEmpresa;
     }
 

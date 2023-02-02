@@ -2,7 +2,6 @@ package br.com.nfast.api.repo.estoque;
 
 import br.com.nfast.api.config.jpa.DataRepository;
 import br.com.nfast.api.model.estoque.Almoxarifado;
-import br.com.nfast.api.model.estoque.SubgrupoItem;
 import br.com.nfast.api.utils.Numbers;
 import br.com.nfast.api.utils.Strings;
 import org.springframework.stereotype.Repository;
@@ -37,7 +36,7 @@ public class AlmoxarifadoRepo extends DataRepository<Almoxarifado, Integer> {
         return item;
     }
 
-    public List<Almoxarifado> almoxarifadoList (Integer codEmpresa, String indTanque, Long codItemTanque, String filtro, Integer limit, Integer offset) {
+    public List<Almoxarifado> almoxarifadoList(Long codEmpresa, String indTanque, Long codItemTanque, String filtro, Integer limit, Integer offset) {
         List<Almoxarifado> list = nativeFindAll(query -> {
             query.add("SELECT ");
             query.add("  a.codigo AS cod_almoxarifado, ");

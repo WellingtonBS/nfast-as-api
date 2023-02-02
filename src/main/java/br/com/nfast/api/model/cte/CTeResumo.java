@@ -10,7 +10,7 @@ public class CTeResumo {
     @Column(name = "seq_conhecimento")
     private Integer seqConhecimento;
     @Column(name = "cod_empresa")
-    private Integer codEmpresa;
+    private Long codEmpresa;
     @Column(name = "num_chave")
     private String numChave;
     @Column(name = "nom_tabela")
@@ -24,11 +24,11 @@ public class CTeResumo {
         this.seqConhecimento = seqConhecimento;
     }
 
-    public Integer getCodEmpresa() {
+    public Long getCodEmpresa() {
         return codEmpresa;
     }
 
-    public void setCodEmpresa(Integer codEmpresa) {
+    public void setCodEmpresa(Long codEmpresa) {
         this.codEmpresa = codEmpresa;
     }
 

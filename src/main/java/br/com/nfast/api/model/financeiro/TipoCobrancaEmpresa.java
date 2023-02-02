@@ -12,7 +12,7 @@ public class TipoCobrancaEmpresa {
     @Column(name = "cod_tipo_cobranca")
     private Integer codTipoCobranca;
     @Column(name = "cod_empresa")
-    private Integer codEmpresa;
+    private Long codEmpresa;
     @Column(name = "ind_tipo")
     private String indTipo;
 
@@ -24,11 +24,11 @@ public class TipoCobrancaEmpresa {
         this.codTipoCobranca = codTipoCobranca;
     }
 
-    public Integer getCodEmpresa() {
+    public Long getCodEmpresa() {
         return codEmpresa;
     }
 
-    public void setCodEmpresa(Integer codEmpresa) {
+    public void setCodEmpresa(Long codEmpresa) {
         this.codEmpresa = codEmpresa;
     }
 

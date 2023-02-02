@@ -1,23 +1,23 @@
 package br.com.nfast.api.model.estoque;
 
 public class CustoProduto {
-    private Integer codItem;
-    private Integer codEmpresa;
+    private Long codItem;
+    private Long codEmpresa;
     private Double vlrCusto = 0.0;
 
-    public Integer getCodItem() {
+    public Long getCodItem() {
         return codItem;
     }
 
-    public void setCodItem(Integer codItem) {
+    public void setCodItem(Long codItem) {
         this.codItem = codItem;
     }
 
-    public Integer getCodEmpresa() {
+    public Long getCodEmpresa() {
         return codEmpresa;
     }
 
-    public void setCodEmpresa(Integer codEmpresa) {
+    public void setCodEmpresa(Long codEmpresa) {
         this.codEmpresa = codEmpresa;
     }
 

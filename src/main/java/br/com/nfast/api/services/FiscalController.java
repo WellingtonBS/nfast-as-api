@@ -56,13 +56,13 @@ public class FiscalController implements FiscalApi {
     }
 
     @Override
-    public ResponseEntity<TributacaoNfe> tributacaoNfe(String token, String clientId, Integer codItem, Integer codEmpresa, String natureza, String uf) {
+    public ResponseEntity<TributacaoNfe> tributacaoNfe(String token, String clientId, Long codItem, Long codEmpresa, String natureza, String uf) {
         TributacaoNfe item = tributacaoNfeRepo.getTributacaoNfe(codItem, codEmpresa, natureza, uf);
         return new ResponseEntity<>(item, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<String> icmsNfe(String token, String clientId, Integer codItem, Integer codEmpresa, String natureza, String uf, String cst, Double perAliquota, Double perReducaoBc, String verificaClasseIcms) {
+    public ResponseEntity<String> icmsNfe(String token, String clientId, Long codItem, Long codEmpresa, String natureza, String uf, String cst, Double perAliquota, Double perReducaoBc, String verificaClasseIcms) {
         Integer value = tributacaoRepo.getIcmsNfe(codItem, codEmpresa, natureza, uf, cst, perAliquota, perReducaoBc, verificaClasseIcms);
         return new ResponseEntity<>(Numbers.isEmpty(value) ? "0" : value.toString(), HttpStatus.OK);
     }
@@ -74,7 +74,7 @@ public class FiscalController implements FiscalApi {
     }
 
     @Override
-    public ResponseEntity<List<ModeloDocumento>> modeloDocumentoList(String token, String clientId, Integer codEmpresa, String codModeloDocAnexo7, String indEntrada, String indSaida, String filtro, Integer limit, Integer offset) {
+    public ResponseEntity<List<ModeloDocumento>> modeloDocumentoList(String token, String clientId, Long codEmpresa, String codModeloDocAnexo7, String indEntrada, String indSaida, String filtro, Integer limit, Integer offset) {
         List<ModeloDocumento> list = modeloDocumentoRepo.findAll(query -> {
             query.add("SELECT a FROM ModeloDocumento a ");
             query.add("WHERE a.indAtivo = 'S' ");
@@ -148,7 +148,7 @@ public class FiscalController implements FiscalApi {
     }
 
     @Override
-    public ResponseEntity<NcmSt> ncmSt(String token, String clientId, Integer codItem, String uf, LocalDate data) {
+    public ResponseEntity<NcmSt> ncmSt(String token, String clientId, Long codItem, String uf, LocalDate data) {
         NcmSt item = ncmStRepo.ncmSt(codItem, uf, data);
         return new ResponseEntity<>(item, HttpStatus.OK);
     }

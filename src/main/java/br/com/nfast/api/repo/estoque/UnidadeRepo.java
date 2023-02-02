@@ -17,7 +17,7 @@ public class UnidadeRepo extends DataRepository<Unidade, Integer> {
 
     public Unidade unidade(Integer codUnidade) {
         Unidade item = nativeFind(query -> {
-            query.add("SELECT  ");
+            query.add("SELECT ");
             query.add("  b.cod_unidade AS cod_unidade, ");
             query.add("  a.descricao AS des_unidade, ");
             query.add("  a.codigo AS sgl_unidade, ");
@@ -32,7 +32,7 @@ public class UnidadeRepo extends DataRepository<Unidade, Integer> {
 
     public List<Unidade> unidadeList(String sglUnidade, String filtro, Integer limit, Integer offset) {
         List<Unidade> list = nativeFindAll(query -> {
-            query.add("SELECT  ");
+            query.add("SELECT ");
             query.add("  b.cod_unidade AS cod_unidade, ");
             query.add("  a.descricao AS des_unidade, ");
             query.add("  a.codigo AS sgl_unidade, ");
@@ -60,7 +60,7 @@ public class UnidadeRepo extends DataRepository<Unidade, Integer> {
         return list;
     }
 
-    public Integer getUnidadeNfe(String sglUnidade, Integer codItem, String codItemFornecedor, Integer codFornecedor) {
+    public Integer getUnidadeNfe(String sglUnidade, Long codItem, String codItemFornecedor, Integer codFornecedor) {
         Integer codUnidade = null;
 
 
@@ -69,8 +69,8 @@ public class UnidadeRepo extends DataRepository<Unidade, Integer> {
                 query.add("SELECT c.cod_unidade AS cod_unidade_agrupamento ");
                 query.add("FROM produto a ");
                 query.add("INNER JOIN produto_fornec b ON (b.produto = a.grid) ");
-                query.add("INNER JOIN nfast_unidade c ON (c.sgl_unidade = b.unid_med)  ");
-                query.add("INNER JOIN pessoa d on (d.grid = b.fornecedor)   ");
+                query.add("INNER JOIN nfast_unidade c ON (c.sgl_unidade = b.unid_med) ");
+                query.add("INNER JOIN pessoa d on (d.grid = b.fornecedor) ");
                 query.add("WHERE d.codigo = " + codFornecedor + " ");
                 query.add("AND b.codigo = '" + codItemFornecedor + "' ");
                 query.add("LIMIT 1 ");

@@ -1,33 +1,32 @@
 package br.com.nfast.api.repo.estoque;
 
 import br.com.nfast.api.config.jpa.DataRepository;
-import br.com.nfast.api.model.estoque.Almoxarifado;
 import br.com.nfast.api.model.estoque.PrecoProduto;
 import br.com.nfast.api.model.estoque.Produto;
-import br.com.nfast.api.utils.*;
+import br.com.nfast.api.utils.Dates;
+import br.com.nfast.api.utils.Numbers;
+import br.com.nfast.api.utils.StringList;
+import br.com.nfast.api.utils.Strings;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
-import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-public class ProdutoRepo extends DataRepository<Produto, Integer> {
+public class ProdutoRepo extends DataRepository<Produto, Long> {
 
     public ProdutoRepo() {
         super(Produto.class);
     }
 
-    public Produto produto(Integer codProduto) {
-
+    public Produto produto(Long codItem) {
         Produto item = nativeFind(query -> {
             query.add("SELECT ");
             query.add("  a.codigo AS cod_item, ");
             query.add("  a.nome AS des_item ");
             query.add("FROM produto a ");
-            query.add("WHERE TRUE = 't' ");
-            query.set("codProduto", codProduto);
+            query.add("WHERE a.codigo = " + codItem);
         }, Produto.class);
         return item;
     }
@@ -57,12 +56,12 @@ public class ProdutoRepo extends DataRepository<Produto, Integer> {
         return list;
     }
 
-    public Double getSaldoEstoque(Integer codEmpresa, Integer codItem, Integer codAlmoxarifado, LocalDate data) {
+    public Double getSaldoEstoque(Long codEmpresa, Long codItem, Long codAlmoxarifado, LocalDate data) {
         Double qtdSaldo = nativeFindValue("SELECT sp_obtem_saldo_item_qtde(" + codEmpresa + ", " + codItem + ", " + codAlmoxarifado + ", '" + Dates.format(data, "yyyy-MM-dd") + "', 'N') ");
         return qtdSaldo;
     }
 
-    public Double getCustoProduto(Integer codEmpresa, Integer codItem, String tipo) {
+    public Double getCustoProduto(Long codEmpresa, Long codItem, String tipo) {
         Double vlrCusto = 0.0;
         switch (tipo) {
             case "1": { //Custo Médio Geral
@@ -103,7 +102,7 @@ public class ProdutoRepo extends DataRepository<Produto, Integer> {
                     query.add("FROM nota_fiscal_produto a ");
                     query.add("INNER JOIN nota_fiscal b ON(b.grid = a.nota_fiscal) ");
                     query.add("INNER JOIN produto c ON(c.grid = a.produto) ");
-                    query.add("INNER JOIN empresa d ON(d.grid = b.empresa)  ");
+                    query.add("INNER JOIN empresa d ON(d.grid = b.empresa) ");
                     query.add("WHERE c.codigo = '" + codItem + "' ");
                     query.add("AND d.codigo = " + codEmpresa + " ");
                     query.add("AND a.cfop not in ('1201','1202','1203','1204','1208','1209','1410','1411','2201','2202','2203','2204','2208','2209','2410','2411','5201','5202','5203'," +
@@ -120,7 +119,7 @@ public class ProdutoRepo extends DataRepository<Produto, Integer> {
         return vlrCusto;
     }
 
-    public PrecoProduto getPrecoProduto(Integer codEmpresa, Integer codItem) {
+    public PrecoProduto getPrecoProduto(Long codEmpresa, Long codItem) {
         PrecoProduto precoProduto = nativeFind(query -> {
             query.add("SELECT ");
             query.add("  (b.codigo||'-'||c.codigo) as id, ");
@@ -140,7 +139,7 @@ public class ProdutoRepo extends DataRepository<Produto, Integer> {
         return precoProduto;
     }
 
-    public void vinculaProdutoFor(Integer codItem, Integer codFornecedor, String codItemFornecedor, Integer codUnidadeAgrup, Double qtdUnidadeAgrup) {
+    public void vinculaProdutoFor(Long codItem, Integer codFornecedor, String codItemFornecedor, Integer codUnidadeAgrup, Double qtdUnidadeAgrup) {
         executeNative(q -> {
             if (Numbers.isEmpty(codUnidadeAgrup)) {
                 q.add("INSERT INTO tab_item_fornecedor(cod_item, cod_pessoa_fornecedor, cod_item_fornecedor, qtd_unidade_agrupamento) ");
@@ -175,21 +174,21 @@ public class ProdutoRepo extends DataRepository<Produto, Integer> {
         });
     }
 
-    public void vinculaProdutoEan(Integer codItem, String codBarra, Integer codEmpresa) {
+    public void vinculaProdutoEan(Long codItem, String codBarra, Long codEmpresa) {
 
         StringList sql = new StringList();
 
         sql.clear();
-        sql.add("INSERT INTO produto_codigo_barra (produto, codigo_barra)  ");
-        sql.add("  SELECT a.grid AS produto,  ");
-        sql.add("        '" + codBarra + "' AS codigo_barra  ");
-        sql.add("  FROM produto a  ");
-        sql.add("  WHERE a.codigo = '" + codItem + "'" );
+        sql.add("INSERT INTO produto_codigo_barra (produto, codigo_barra) ");
+        sql.add("  SELECT a.grid AS produto, ");
+        sql.add("        '" + codBarra + "' AS codigo_barra ");
+        sql.add("  FROM produto a ");
+        sql.add("  WHERE a.codigo = '" + codItem + "'");
         sql.add("  AND a.codigo_barra <> '" + codBarra + "'");
-        sql.add("  AND NOT EXISTS(  ");
-        sql.add("        SELECT 1  ");
-        sql.add("        FROM produto_codigo_barra x  ");
-        sql.add("        WHERE x.codigo_barra = '" + codBarra + "'" );
+        sql.add("  AND NOT EXISTS( ");
+        sql.add("        SELECT 1 ");
+        sql.add("        FROM produto_codigo_barra x ");
+        sql.add("        WHERE x.codigo_barra = '" + codBarra + "'");
 
         Query q = em.createNativeQuery(sql.toString());
 

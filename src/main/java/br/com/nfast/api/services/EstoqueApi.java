@@ -23,7 +23,7 @@ public interface EstoqueApi {
     ResponseEntity<Produto> produto(
             @ApiParam(value = "Access Token", required = true) @RequestHeader("token") String token,
             @ApiParam(value = "Client ID", required = true) @RequestHeader("clientId") String clientId,
-            @ApiParam(value = "Código", required = true) @RequestParam("codItem") Integer codItem
+            @ApiParam(value = "Código", required = true) @RequestParam("codItem") Long codItem
     );
 
     @ApiOperation(value = "Produtos", response = Produto.class, responseContainer = "List")
@@ -81,7 +81,7 @@ public interface EstoqueApi {
     ResponseEntity<List<Almoxarifado>> almoxarifadoList(
             @ApiParam(value = "Access Token", required = true) @RequestHeader("token") String token,
             @ApiParam(value = "Client ID", required = true) @RequestHeader("clientId") String clientId,
-            @ApiParam(value = "Empresa", required = true) @RequestParam("codEmpresa") Integer codEmpresa,
+            @ApiParam(value = "Empresa", required = true) @RequestParam("codEmpresa") Long codEmpresa,
             @ApiParam(value = "Tanque", required = true) @RequestParam("indTanque") String indTanque,
             @ApiParam(value = "Combustivel", required = true) @RequestParam("codItemTanque") Long codItemTanque,
             @ApiParam(value = "Filtro") @RequestParam(value = "filtro", required = false) String filtro,
@@ -116,8 +116,8 @@ public interface EstoqueApi {
     ResponseEntity<ProdutoNfe> produtoNfe(
             @ApiParam(value = "Access Token", required = true) @RequestHeader("token") String token,
             @ApiParam(value = "Client ID", required = true) @RequestHeader("clientId") String clientId,
-            @ApiParam(value = "Produto", required = true) @RequestParam("codItem") Integer codItem,
-            @ApiParam(value = "Empresa", required = true) @RequestParam("codEmpresa") Integer codEmpresa
+            @ApiParam(value = "Produto", required = true) @RequestParam("codItem") Long codItem,
+            @ApiParam(value = "Empresa", required = true) @RequestParam("codEmpresa") Long codEmpresa
     );
 
     @ApiOperation(value = "Produtos NF-e", response = ProdutoNfe.class, responseContainer = "List")
@@ -126,7 +126,7 @@ public interface EstoqueApi {
     ResponseEntity<List<ProdutoNfe>> produtoNfeList(
             @ApiParam(value = "Access Token", required = true) @RequestHeader("token") String token,
             @ApiParam(value = "Client ID", required = true) @RequestHeader("clientId") String clientId,
-            @ApiParam(value = "Empresa", required = true) @RequestParam("codEmpresa") Integer codEmpresa,
+            @ApiParam(value = "Empresa", required = true) @RequestParam("codEmpresa") Long codEmpresa,
             @ApiParam(value = "Filtro") @RequestParam(value = "filtro", required = false) String filtro,
             @ApiParam(value = "Limit", defaultValue = "50") @RequestParam(value = "limit", required = false) Integer limit,
             @ApiParam(value = "Offset") @RequestParam(value = "offset", required = false) Integer offset
@@ -142,7 +142,7 @@ public interface EstoqueApi {
             @ApiParam(value = "cEAN") @RequestParam(value = "cean", required = false) String cean,
             @ApiParam(value = "cEANTrib") @RequestParam(value = "ceanTrib", required = false) String ceanTrib,
             @ApiParam(value = "Fornecedor") @RequestParam(value = "codFornecedor", required = false) Integer codFornecedor,
-            @ApiParam(value = "Empresa", required = true) @RequestParam("codEmpresa") Integer codEmpresa
+            @ApiParam(value = "Empresa", required = true) @RequestParam("codEmpresa") Long codEmpresa
     );
 
     @ApiOperation(value = "Produto x Fornecedor", response = ProdutoFor.class)
@@ -151,7 +151,7 @@ public interface EstoqueApi {
     ResponseEntity<ProdutoFor> produtoFor(
             @ApiParam(value = "Access Token", required = true) @RequestHeader("token") String token,
             @ApiParam(value = "Client ID", required = true) @RequestHeader("clientId") String clientId,
-            @ApiParam(value = "Produto", required = true) @RequestParam("codItem") Integer codItem,
+            @ApiParam(value = "Produto", required = true) @RequestParam("codItem") Long codItem,
             @ApiParam(value = "Fornecedor", required = true) @RequestParam("codFornecedor") Integer codFornecedor,
             @ApiParam(value = "Código Item Fornecedor", required = true) @RequestParam("codItemFornecedor") String codItemFornecedor
     );
@@ -163,7 +163,7 @@ public interface EstoqueApi {
             @ApiParam(value = "Access Token", required = true) @RequestHeader("token") String token,
             @ApiParam(value = "Client ID", required = true) @RequestHeader("clientId") String clientId,
             @ApiParam(value = "Sigla da Unidade") @RequestParam(value = "sglUnidade", required = false) String sglUnidade,
-            @ApiParam(value = "Produto") @RequestParam(value = "codItem", required = false) Integer codItem,
+            @ApiParam(value = "Produto") @RequestParam(value = "codItem", required = false) Long codItem,
             @ApiParam(value = "Código Item Fornecedor") @RequestParam(value = "codItemFornecedor", required = false) String codItemFornecedor,
             @ApiParam(value = "Fornecedor") @RequestParam(value = "codFornecedor", required = false) Integer codFornecedor
     );
@@ -174,9 +174,9 @@ public interface EstoqueApi {
     ResponseEntity<SaldoEstoque> saldoEstoque(
             @ApiParam(value = "Access Token", required = true) @RequestHeader("token") String token,
             @ApiParam(value = "Client ID", required = true) @RequestHeader("clientId") String clientId,
-            @ApiParam(value = "Empresa", required = true) @RequestParam("codEmpresa") Integer codEmpresa,
-            @ApiParam(value = "Produto", required = true) @RequestParam("codItem") Integer codItem,
-            @ApiParam(value = "Almoxarifado", required = true) @RequestParam("codAlmoxarifado") Integer codAlmoxarifado,
+            @ApiParam(value = "Empresa", required = true) @RequestParam("codEmpresa") Long codEmpresa,
+            @ApiParam(value = "Produto", required = true) @RequestParam("codItem") Long codItem,
+            @ApiParam(value = "Almoxarifado", required = true) @RequestParam("codAlmoxarifado") Long codAlmoxarifado,
             @ApiParam(value = "Data", required = true) @RequestParam("data") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate data
     );
 
@@ -186,8 +186,8 @@ public interface EstoqueApi {
     ResponseEntity<CustoProduto> custoProduto(
             @ApiParam(value = "Access Token", required = true) @RequestHeader("token") String token,
             @ApiParam(value = "Client ID", required = true) @RequestHeader("clientId") String clientId,
-            @ApiParam(value = "Empresa", required = true) @RequestParam("codEmpresa") Integer codEmpresa,
-            @ApiParam(value = "Produto", required = true) @RequestParam("codItem") Integer codItem,
+            @ApiParam(value = "Empresa", required = true) @RequestParam("codEmpresa") Long codEmpresa,
+            @ApiParam(value = "Produto", required = true) @RequestParam("codItem") Long codItem,
             @ApiParam(value = "Tipo", required = true) @RequestParam("tipo") String tipo
     );
 
@@ -197,8 +197,8 @@ public interface EstoqueApi {
     ResponseEntity<PrecoProduto> precoProduto(
             @ApiParam(value = "Access Token", required = true) @RequestHeader("token") String token,
             @ApiParam(value = "Client ID", required = true) @RequestHeader("clientId") String clientId,
-            @ApiParam(value = "Empresa", required = true) @RequestParam("codEmpresa") Integer codEmpresa,
-            @ApiParam(value = "Produto", required = true) @RequestParam("codItem") Integer codItem
+            @ApiParam(value = "Empresa", required = true) @RequestParam("codEmpresa") Long codEmpresa,
+            @ApiParam(value = "Produto", required = true) @RequestParam("codItem") Long codItem
     );
 
     @ApiOperation(value = "Vincula Produto Fornecedor", response = ApiSuccess.class)
@@ -207,7 +207,7 @@ public interface EstoqueApi {
     ResponseEntity<ApiSuccess> vinculaProdutoFor(
             @ApiParam(value = "Access Token", required = true) @RequestHeader("token") String token,
             @ApiParam(value = "Client ID", required = true) @RequestHeader("clientId") String clientId,
-            @ApiParam(value = "Produto") @RequestParam(value = "codItem", required = false) Integer codItem,
+            @ApiParam(value = "Produto") @RequestParam(value = "codItem", required = false) Long codItem,
             @ApiParam(value = "Fornecedor") @RequestParam(value = "codFornecedor", required = false) Integer codFornecedor,
             @ApiParam(value = "Código Item Fornecedor") @RequestParam(value = "codItemFornecedor", required = false) String codItemFornecedor,
             @ApiParam(value = "Unidade Agrupamento") @RequestParam(value = "codUnidadeAgrup", required = false) Integer codUnidadeAgrup,
@@ -220,9 +220,9 @@ public interface EstoqueApi {
     ResponseEntity<ApiSuccess> vinculaProdutoEan(
             @ApiParam(value = "Access Token", required = true) @RequestHeader("token") String token,
             @ApiParam(value = "Client ID", required = true) @RequestHeader("clientId") String clientId,
-            @ApiParam(value = "Produto", required = true) @RequestParam(value = "codItem") Integer codItem,
+            @ApiParam(value = "Produto", required = true) @RequestParam(value = "codItem") Long codItem,
             @ApiParam(value = "Código de Barras", required = true) @RequestParam(value = "codBarra") String codBarra,
-            @ApiParam(value = "Empresa", required = true) @RequestParam(value = "codEmpresa") Integer codEmpresa
+            @ApiParam(value = "Empresa", required = true) @RequestParam(value = "codEmpresa") Long codEmpresa
     );
 
     @ApiOperation(value = "Pedido de Compra", response = PedidoCompra.class)
@@ -242,7 +242,7 @@ public interface EstoqueApi {
             @ApiParam(value = "Client ID", required = true) @RequestHeader("clientId") String clientId,
             @ApiParam(value = "CNPJ/CPF Fornecedor", required = true) @RequestParam("cnpjCpfFor") String cnpjCpfFor,
             @ApiParam(value = "CNPJ Empresa", required = true) @RequestParam("cnpjEmpresa") String cnpjEmpresa,
-            @ApiParam(value = "Produto") @RequestParam(value = "codItem", required = false) Integer codItem,
+            @ApiParam(value = "Produto") @RequestParam(value = "codItem", required = false) Long codItem,
             @ApiParam(value = "Filtro") @RequestParam(value = "filtro", required = false) String filtro,
             @ApiParam(value = "Limit", defaultValue = "50") @RequestParam(value = "limit", required = false) Integer limit,
             @ApiParam(value = "Offset") @RequestParam(value = "offset", required = false) Integer offset
@@ -266,7 +266,7 @@ public interface EstoqueApi {
             @ApiParam(value = "Client ID", required = true) @RequestHeader("clientId") String clientId,
             @ApiParam(value = "CNPJ/CPF Fornecedor", required = true) @RequestParam("cnpjCpfFor") String cnpjCpfFor,
             @ApiParam(value = "CNPJ Empresa", required = true) @RequestParam("cnpjEmpresa") String cnpjEmpresa,
-            @ApiParam(value = "Produto", required = true) @RequestParam(value = "codItem") Integer codItem,
+            @ApiParam(value = "Produto", required = true) @RequestParam(value = "codItem") Long codItem,
             @ApiParam(value = "Quantidade", required = true) @RequestParam(value = "qtdTotal") Double qtdTotal,
             @ApiParam(value = "Verifica Qtde do Pedido", defaultValue = "S", required = true) @RequestParam(value = "verificaQtdPedido") String verificaQtdPedido,
             @ApiParam(value = "Permite Qtde Menor que a do Pedido", defaultValue = "N", required = true) @RequestParam(value = "permiteQtdMenorPedido") String permiteQtdMenorPedido
@@ -280,7 +280,7 @@ public interface EstoqueApi {
             @ApiParam(value = "Client ID", required = true) @RequestHeader("clientId") String clientId,
             @ApiParam(value = "CNPJ/CPF Fornecedor", required = true) @RequestParam("cnpjCpfFor") String cnpjCpfFor,
             @ApiParam(value = "CNPJ Empresa", required = true) @RequestParam("cnpjEmpresa") String cnpjEmpresa,
-            @ApiParam(value = "Produto", required = true) @RequestParam(value = "codItem") Integer codItem,
+            @ApiParam(value = "Produto", required = true) @RequestParam(value = "codItem") Long codItem,
             @ApiParam(value = "Somente Autorizados", defaultValue = "S", required = true) @RequestParam(value = "somenteAutorizado") String somenteAutorizado,
             @ApiParam(value = "Filtro") @RequestParam(value = "filtro", required = false) String filtro,
             @ApiParam(value = "Limit", defaultValue = "50") @RequestParam(value = "limit", required = false) Integer limit,

@@ -82,7 +82,7 @@ public class PessoaRepo extends DataRepository<Pessoa, Integer> {
             query.add("  CASE WHEN a.bloqueado = 'f' THEN 'N' ELSE 'S' END AS ind_bloqueado, ");
             query.add("  CASE WHEN a.flag = 'A' THEN 'S' ELSE 'N' END ind_pessoa_ativa ");
             query.add("FROM pessoa a ");
-            query.add("WHERE a.flag = 'A'  ");
+            query.add("WHERE a.flag = 'A' ");
             if (Strings.isNonEmpty(cnpjCpf)) {
                 query.add("AND only_numbers(a.cpf) = :cnpjCpf ");
                 query.set("cnpjCpf", cnpjCpf);

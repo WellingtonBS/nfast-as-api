@@ -1,6 +1,5 @@
 package br.com.nfast.api.model.nfe;
 
-import br.com.nfast.api.utils.Numbers;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Where;
@@ -17,7 +16,7 @@ public class NFe {
     @Column(name = "seq_nota")
     private Long seqNota;
     @Column(name = "cod_empresa")
-    private Integer codEmpresa;
+    private Long codEmpresa;
     @Column(name = "cod_modelo_documento")
     private Integer codModeloDocumento;
     @Column(name = "cod_natureza_operacao")
@@ -307,11 +306,11 @@ public class NFe {
         this.seqNota = seqNota;
     }
 
-    public Integer getCodEmpresa() {
+    public Long getCodEmpresa() {
         return codEmpresa;
     }
 
-    public void setCodEmpresa(Integer codEmpresa) {
+    public void setCodEmpresa(Long codEmpresa) {
         this.codEmpresa = codEmpresa;
     }
 
@@ -1370,17 +1369,5 @@ public class NFe {
     public void setAjustes(List<AjusteDocFiscal> ajustes) {
         this.ajustes = ajustes;
     }
-
-    public ItemNFe getItem(Integer codigo) {
-        if ((itens == null) || (itens.size() == 0))
-            return null;
-        for (ItemNFe item: itens) {
-            if (Numbers.equals(item.getCodItem(), codigo)) {
-                return item;
-            }
-        }
-        return null;
-    }
-
 
 }

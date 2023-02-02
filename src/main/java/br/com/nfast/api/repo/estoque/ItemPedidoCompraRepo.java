@@ -55,7 +55,7 @@ public class ItemPedidoCompraRepo extends DataRepository<ItemPedidoCompra, ItemP
         return item;
     }
 
-    public ItemPedidoCompra itemPedidoCompraNfe(String cnpjCpfFor, String cnpjEmpresa, Integer codItem, Double qtdTotal, String verificaQtdPedido, String permiteQtdMenorPedido) {
+    public ItemPedidoCompra itemPedidoCompraNfe(String cnpjCpfFor, String cnpjEmpresa, Long codItem, Double qtdTotal, String verificaQtdPedido, String permiteQtdMenorPedido) {
         ItemPedidoCompra item = nativeFind(query -> {
             query.add("SELECT ");
             query.add("  a.seq_pedido, ");
@@ -120,7 +120,7 @@ public class ItemPedidoCompraRepo extends DataRepository<ItemPedidoCompra, ItemP
         return item;
     }
 
-    public List<ItemPedidoCompra> itemPedidoCompraList(String cnpjCpfFor, String cnpjEmpresa, Integer codItem, String somenteAutorizado, String filtro, Integer limit, Integer offset) {
+    public List<ItemPedidoCompra> itemPedidoCompraList(String cnpjCpfFor, String cnpjEmpresa, Long codItem, String somenteAutorizado, String filtro, Integer limit, Integer offset) {
         List<ItemPedidoCompra> list = nativeFindAll(query -> {
             query.add("SELECT ");
             query.add("  a.seq_pedido, ");
