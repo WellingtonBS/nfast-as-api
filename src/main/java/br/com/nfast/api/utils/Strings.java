@@ -493,7 +493,7 @@ public class Strings {
         return text.replaceAll("\\s", "");
     }
 
-    public static String normalize(String text) {
+    public static String normali(String text) {
         if (text == null)
             return null;
 

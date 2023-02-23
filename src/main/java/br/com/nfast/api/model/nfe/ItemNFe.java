@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "tab_item_nfe")
 public class ItemNFe {
     @EmbeddedId
     @JsonIgnore

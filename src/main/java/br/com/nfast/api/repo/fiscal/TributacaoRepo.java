@@ -19,7 +19,7 @@ public class TributacaoRepo extends DataRepository<Tributacao, Integer> {
         Tributacao item = nativeFind(query -> {
             query.add("SELECT ");
             query.add("  b.cod_tributacao AS cod_tributacao, ");
-            query.add("  a.descricao AS des_tributacao, ");
+            query.add("  normali(a.descricao) AS des_tributacao, ");
             query.add("  'ICMS' AS ind_tipo_tributo, ");
             query.add("  CASE WHEN a.cst_tributacao IN ('60') THEN 'O' ");
             query.add("       WHEN a.cst_tributacao IN ('40','41') THEN 'I' ");
@@ -36,11 +36,12 @@ public class TributacaoRepo extends DataRepository<Tributacao, Integer> {
             query.add("FROM tributacao a ");
             query.add("INNER JOIN nfast_tributacao b ON (a.codigo = b.codigo) ");
             query.add("WHERE TRUE ");
+            query.add("AND b.tipo = 'ICMS'  ");
             query.add("AND b.cod_tributacao = " + codTributacao);
             query.add("UNION ALL ");
             query.add("SELECT ");
             query.add("  b.cod_tributacao AS cod_tributacao, ");
-            query.add("  a.descricao AS des_tributacao, ");
+            query.add("  normali(a.descricao) AS des_tributacao, ");
             query.add("  'PIS' AS ind_tipo_tributo, ");
             query.add("  'T' ind_coluna_tributo, ");
             query.add("  'E' AS ind_entrada_saida, ");
@@ -54,11 +55,12 @@ public class TributacaoRepo extends DataRepository<Tributacao, Integer> {
             query.add("FROM cst_pis a ");
             query.add("INNER JOIN nfast_tributacao b ON (a.codigo = b.codigo) ");
             query.add("WHERE a.tipo IN ('E', 'ES') ");
+            query.add("AND b.tipo = 'PIS'  ");
             query.add("AND b.cod_tributacao = " + codTributacao);
             query.add("UNION ALL ");
             query.add("SELECT ");
             query.add("  b.cod_tributacao AS cod_tributacao, ");
-            query.add("  a.descricao AS des_tributacao, ");
+            query.add("  normali(a.descricao) AS des_tributacao, ");
             query.add("  'COFINS' AS ind_tipo_tributo, ");
             query.add("  'T' ind_coluna_tributo, ");
             query.add("  'E' AS ind_entrada_saida, ");
@@ -72,6 +74,26 @@ public class TributacaoRepo extends DataRepository<Tributacao, Integer> {
             query.add("FROM cst_cofins a ");
             query.add("INNER JOIN nfast_tributacao b ON (a.codigo = b.codigo) ");
             query.add("WHERE a.tipo IN ('E', 'ES') ");
+            query.add("AND b.tipo = 'COFINS'  ");
+            query.add("AND b.cod_tributacao = " + codTributacao);
+            query.add("UNION ALL ");
+            query.add("SELECT ");
+            query.add("b.cod_tributacao AS cod_tributacao, ");
+            query.add("        normali(a.descricao) AS des_tributacao, ");
+            query.add("'IPI' AS ind_tipo_tributo, ");
+            query.add("'T' ind_coluna_tributo, ");
+            query.add("        'E' AS ind_entrada_saida, ");
+            query.add("a.codigo AS cod_situacao_tributaria, ");
+            query.add("        '' AS cod_csosn, ");
+            query.add("0 AS per_aliquota, ");
+            query.add("0 AS per_reducao_base, ");
+            query.add("'N' ind_substituicao_tributaria, ");
+            query.add("        'N' AS ind_ipi_integra_base, ");
+            query.add("'S' AS ind_inativa ");
+            query.add("FROM cst_ipi a ");
+            query.add("INNER JOIN nfast_tributacao b ON (a.codigo = b.codigo) ");
+            query.add("WHERE a.tipo IN ('E', 'ES') ");
+            query.add("AND b.tipo = 'IPI'  ");
             query.add("AND b.cod_tributacao = " + codTributacao);
 
 
@@ -85,7 +107,7 @@ public class TributacaoRepo extends DataRepository<Tributacao, Integer> {
         List<Tributacao> list = nativeFindAll(query -> {
             query.add("SELECT ");
             query.add("  b.cod_tributacao AS cod_tributacao, ");
-            query.add("  a.descricao AS des_tributacao, ");
+            query.add("  normali(a.descricao) AS des_tributacao, ");
             query.add("  'ICMS' AS ind_tipo_tributo, ");
             query.add("  CASE WHEN a.cst_tributacao IN ('60') THEN 'O' ");
             query.add("       WHEN a.cst_tributacao IN ('40','41') THEN 'I' ");
@@ -102,6 +124,7 @@ public class TributacaoRepo extends DataRepository<Tributacao, Integer> {
             query.add("FROM tributacao a ");
             query.add("INNER JOIN nfast_tributacao b ON (a.codigo = b.codigo) ");
             query.add("WHERE TRUE ");
+            query.add("AND b.tipo = 'ICMS'  ");
             /*if (Strings.isNonEmpty(indEntradaSaida)) {
                 if (Strings.equals(indEntradaSaida, "E+"))
                     query.add("AND COALESCE(a.indEntradaSaida, '') <> 'S' ");
@@ -110,19 +133,19 @@ public class TributacaoRepo extends DataRepository<Tributacao, Integer> {
                 else query.add("AND a.indEntradaSaida = '" + indEntradaSaida + "' ");
             }*/
             if (Strings.isNonEmpty(indTipoTributo))
-                query.add("AND 'ICMS' = '" + indTipoTributo + "' ");
+                query.add("AND '" + indTipoTributo + "' in ('ICMS','P') ");
             if (Strings.isNonEmpty(filtro)) {
                 query.add("AND ( ");
                 query.add("  (CONCAT(b.cod_tributacao, '') LIKE :filtro) OR ");
                 query.add("  (LOWER(a.cst) LIKE :filtro) OR ");
-                query.add("  (LOWER(a.descricao) LIKE :filtro) ");
+                query.add("  (LOWER(normali(a.descricao)) LIKE :filtro) ");
                 query.add(") ");
                 query.set("filtro", "%" + filtro.toLowerCase() + "%");
             }
             query.add("UNION ALL ");
             query.add("SELECT ");
             query.add("  b.cod_tributacao AS cod_tributacao, ");
-            query.add("  a.descricao AS des_tributacao, ");
+            query.add("  normali(a.descricao) AS des_tributacao, ");
             query.add("  'PIS' AS ind_tipo_tributo, ");
             query.add("  'T' ind_coluna_tributo, ");
             query.add("  '" + indEntradaSaida + "' AS ind_entrada_saida, ");
@@ -136,13 +159,14 @@ public class TributacaoRepo extends DataRepository<Tributacao, Integer> {
             query.add("FROM cst_pis a ");
             query.add("INNER JOIN nfast_tributacao b ON (a.codigo = b.codigo) ");
             query.add("WHERE a.tipo IN ('E', 'ES') ");
+            query.add("AND b.tipo = 'PIS'  ");
             if (Strings.isNonEmpty(indTipoTributo))
                 query.add("AND 'PIS' = '" + indTipoTributo + "' ");
             if (Strings.isNonEmpty(filtro)) {
                 query.add("AND ( ");
                 query.add("  (CONCAT(b.cod_tributacao, '') LIKE :filtro) OR ");
                 query.add("  (LOWER(a.codigo) LIKE :filtro) OR ");
-                query.add("  (LOWER(a.descricao) LIKE :filtro) ");
+                query.add("  (LOWER(normali(a.descricao)) LIKE :filtro) ");
                 query.add(") ");
                 query.set("filtro", "%" + filtro.toLowerCase() + "%");
             }
@@ -150,7 +174,7 @@ public class TributacaoRepo extends DataRepository<Tributacao, Integer> {
             query.add("UNION ALL ");
             query.add("SELECT ");
             query.add("  b.cod_tributacao AS cod_tributacao, ");
-            query.add("  a.descricao AS des_tributacao, ");
+            query.add("  normali(a.descricao) AS des_tributacao, ");
             query.add("  'COFINS' AS ind_tipo_tributo, ");
             query.add("  'T' ind_coluna_tributo, ");
             query.add("  '" + indEntradaSaida + "' AS ind_entrada_saida, ");
@@ -164,13 +188,43 @@ public class TributacaoRepo extends DataRepository<Tributacao, Integer> {
             query.add("FROM cst_cofins a ");
             query.add("INNER JOIN nfast_tributacao b ON (a.codigo = b.codigo) ");
             query.add("WHERE a.tipo IN ('E', 'ES') ");
+            query.add("AND b.tipo = 'COFINS'  ");
             if (Strings.isNonEmpty(indTipoTributo))
                 query.add("AND 'COFINS' = '" + indTipoTributo + "' ");
             if (Strings.isNonEmpty(filtro)) {
                 query.add("AND ( ");
                 query.add("  (CONCAT(b.cod_tributacao, '') LIKE :filtro) OR ");
                 query.add("  (LOWER(a.codigo) LIKE :filtro) OR ");
-                query.add("  (LOWER(a.descricao) LIKE :filtro) ");
+                query.add("  (LOWER(normali(a.descricao)) LIKE :filtro) ");
+                query.add(") ");
+                query.set("filtro", "%" + filtro.toLowerCase() + "%");
+            }
+
+            query.add("UNION ALL ");
+            query.add("SELECT ");
+            query.add("  b.cod_tributacao AS cod_tributacao, ");
+            query.add("  normali(a.descricao) AS des_tributacao, ");
+            query.add("  'COFINS' AS ind_tipo_tributo, ");
+            query.add("  'T' ind_coluna_tributo, ");
+            query.add("  '" + indEntradaSaida + "' AS ind_entrada_saida, ");
+            query.add("  a.codigo AS cod_situacao_tributaria, ");
+            query.add("  '' AS cod_csosn, ");
+            query.add("  0 AS per_aliquota, ");
+            query.add("  0 AS per_reducao_base, ");
+            query.add("  'N' ind_substituicao_tributaria, ");
+            query.add("  'N' AS ind_ipi_integra_base, ");
+            query.add("  'S' AS ind_inativa ");
+            query.add("FROM cst_ipi a ");
+            query.add("INNER JOIN nfast_tributacao b ON (a.codigo = b.codigo) ");
+            query.add("WHERE a.tipo IN ('E', 'ES') ");
+            query.add("AND b.tipo = 'IPI'  ");
+            if (Strings.isNonEmpty(indTipoTributo))
+                query.add("AND 'IPI' = '" + indTipoTributo + "' ");
+            if (Strings.isNonEmpty(filtro)) {
+                query.add("AND ( ");
+                query.add("  (CONCAT(b.cod_tributacao, '') LIKE :filtro) OR ");
+                query.add("  (LOWER(a.codigo) LIKE :filtro) OR ");
+                query.add("  (LOWER(normali(a.descricao)) LIKE :filtro) ");
                 query.add(") ");
                 query.set("filtro", "%" + filtro.toLowerCase() + "%");
             }
@@ -189,35 +243,41 @@ public class TributacaoRepo extends DataRepository<Tributacao, Integer> {
         if (Strings.equals(verificaClasseIcms, "S")) {
             codIcms = nativeFindValue(query -> {
                 query.add("SELECT ");
-                query.add("  CAST(b.tributacao AS INTEGER) AS cod_tributacao");
+                query.add("  CAST(d.cod_tributacao AS INTEGER) AS cod_tributacao");
                 query.add("FROM produto a ");
                 query.add("INNER JOIN produto_tributacao b ON (b.produto = a.grid) ");
+                query.add("INNER JOIN nfast_tributacao d ON (d.codigo = b.tributacao) ");
                 query.add("WHERE a.codigo = '" + codItem + "' ");
                 query.add("AND b.de = '" + uf + "' ");
+                query.add("AND d.tipo = 'ICMS'  ");
             });
         } else {
             if (Numbers.isAllNonEmpty(codItem, codEmpresa) && Strings.isAllNonEmpty(natureza, uf)) {
                 codIcms = nativeFindValue(query -> {
                     query.add("SELECT ");
-                    query.add("  CAST(b.tributacao AS INTEGER) as cod_tributacao ");
+                    query.add("  CAST(b.cod_tributacao AS INTEGER) as cod_tributacao ");
                     query.add("FROM produto a ");
                     query.add("INNER JOIN produto_tributacao b ON (b.produto = a.grid) ");
                     query.add("INNER JOIN tributacao c ON (c.codigo = b.tributacao) ");
+                    query.add("INNER JOIN nfast_tributacao d ON (d.codigo = c.codigo) ");
                     query.add("WHERE a.codigo = '" + codItem + "' ");
                     query.add("AND b.de = '" + uf + "' ");
                     query.add("AND c.cst = '" + cst + "' ");
                     query.add("AND c.tributacao = " + perAliquota);
                     query.add("AND c.reducao_base = " + perReducaoBc);
+                    query.add("AND d.tipo = 'ICMS'  ");
                 });
             }
 
             if (Numbers.isEmpty(codIcms)) {
                 codIcms = nativeFindValue(query -> {
-                    query.add("SELECT CAST(a.codigo AS INTEGER) AS cod_tributacao ");
+                    query.add("SELECT CAST(b.cod_tributacao AS INTEGER) AS cod_tributacao ");
                     query.add("FROM tributacao a ");
+                    query.add("INNER JOIN nfast_tributacao b ON (a.codigo = b.codigo) ");
                     query.add("WHERE a.cst = '" + cst + "' ");
                     query.add("AND a.tributacao = " + perAliquota);
                     query.add("AND a.reducao_base = " + perReducaoBc);
+                    query.add("AND b.tipo = 'ICMS'  ");
                 });
             }
         }

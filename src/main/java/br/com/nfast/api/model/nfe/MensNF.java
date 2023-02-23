@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "tab_mens_nf_rel")
 public class MensNF {
     @Id
     @Column(name = "seq_mens_nf_rel")

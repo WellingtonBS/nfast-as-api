@@ -21,7 +21,8 @@ public class PessoaRepo extends DataRepository<Pessoa, Integer> {
             query.add("SELECT ");
             query.add("  a.codigo AS cod_pessoa, ");
             query.add("  only_numbers(a.cpf) AS num_cnpj_cpf, ");
-            query.add("  normalize(a.nome) nom_pessoa, ");
+            query.add("  normali(a.nome) nom_pessoa, ");
+            //query.add("  a.nome nom_pessoa, ");
             query.add("  CASE WHEN a.bloqueado = 'f' THEN 'N' ELSE 'S' END AS ind_bloqueado, ");
             query.add("  CASE WHEN a.flag = 'A' THEN 'S' ELSE 'N' END ind_pessoa_ativa ");
             query.add("FROM pessoa a ");
@@ -51,7 +52,8 @@ public class PessoaRepo extends DataRepository<Pessoa, Integer> {
             query.add("SELECT ");
             query.add("  a.codigo AS cod_pessoa, ");
             query.add("  only_numbers(a.cpf) AS num_cnpj_cpf, ");
-            query.add("  normalize(a.nome) nom_pessoa, ");
+            query.add("  normali(a.nome) nom_pessoa, ");
+            //query.add("  a.nome nom_pessoa, ");
             query.add("  CASE WHEN a.bloqueado = 'f' THEN 'N' ELSE 'S' END AS ind_bloqueado, ");
             query.add("  CASE WHEN a.flag = 'A' THEN 'S' ELSE 'N' END ind_pessoa_ativa ");
             query.add("FROM pessoa a ");
@@ -59,11 +61,13 @@ public class PessoaRepo extends DataRepository<Pessoa, Integer> {
                 query.add("AND ( ");
                 query.add("  (CONCAT(a.codigo, '') LIKE :filtro) OR ");
                 query.add("  (LOWER(only_numbers(a.cpf)) LIKE :filtro) OR ");
-                query.add("  (LOWER(normalize(a.nome)) LIKE :filtro) ");
+                query.add("  (LOWER(normali(a.nome)) LIKE :filtro) ");
+                //query.add("  (LOWER(a.nome) LIKE :filtro) ");
                 query.add(") ");
                 query.set("filtro", "%" + filtro.toLowerCase() + "%");
             }
-            query.add("ORDER BY normalize(a.nome)");
+            query.add("ORDER BY normali(a.nome)");
+            //query.add("ORDER BY a.nome");
             if (Numbers.isNonEmpty(limit))
                 query.setLimit(limit);
             if (Numbers.isNonEmpty(offset))
@@ -78,7 +82,8 @@ public class PessoaRepo extends DataRepository<Pessoa, Integer> {
             query.add("SELECT ");
             query.add("  a.codigo AS cod_pessoa, ");
             query.add("  only_numbers(a.cpf) AS num_cnpj_cpf, ");
-            query.add("  normalize(a.nome) nom_pessoa, ");
+            query.add("  normali(a.nome) nom_pessoa, ");
+            //query.add("  a.nome nom_pessoa, ");
             query.add("  CASE WHEN a.bloqueado = 'f' THEN 'N' ELSE 'S' END AS ind_bloqueado, ");
             query.add("  CASE WHEN a.flag = 'A' THEN 'S' ELSE 'N' END ind_pessoa_ativa ");
             query.add("FROM pessoa a ");
@@ -87,7 +92,8 @@ public class PessoaRepo extends DataRepository<Pessoa, Integer> {
                 query.add("AND only_numbers(a.cpf) = :cnpjCpf ");
                 query.set("cnpjCpf", cnpjCpf);
             }
-            query.add("ORDER BY normalize(a.nome)");
+            query.add("ORDER BY normali(a.nome)");
+            //query.add("ORDER BY a.nome");
             if (Numbers.isNonEmpty(limit))
                 query.setLimit(limit);
             if (Numbers.isNonEmpty(offset))

@@ -20,7 +20,7 @@ public class NcmRepo extends DataRepository<Ncm, Integer> {
             query.add("SELECT ");
             query.add("  only_numbers(codigo) AS seq_ncm, ");
             query.add("  only_numbers(codigo) AS cod_ncm, ");
-            query.add("  descricao AS des_ncm ");
+            query.add("  normali(descricao) AS des_ncm ");
             query.add("FROM ncm ");
             query.add("WHERE only_numbers(codigo) = '" + seqNcm + "' ");
             //query.set("seqNcm", seqNcm);
@@ -35,7 +35,7 @@ public class NcmRepo extends DataRepository<Ncm, Integer> {
             query.add("SELECT ");
             query.add("  only_numbers(codigo) AS seq_ncm, ");
             query.add("  only_numbers(codigo) AS cod_ncm, ");
-            query.add("  descricao AS des_ncm ");
+            query.add("  normali(descricao) AS des_ncm ");
             query.add("FROM ncm ");
             query.add("WHERE TRUE ");
             if (Strings.isNonEmpty(codNcm)) {
@@ -45,7 +45,7 @@ public class NcmRepo extends DataRepository<Ncm, Integer> {
             if (Strings.isNonEmpty(filtro)) {
                 query.add("AND ( ");
                 query.add("  (only_numbers(codigo) LIKE :filtro) OR ");
-                query.add("  (LOWER(descricao) LIKE :filtro) ");
+                query.add("  (LOWER(normali(descricao)) LIKE :filtro) ");
                 query.add(") ");
                 query.set("filtro", "%" + filtro.toLowerCase() + "%");
             }

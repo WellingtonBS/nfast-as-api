@@ -395,21 +395,21 @@ public class NFeRepo extends DataRepository<NFe, Long> {
         sql.add("  modelo_doc ) ");
         sql.add(" ( SELECT ");
         sql.add("  a.fone, ");
-        sql.add(nfe.getValIpi() + ",");
-        sql.add(nfe.getValBaseIcmsSubstituicao() + ",");
+        sql.add( nfe.getValIpi() + ",");
+        sql.add( nfe.getValBaseIcmsSubstituicao() + ",");
         sql.add("  a.cep, ");
-        sql.add(mlid + ",");
+        sql.add( mlid + ",");
         sql.add("  a.municipio, ");
         sql.add("  CURRENT_TIMESTAMP, ");
-        sql.add(nfe.getCodNaturezaOperacao() + ",");
-        sql.add(nfe.getValDespesaAcessoria() + ",");
-        sql.add(nfe.getValBaseIcms() + ",");
+        sql.add(" (SELECT cfop FROM cfop WHERE REPLACE(cfop,'.','') = '" + nfe.getCodNaturezaOperacao() + "' LIMIT 1),");
+        sql.add( nfe.getValDespesaAcessoria() + ",");
+        sql.add( nfe.getValBaseIcms() + ",");
         sql.add("  CURRENT_DATE, ");
-        sql.add(nfe.getValCofins() + ",");
-        sql.add(nfe.getValTotalNota() + ",");
+        sql.add( nfe.getValCofins() + ",");
+        sql.add( nfe.getValTotalNota() + ",");
         sql.add("  'T', ");
         sql.add("  'C', ");
-        sql.add(nfe.getValFreteCif() + ",");
+        sql.add( nfe.getValFreteCif() + ",");
         sql.add("'" + nfe.getNumVersaoApliNfe() + "',");
         sql.add("  'CONTRATACAO PELO EMITENTE', ");
         sql.add("  a.cidade, ");
@@ -419,22 +419,22 @@ public class NFeRepo extends DataRepository<NFe, Long> {
         sql.add("   aliquota 1.86% ");
         sql.add("  Base calc. R$1140.00 Art. 23 da LC 123/2006->Valor aproximado de tributos R$ 0.00 (fonte IBPT).->->', ");
         sql.add("  (SELECT grid FROM pessoa WHERE codigo = " + nfe.getCodEmpresa() + "), ");
-        sql.add(nfe.getValIcmsSubstituicao() + ",");
+        sql.add( nfe.getValIcmsSubstituicao() + ",");
         sql.add("'" + nfe.getDtaEmissao() + "',");
-        sql.add(nfe.getValFreteCif() + ",");
+        sql.add( nfe.getValFreteCif() + ",");
         sql.add("  a.grid, ");
         sql.add("  '1', ");
         sql.add("  0.000000, ");
-        sql.add(nfe.getNumSerie() + ",");
+        sql.add( nfe.getNumSerie() + ",");
         sql.add("  CAST(" + nfe.getNumNota() + " AS INTEGER), ");
         sql.add("'" + nfe.getIndFinalidadeNota() + "',");
-        sql.add(nfe.getValIcms() + ",");
-        sql.add(nfe.getValSeguro() + ",");
-        sql.add(nf_pessoa_fornecedor + ",");
+        sql.add( nfe.getValIcms() + ",");
+        sql.add( nfe.getValSeguro() + ",");
+        sql.add( nf_pessoa_fornecedor + ",");
         sql.add(nfe.getValPis() + ",");
         sql.add("  a.cpf, ");
-        sql.add(nf_pessoa_empresa + ",");
-        sql.add(nfe.getValTotalNota() + ",");
+        sql.add( nf_pessoa_empresa + ",");
+        sql.add( nfe.getValTotalNota() + ",");
         sql.add("  a.bairro, ");
         sql.add("  a.numero, ");
         sql.add("  '55', ");
@@ -559,7 +559,7 @@ public class NFeRepo extends DataRepository<NFe, Long> {
         sql.add(nf_pessoa_fornecedor + ","); //pessoa
         sql.add(nfe.getNumNota() + ","); //documento
         sql.add(" 'E', "); //operacao
-        sql.add(" (SELECT cst FROM tributacao a INNER JOIN nfast_tributacao b ON (a.codigo = b.codigo) WHERE b.cod_tributacao = " + item.getCodTributacaoIcms() + "),"); //tributacao
+        sql.add(" (SELECT cst FROM tributacao a INNER JOIN nfast_tributacao b ON (a.codigo = b.codigo) WHERE b.tipo = 'ICMS' AND b.cod_tributacao = " + item.getCodTributacaoIcms() + "),"); //tributacao
         sql.add(mlid + ","); //mlid
         sql.add(item.getValUnitario() + ","); //preco_unit
         sql.add(" '" + nfe.getDtaEmissao() + "',"); //data
@@ -567,7 +567,7 @@ public class NFeRepo extends DataRepository<NFe, Long> {
         sql.add(item.getValUnitario() + ","); //preco_unit_fiscal
         sql.add(item.getQtdItem() + ","); //quantidade
         sql.add(" '" + nfe.getNomUsuario() + "',"); //usuario
-        sql.add(item.getCodTributacaoPis() + ","); //cst_pis
+        sql.add( item.getCodTributacaoPis() + ","); //cst_pis
         sql.add("99 ) RETURNING grid "); //turno
 
         Query q = em.createNativeQuery(sql.toString());
@@ -631,47 +631,46 @@ public class NFeRepo extends DataRepository<NFe, Long> {
             sql.add("  quantidade, ");
             sql.add("  aliquota_icms ");
             sql.add(") ( SELECT ");
-            sql.add(item.getNcm() + ","); //codigo_ncm
+            sql.add(" (SELECT codigo FROM ncm WHERE ex = 0 AND replace(codigo,'.','') = '" + item.getNcm() + "' LIMIT 1),"); //codigo_ncm
             sql.add("  (SELECT cest FROM produto WHERE codigo = '" + item.getCodItem() + "'), "); //cest
             sql.add(item.getValIpi() + ","); //valor_ipi
             sql.add(lancto + ","); //lancto
             sql.add(item.getValBcSubstituto() + ","); //base_subst
-            sql.add(item.getCodTributacaoIpi() + ","); //cst_ipi
+            sql.add(" (SELECT codigo FROM nfast_tributacao WHERE cod_tributacao = " + item.getCodTributacaoIpi() + "),"); //cst_ipi
             sql.add(item.getValTotalItem() + ","); //valor
             sql.add(item.getQtdItem() + ","); //qtde_unid
-            sql.add(item.getCodNaturezaOperacao() + ","); //cfop_origem
+            sql.add(" (SELECT cfop FROM cfop WHERE REPLACE(cfop,'.','') = '" + item.getCodNaturezaOperacao() + "' LIMIT 1),"); //cfop_origem
             sql.add(item.getSeqItem() + ","); //numero_item
             sql.add(item.getPerAliquotaIcms() + ","); //aliquota_icms_efetivo
-            sql.add(item.getCodNaturezaOperacao() + ","); //cfop
+            sql.add(" (SELECT cfop FROM cfop WHERE REPLACE(cfop,'.','') = '" +item.getCodNaturezaOperacao() + "' LIMIT 1),"); //cfop
             sql.add(item.getValIcmsOutros() + ","); //valor_outr_des
             sql.add(item.getValBaseIcms() + ","); //base_icms
-            sql.add(item.getCodTributacaoIcms() + ","); //cst_origem
+            sql.add(" (SELECT codigo FROM nfast_tributacao WHERE cod_tributacao = " + item.getCodTributacaoIcms() + "),"); //cst_origem
             sql.add("'',"); //codigo_ajuste
-            //sql.add("  tipo, "); //tipo
             sql.add(item.getValIcms() + ","); //valor_icms_efetivo
             sql.add("  (SELECT nome FROM produto WHERE codigo = '" + item.getCodItem() + "'),"); //descricao
             sql.add("'" + item.getCodBarra() + "',"); //codigo_barra
             sql.add(item.getValUnitario() + ","); //preco_unit
-            sql.add(item.getCodTributacaoCofins() + ","); //cst_cofins
+            sql.add(" (SELECT codigo FROM nfast_tributacao WHERE cod_tributacao = " + item.getCodTributacaoCofins() + "),"); //cst_cofins
             sql.add(item.getValDesconto() + ","); //valor_desconto
-            sql.add(item.getCodTributacaoPis() + ","); //cst_pis
+            sql.add(" (SELECT codigo FROM nfast_tributacao WHERE cod_tributacao = " + item.getCodTributacaoPis() + "),"); //cst_pis
             sql.add(nfe.getCodEmpresa() + ","); //empresa
             sql.add(item.getValIcmsSubstituicao() + ","); //valor_subst
             sql.add("true,"); //soma_total_nota
-            sql.add(item.getCodUnidadeCompra() + ","); //unid_med
+            sql.add(" (SELECT sgl_unidade FROM nfast_unidade WHERE cod_unidade = " + item.getCodUnidadeCompra() + "),"); //unid_med
             sql.add("0,"); //perc_dif
             sql.add(nfe.getNumNota() + ","); //numero_nota
             sql.add(null + ","); //perc_red_base_icms
             sql.add(item.getValBaseIcms() + ","); //base_icms_efetivo
             sql.add(item.getValBaseIcms() + ","); //valor_icms
-            sql.add(item.getNumItemXml() + ","); //codigo
+            sql.add( item.getCodItem() + ","); //codigo
             sql.add(item.getValAcrescimo() + ","); //valor_acrescimo
             sql.add("  CASE WHEN (('" + item.getCodTributacaoIcms() + "' ILIKE '5%') OR ('" + item.getCodTributacaoIcms() + "' ILIKE '1%')) THEN '" + item.getCodTributacaoIcms() + "' ELSE null END ,"); //csosn
             sql.add("  (SELECT grid FROM produto WHERE codigo = '" + item.getCodItem() + "'),"); //produto
             sql.add(nota_fiscal + ","); //nota_fiscal
-            sql.add(item.getCodTributacaoIcms() + ","); //cst
+            sql.add(" (SELECT codigo FROM nfast_tributacao WHERE cod_tributacao = " + item.getCodTributacaoIcms() + "),"); //cst
             sql.add(item.getCodTributacaoIcms() + ","); //cst_tributacao
-            sql.add(item.getPerAliquotaIpi() + ","); //aliquota_ipi
+            sql.add( item.getPerAliquotaIpi() + ","); //aliquota_ipi
             sql.add(item.getValTotalItem() + ","); //subtotal
             sql.add(item.getQtdItem() + ","); //quantidade
             sql.add(item.getPerAliquotaIcms()); //aliquota_icms

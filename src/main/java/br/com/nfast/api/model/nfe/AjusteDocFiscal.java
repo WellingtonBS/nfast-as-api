@@ -8,7 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "tab_aj_doc_fiscal")
 public class AjusteDocFiscal {
     @Id
     @Column(name = "seq_aj_doc_fiscal")

@@ -9,7 +9,6 @@ import javax.persistence.Table;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "tab_nfe_conhecimento_pagto")
 public class ConhecimentoFretePag {
     @EmbeddedId
     @JsonIgnore

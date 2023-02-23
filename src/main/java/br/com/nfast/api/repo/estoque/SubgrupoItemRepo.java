@@ -19,7 +19,8 @@ public class SubgrupoItemRepo extends DataRepository<SubgrupoItem, Integer> {
         SubgrupoItem item = nativeFind(query -> {
             query.add("SELECT ");
             query.add("  a.grid AS cod_subgrupo_item, ");
-            query.add("  normalize(a.nome) AS des_subgrupo_item ");
+            query.add("  normali(a.nome) AS des_subgrupo_item ");
+            //query.add("  a.nome AS des_subgrupo_item ");
             query.add("FROM subgrupo_produto a ");
             query.add("WHERE TRUE = 't' ");
             query.add("AND a.grid = :codSubgrupoItem");
@@ -33,18 +34,21 @@ public class SubgrupoItemRepo extends DataRepository<SubgrupoItem, Integer> {
         List<SubgrupoItem> list = nativeFindAll(query -> {
             query.add("SELECT ");
             query.add("  a.grid AS cod_subgrupo_item, ");
-            query.add("  normalize(a.nome) AS des_subgrupo_item ");
+            query.add("  normali(a.nome) AS des_subgrupo_item ");
+            //query.add("  a.nome AS des_subgrupo_item ");
             query.add("FROM subgrupo_produto a ");
             query.add("WHERE TRUE = 't' ");
 
             if (Strings.isNonEmpty(filtro)) {
                 query.add("WHERE ( ");
                 query.add("  (CONCAT(a.grid, '') LIKE :filtro) OR ");
-                query.add("  (LOWER(normalize(a.nome)) LIKE :filtro) ");
+                query.add("  (LOWER(normali(a.nome)) LIKE :filtro) ");
+                //query.add("  (LOWER(a.nome) LIKE :filtro) ");
                 query.add(") ");
                 query.set("filtro", "%" + filtro.toLowerCase() + "%");
             }
-            query.add("ORDER BY normalize(a.nome)");
+            query.add("ORDER BY normali(a.nome)");
+            //query.add("ORDER BY a.nome");
             if (Numbers.isNonEmpty(limit))
                 query.setLimit(limit);
             if (Numbers.isNonEmpty(offset))

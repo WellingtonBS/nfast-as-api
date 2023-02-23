@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "tab_outras_despesas")
 public class Despesa {
     @Id
     @Column(name = "seq_despesa")

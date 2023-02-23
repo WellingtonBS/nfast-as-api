@@ -25,7 +25,8 @@ public class EspecieCaixaRepo extends DataRepository<EspecieCaixa, Integer> {
         EspecieCaixa item = nativeFind(query -> {
             query.add("SELECT ");
             query.add("  codigo AS cod_especie_caixa,");
-            query.add("  normalize(nome) AS des_especie_caixa,");
+            query.add("  normali(nome) AS des_especie_caixa,");
+            //query.add("  nome AS des_especie_caixa,");
             query.add("  'S' AS ind_status");
             query.add("FROM motivo_movto a ");
             query.add("WHERE codigo = 1 ");
@@ -40,14 +41,16 @@ public class EspecieCaixaRepo extends DataRepository<EspecieCaixa, Integer> {
         List<EspecieCaixa> list = nativeFindAll(query -> {
             query.add("SELECT ");
             query.add("  codigo AS cod_especie_caixa,");
-            query.add("  normalize(nome) AS des_especie_caixa,");
+            query.add("  normali(nome) AS des_especie_caixa,");
+            //query.add("  nome AS des_especie_caixa,");
             query.add("  'S' AS ind_status");
             query.add("FROM motivo_movto a ");
             query.add("WHERE codigo = 1 ");
             if (Strings.isNonEmpty(filtro)) {
                 query.add("AND ( ");
                 query.add("  (CONCAT(codigo, '') LIKE :filtro) OR ");
-                query.add("  (LOWER(normalize(nome)) LIKE :filtro) ");
+                query.add("  (LOWER(normali(nome)) LIKE :filtro) ");
+                //query.add("  (LOWER(nome) LIKE :filtro) ");
                 query.add(") ");
                 query.set("filtro", "%" + filtro.toLowerCase() + "%");
             }

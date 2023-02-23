@@ -60,7 +60,8 @@ public class NFeResumoRepo extends DataRepository<NFeResumo, Long> {
         sql.add("  d.data_doc AS dta_digitacao, ");
         sql.add("  SUBSTRING(CAST(d.hora AS TEXT) from 12 for 5) AS hra_digitacao, ");
         sql.add("  c.codigo AS cod_pessoa_fornecedor, ");
-        sql.add("  normalize(c.nome) AS nom_pessoa_fornecedor, ");
+        sql.add("  normali(c.nome) AS nom_pessoa_fornecedor, ");
+        //sql.add("  c.nome AS nom_pessoa_fornecedor, ");
         sql.add("  b.codigo AS cod_empresa, ");
         sql.add("  b.nome_reduzido AS nom_fantasia, ");
         sql.add("  e.chave_acesso AS num_chave_nfe ");
@@ -103,7 +104,8 @@ public class NFeResumoRepo extends DataRepository<NFeResumo, Long> {
         sql.add("  d.data_doc AS dta_digitacao, ");
         sql.add("  SUBSTRING(CAST(d.hora AS TEXT) from 12 for 5) AS hra_digitacao, ");
         sql.add("  c.codigo AS cod_pessoa_fornecedor, ");
-        sql.add("  normalize(c.nome) AS nom_pessoa_fornecedor, ");
+        sql.add("  normali(c.nome) AS nom_pessoa_fornecedor, ");
+        //sql.add("  c.nome AS nom_pessoa_fornecedor, ");
         sql.add("  b.codigo AS cod_empresa, ");
         sql.add("  b.nome_reduzido AS nom_fantasia, ");
         sql.add("  e.chave_acesso AS num_chave_nfe ");
@@ -129,49 +131,50 @@ public class NFeResumoRepo extends DataRepository<NFeResumo, Long> {
         StringList sql = new StringList();
         sql.add("WITH entradas AS ( ");
         sql.add("  SELECT ");
-        sql.add("    a.seq_movimento_estoque as seq_movimento, ");
-        sql.add("    a.cod_item, ");
-        sql.add("    c.des_item, ");
-        sql.add("    b.cod_empresa, ");
-        sql.add("    b.dta_entrada, ");
-        sql.add("    a.qtd_item as qtd_bruto, ");
-        sql.add("    a.qtd_item_convertido as qtd_total, ");
-        sql.add("    f.sgl_unidade, ");
-        sql.add("    sp_obtem_custo_medio_item(b.cod_empresa, a.cod_almoxarifado, a.cod_item, b.dta_entrada - CAST('1 DAY' as INTERVAL), 1.0) as val_custo_ant, ");
-        sql.add("    (a.val_custo / a.qtd_item_convertido) as val_custo, ");
-        sql.add("    a.seq_nota, ");
-        sql.add("    b.num_nota, ");
-        sql.add("    (d.cod_pessoa||' - '||d.nom_pessoa) as nom_fornecedor, ");
-        sql.add("    b.nom_usuario, ");
-        sql.add("    (e.cod_empresa||' - '||e.nom_fantasia) as nom_fantasia, ");
-        sql.add("    a.cod_almoxarifado, ");
-        sql.add("    g.des_almoxarifado ");
-        sql.add("  FROM tab_item_nfe a ");
-        sql.add("  INNER JOIN tab_nota_fiscal_entrada b ON(b.seq_nota = a.seq_nota) ");
-        sql.add("  INNER JOIN tab_item c ON(c.cod_item = a.cod_item) ");
-        sql.add("  INNER JOIN tab_pessoa d ON(d.cod_pessoa = b.cod_pessoa_fornecedor) ");
-        sql.add("  INNER JOIN tab_empresa e ON(e.cod_empresa = b.cod_empresa) ");
-        sql.add("  INNER JOIN tab_unidade f ON(f.cod_unidade = a.cod_unidade_compra) ");
-        sql.add("  INNER JOIN tab_almoxarifado g ON(g.cod_almoxarifado = a.cod_almoxarifado) ");
-        sql.add("  WHERE a.seq_movimento_estoque IS NOT NULL ");
+        sql.add("    a.mlid AS seq_movimento, ");
+        sql.add("    c.codigo AS cod_item, ");
+        sql.add("    c.nome AS des_item, ");
+        sql.add("    e.codigo AS cod_empresa, ");
+        sql.add("    b.data_emissao AS dta_entrada, ");
+        sql.add("    a.quantidade AS qtd_bruto, ");
+        sql.add("    a.quantidade AS qtd_total, ");
+        sql.add("    a.unid_med AS sgl_unidade, ");
+        sql.add("    custo_medio_empresa_f(e.grid, c.grid, b.data_emissao - CAST('1 DAY' as INTERVAL)) AS val_custo_ant, ");
+        sql.add("    (a.valor / a.quantidade) as val_custo, ");
+        sql.add("    a.nota_fiscal AS seq_nota, ");
+        sql.add("    b.numero_nota AS num_nota, ");
+        sql.add("    (d.codigo||' - '||d.nome) as nom_fornecedor, ");
+        sql.add("    '' AS nom_usuario, ");
+        sql.add("    (e.codigo||' - '||e.nome_reduzido) as nom_fantasia, ");
+        sql.add("    g.grid AS cod_almoxarifado, ");
+        sql.add("    g.nome AS des_almoxarifado ");
+        sql.add("  FROM nota_fiscal_produto a ");
+        sql.add("  INNER JOIN nota_fiscal b ON(b.grid = a.nota_fiscal) ");
+        sql.add("  INNER JOIN produto c ON(c.grid = a.produto) ");
+        sql.add("  INNER JOIN nota_fiscal_pessoa f ON (f.grid = b.emitente) ");
+        sql.add("  INNER JOIN pessoa d ON(d.grid = d.pessoa) ");
+        sql.add("  INNER JOIN empresa e ON(e.grid = a.empresa) ");
+        sql.add("  INNER JOIN deposito g ON(g.grid = a.deposito) ");
+        sql.add("  WHERE b.mlid IS NOT NULL ");
         if (dataIni != null)
-            sql.add("  AND b.dta_entrada >= '" + Dates.format(dataIni, "yyyy-MM-dd") + "' ");
+            sql.add("      AND b.data_emissao >= '" + Dates.format(dataIni, "yyyy-MM-dd") + "' ");
         if (dataFim != null)
-            sql.add("  AND b.dta_entrada <= '" + Dates.format(dataFim, "yyyy-MM-dd") + "' ");
+            sql.add("      AND b.data_emissao <= '" + Dates.format(dataFim, "yyyy-MM-dd") + "' ");
         if (Strings.isNonEmpty(codEmpresas))
-            sql.add("  AND b.cod_empresa IN(" + codEmpresas + ") ");
+            sql.add("      AND e.codigo IN(" + codEmpresas + ") ");
         if (Numbers.isNonEmpty(codFornecedor))
-            sql.add("  AND b.cod_pessoa_fornecedor = " + codFornecedor + " ");
+            sql.add("      AND d.codigo = " + codFornecedor + " ");
         if (Strings.isNonEmpty(filtroProduto)) {
-            Long codItem = Numbers.asLong(filtroProduto, 0L);
+                      Long codItem = Numbers.asLong(filtroProduto, 0L);
             sql.add("  AND ( ");
             if (codItem > 0)
-                sql.add("    (a.cod_item = " + codItem + ") OR ");
-            sql.add("    (c.cod_barra = '" + filtroProduto + "') OR ");
-            sql.add("    (c.des_item ILIKE '%" + filtroProduto + "%') ");
-            sql.add("  ) ");
+                sql.add("            (a.codigo = " + codItem + ") OR ");
+            sql.add("        (c.codigo_barra = '" + filtroProduto + "') OR ");
+            sql.add("        (c.nome ILIKE '%" + filtroProduto + "%') ");
+            sql.add("      ) ");
         }
         sql.add(") ");
+
         sql.add("SELECT ");
         sql.add("  a.seq_movimento, ");
         sql.add("  a.cod_item, ");

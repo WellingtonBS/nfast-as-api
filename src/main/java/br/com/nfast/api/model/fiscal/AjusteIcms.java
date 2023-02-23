@@ -6,7 +6,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "tab_aj_apur_icms")
 public class AjusteIcms {
     @Id
     @Column(name = "seq_aj_apur_icms")

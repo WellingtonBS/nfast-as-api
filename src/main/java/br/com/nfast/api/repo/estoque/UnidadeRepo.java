@@ -19,13 +19,13 @@ public class UnidadeRepo extends DataRepository<Unidade, Integer> {
         Unidade item = nativeFind(query -> {
             query.add("SELECT ");
             query.add("  b.cod_unidade AS cod_unidade, ");
-            query.add("  a.descricao AS des_unidade, ");
+            query.add("  normali(a.descricao) AS des_unidade, ");
             query.add("  a.codigo AS sgl_unidade, ");
             query.add("  1 AS num_fator_conversao ");
             query.add("FROM unidade_medida a ");
             query.add("INNER JOIN nfast_unidade b ON (a.codigo = b.sgl_unidade) ");
             query.add("WHERE b.cod_unidade = " + codUnidade);
-            query.add("ORDER BY a.descricao");
+            query.add("ORDER BY normali(a.descricao)");
         }, Unidade.class);
         return item;
     }
@@ -34,7 +34,7 @@ public class UnidadeRepo extends DataRepository<Unidade, Integer> {
         List<Unidade> list = nativeFindAll(query -> {
             query.add("SELECT ");
             query.add("  b.cod_unidade AS cod_unidade, ");
-            query.add("  a.descricao AS des_unidade, ");
+            query.add("  normali(a.descricao) AS des_unidade, ");
             query.add("  a.codigo AS sgl_unidade, ");
             query.add("  1 AS num_fator_conversao ");
             query.add("FROM unidade_medida a ");
@@ -46,12 +46,12 @@ public class UnidadeRepo extends DataRepository<Unidade, Integer> {
             }
             if (Strings.isNonEmpty(filtro)) {
                 query.add("AND ( ");
-                query.add("  (LOWER(a.descricao) LIKE :filtro) OR ");
+                query.add("  (LOWER(normali(a.descricao)) LIKE :filtro) OR ");
                 query.add("  (LOWER(a.codigo) LIKE :filtro) ");
                 query.add(") ");
                 query.set("filtro", "%" + filtro.toLowerCase() + "%");
             }
-            query.add("ORDER BY a.descricao");
+            query.add("ORDER BY normali(a.descricao)");
             if (Numbers.isNonEmpty(limit))
                 query.setLimit(limit);
             if (Numbers.isNonEmpty(offset))

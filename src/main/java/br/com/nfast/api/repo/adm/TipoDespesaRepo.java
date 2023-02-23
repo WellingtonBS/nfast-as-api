@@ -19,7 +19,8 @@ public class TipoDespesaRepo extends DataRepository<TipoDespesa, Integer> {
         TipoDespesa item = nativeFind(query -> {
             query.add("SELECT ");
             query.add("  a.grid AS cod_tipo_despesa, ");
-            query.add("  normalize(a.nome) as des_tipo_despesa, ");
+            query.add("  normali(a.nome) as des_tipo_despesa, ");
+            //query.add("  a.nome as des_tipo_despesa, ");
             query.add("  CAST('A' AS CHAR(1)) AS ind_tipo_despesa, ");
             query.add("  CAST('A' AS CHAR(1)) AS ind_tipo, ");
             query.add("  CASE WHEN a.lancar = 't' THEN 'S' ELSE 'N' END AS ind_status ");
@@ -37,7 +38,8 @@ public class TipoDespesaRepo extends DataRepository<TipoDespesa, Integer> {
         List<TipoDespesa> list = nativeFindAll(query -> {
             query.add("SELECT ");
             query.add("  a.grid AS cod_tipo_despesa, ");
-            query.add("  normalize(a.nome) as des_tipo_despesa, ");
+            query.add("  normali(a.nome) as des_tipo_despesa, ");
+            //query.add("  a.nome as des_tipo_despesa, ");
             query.add("  CAST('A' AS CHAR(1)) AS ind_tipo_despesa, ");
             query.add("  CASE WHEN EXISTS (SELECT 1 FROM conta bb WHERE bb.codigo ILIKE (a.codigo||'.%')) THEN 'S' ELSE 'A' END AS ind_tipo, ");
             query.add("  CASE WHEN a.lancar = 't' THEN 'S' ELSE 'N' END AS ind_status ");
@@ -51,11 +53,13 @@ public class TipoDespesaRepo extends DataRepository<TipoDespesa, Integer> {
             if (Strings.isNonEmpty(filtro)) {
                 query.add("AND ( ");
                 query.add("  (CONCAT(a.grid, '') LIKE :filtro) OR ");
-                query.add("  (LOWER(normalize(a.nome) ) LIKE :filtro) ");
+                query.add("  (LOWER(normali(a.nome) ) LIKE :filtro) ");
+                //query.add("  (LOWER(a.nome ) LIKE :filtro) ");
                 query.add(") ");
                 query.set("filtro", "%" + filtro.toLowerCase() + "%");
             }
-            query.add("ORDER BY normalize(a.nome) ");
+            query.add("ORDER BY normali(a.nome) ");
+            //query.add("ORDER BY a.nome ");
             if (Numbers.isNonEmpty(limit))
                 query.setLimit(limit);
             if (Numbers.isNonEmpty(offset))

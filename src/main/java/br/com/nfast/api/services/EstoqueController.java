@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -179,6 +180,18 @@ public class EstoqueController implements EstoqueApi {
     public ResponseEntity<List<ItemPedidoCompra>> itemPedidoCompraList(String token, String clientId, String cnpjCpfFor, String cnpjEmpresa, Long codItem, String somenteAutorizado, String filtro, Integer limit, Integer offset) {
         List<ItemPedidoCompra> list = itemPedidoCompraRepo.itemPedidoCompraList(cnpjCpfFor, cnpjEmpresa, codItem, somenteAutorizado, filtro, limit, offset);
         return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<ApiSuccess> produtoValidadeNfe(String token, String clientId, Long seqNota, Long codItem, LocalDate dtaValidade, Double qtdItem, LocalDateTime dtaImportacao) {
+        produtoRepo.produtoValidadeNfe(seqNota, codItem, dtaValidade, qtdItem, dtaImportacao);
+        return new ResponseEntity<>(new ApiSuccess("Ok"), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<ApiSuccess> excluiProdutoValidadeNfe(String token, String clientId, String chave, Long codEmpresa) {
+        produtoRepo.excluiProdutoValidadeNfe(chave, codEmpresa);
+        return new ResponseEntity<>(new ApiSuccess("Ok"), HttpStatus.OK);
     }
 
 }

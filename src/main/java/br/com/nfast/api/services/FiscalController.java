@@ -155,28 +155,15 @@ public class FiscalController implements FiscalApi {
 
     @Override
     public ResponseEntity<ClasseFiscal> classeFiscal(String token, String clientId, Integer codClasseFiscal) {
-        ClasseFiscal item = classeFiscalRepo.findById(codClasseFiscal).orElse(null);
+        ClasseFiscal item = classeFiscalRepo.classeFiscal(codClasseFiscal);
         return new ResponseEntity<>(item, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<List<ClasseFiscal>> classeFiscalList(String token, String clientId, String filtro, Integer limit, Integer offset) {
-        List<ClasseFiscal> list = classeFiscalRepo.findAll(query -> {
-            query.add("SELECT a FROM ClasseFiscal a ");
-            if (Strings.isNonEmpty(filtro)) {
-                query.add("WHERE ( ");
-                query.add("  (CONCAT(a.codClasseFiscal, '') LIKE :filtro) OR ");
-                query.add("  (LOWER(a.desClasseFiscal) LIKE :filtro) ");
-                query.add(") ");
-                query.set("filtro", "%" + filtro.toLowerCase() + "%");
-            }
-            query.add("ORDER BY a.desClasseFiscal ");
-            if (Numbers.isNonEmpty(limit))
-                query.setLimit(limit);
-            if (Numbers.isNonEmpty(offset))
-                query.setOffset(offset);
-        });
+        List<ClasseFiscal> list = classeFiscalRepo.classeFiscalList(filtro, limit, offset);
         return new ResponseEntity<>(list, HttpStatus.OK);
+
     }
 
     @Override

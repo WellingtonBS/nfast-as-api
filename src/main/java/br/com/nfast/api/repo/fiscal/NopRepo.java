@@ -19,7 +19,7 @@ public class NopRepo extends DataRepository<Nop, Integer> {
         Nop item = nativeFind(query -> {
             query.add("SELECT ");
             query.add("  only_numbers(a.codigo) AS cod_natureza_operacao, ");
-            query.add("  normalize(a.nome) AS des_natureza_operacao, ");
+            query.add("  normali(a.nome) AS des_natureza_operacao, ");
             query.add("  only_numbers(a.codigo) AS num_cfop, ");
             query.add("  CASE WHEN CAST(only_numbers(a.codigo) AS INTEGER) > 5000 THEN 'S' ELSE 'E' END AS ind_entrada_saida, ");
             query.add("  CASE WHEN only_numbers(a.codigo) NOT IN ('1556','2556') THEN 'S' ELSE 'N' END AS ind_gera_estoque, ");
@@ -37,7 +37,8 @@ public class NopRepo extends DataRepository<Nop, Integer> {
             query.add("  'S' AS ind_desativada ");
             query.add("FROM cfop a ");
             query.add("WHERE only_numbers(a.codigo) = '" + codNaturezaOperacao + "' ");
-            query.add("ORDER BY only_numbers(a.codigo), normalize(a.nome) ");
+            query.add("ORDER BY only_numbers(a.codigo), normali(a.nome) ");
+            //query.add("ORDER BY only_numbers(a.codigo), a.nome ");
         });
 
         return item;
@@ -47,7 +48,7 @@ public class NopRepo extends DataRepository<Nop, Integer> {
         List<Nop> list = nativeFindAll(query -> {
             query.add("SELECT ");
             query.add("  only_numbers(a.codigo) AS cod_natureza_operacao, ");
-            query.add("  normalize(a.nome) AS des_natureza_operacao, ");
+            query.add("  normali(a.nome) AS des_natureza_operacao, ");
             query.add("  only_numbers(a.codigo) AS num_cfop, ");
             query.add("  CASE WHEN CAST(only_numbers(a.codigo) AS INTEGER) > 5000 THEN 'S' ELSE 'E' END AS ind_entrada_saida, ");
             query.add("  CASE WHEN only_numbers(a.codigo) NOT IN ('1556','2556') THEN 'S' ELSE 'N' END AS ind_gera_estoque, ");
@@ -79,11 +80,13 @@ public class NopRepo extends DataRepository<Nop, Integer> {
             if (Strings.isNonEmpty(filtro)) {
                 query.add("AND ( ");
                 query.add("  (LOWER(only_numbers(a.codigo)) LIKE :filtro) OR ");
-                query.add("  (LOWER(normalize(a.nome)) LIKE :filtro) ");
+                query.add("  (LOWER(normali(a.nome)) LIKE :filtro) ");
+                //query.add("  (LOWER(a.nome) LIKE :filtro) ");
                 query.add(") ");
                 query.set("filtro", "%" + filtro.toLowerCase() + "%");
             }
-            query.add("ORDER BY only_numbers(a.codigo), normalize(a.nome) ");
+            query.add("ORDER BY only_numbers(a.codigo), normali(a.nome) ");
+            //query.add("ORDER BY only_numbers(a.codigo), a.nome ");
             if (Numbers.isNonEmpty(limit))
                 query.setLimit(limit);
             if (Numbers.isNonEmpty(offset))

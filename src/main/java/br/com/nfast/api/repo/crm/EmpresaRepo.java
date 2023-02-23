@@ -23,8 +23,10 @@ public class EmpresaRepo extends DataRepository<Empresa, Integer> {
             query.add("SELECT ");
             query.add("  a.codigo AS cod_empresa, ");
             query.add("  only_numbers(a.cpf) AS num_cnpj, ");
-            query.add("  normalize(a.nome) AS nom_razao_social, ");
-            query.add("  normalize(a.nome_reduzido) AS nom_fantasia, ");
+            query.add("  normali(a.nome) AS nom_razao_social, ");
+            query.add("  normali(a.nome_reduzido) AS nom_fantasia, ");
+            //query.add("  a.nome AS nom_razao_social, ");
+            //query.add("  a.nome_reduzido AS nom_fantasia, ");
             query.add("  a.uf AS sgl_estado, ");
             query.add("  CASE a.flag WHEN 't' THEN 'S' ELSE 'N' END AS ind_ativo, ");
             query.add("  CASE WHEN c.valor not in ('None') ");
@@ -56,8 +58,10 @@ public class EmpresaRepo extends DataRepository<Empresa, Integer> {
             query.add("SELECT ");
             query.add("  a.codigo AS cod_empresa, ");
             query.add("  only_numbers(a.cpf) AS num_cnpj, ");
-            query.add("  normalize(a.nome) AS nom_razao_social, ");
-            query.add("  normalize(a.nome_reduzido) AS nom_fantasia, ");
+            query.add("  normali(a.nome) AS nom_razao_social, ");
+            query.add("  normali(a.nome_reduzido) AS nom_fantasia, ");
+            //query.add("  a.nome AS nom_razao_social, ");
+            //query.add("  a.nome_reduzido AS nom_fantasia, ");
             query.add("  a.uf AS sgl_estado, ");
             query.add("  CASE a.flag WHEN 't' THEN 'S' ELSE 'N' END AS ind_ativo, ");
             query.add("  CASE WHEN c.valor not in ('None') ");

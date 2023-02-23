@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "tab_item")
 public class ProdutoCad {
     @Id
     @Column(name = "cod_item")

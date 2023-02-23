@@ -16,7 +16,7 @@ public class PedidoCompraRepo extends DataRepository<PedidoCompra, Integer> {
     }
 
     public PedidoCompra pedidoCompra(Integer seqPedido) {
-        PedidoCompra item = nativeFind(query -> {
+        /*PedidoCompra item = nativeFind(query -> {
             query.add("SELECT ");
             query.add("  a.seq_pedido, ");
             query.add("  a.cod_empresa, ");
@@ -31,13 +31,13 @@ public class PedidoCompraRepo extends DataRepository<PedidoCompra, Integer> {
             query.add("  a.ind_status_aprovacao_alcada ");
             query.add("FROM tab_pedido_compra a ");
             query.add("WHERE a.seq_pedido = " + seqPedido);
-        });
+        });*/
 
-        return item;
+        return null; //item;
     }
 
     public List<PedidoCompra> pedidoCompraList(String cnpjCpfFor, String cnpjEmpresa, Long codItem, String filtro, Integer limit, Integer offset) {
-        List<PedidoCompra> list = nativeFindAll(query -> {
+        /*List<PedidoCompra> list = nativeFindAll(query -> {
             query.add("SELECT ");
             query.add("  a.seq_pedido, ");
             query.add("  a.cod_empresa, ");
@@ -85,7 +85,8 @@ public class PedidoCompraRepo extends DataRepository<PedidoCompra, Integer> {
                 query.setOffset(offset);
         });
 
-        return list;
+        return list;*/
+        return null;
     }
 
 }

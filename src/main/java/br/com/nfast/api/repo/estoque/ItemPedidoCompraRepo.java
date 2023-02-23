@@ -17,7 +17,7 @@ public class ItemPedidoCompraRepo extends DataRepository<ItemPedidoCompra, ItemP
     }
 
     public ItemPedidoCompra itemPedidoCompra(Integer seqPedido, Integer seqItem) {
-        ItemPedidoCompra item = nativeFind(query -> {
+        /*ItemPedidoCompra item = nativeFind(query -> {
             query.add("SELECT ");
             query.add("  a.seq_pedido, ");
             query.add("  a.seq_item, ");
@@ -52,11 +52,12 @@ public class ItemPedidoCompraRepo extends DataRepository<ItemPedidoCompra, ItemP
             query.add("AND a.seq_item = " + seqItem);
         });
 
-        return item;
+        return item;*/
+        return null;
     }
 
     public ItemPedidoCompra itemPedidoCompraNfe(String cnpjCpfFor, String cnpjEmpresa, Long codItem, Double qtdTotal, String verificaQtdPedido, String permiteQtdMenorPedido) {
-        ItemPedidoCompra item = nativeFind(query -> {
+        /*ItemPedidoCompra item = nativeFind(query -> {
             query.add("SELECT ");
             query.add("  a.seq_pedido, ");
             query.add("  a.seq_item, ");
@@ -117,11 +118,12 @@ public class ItemPedidoCompraRepo extends DataRepository<ItemPedidoCompra, ItemP
             query.set("cnpjEmpresa", cnpjEmpresa);
         });
 
-        return item;
+        return item; */
+        return null;
     }
 
     public List<ItemPedidoCompra> itemPedidoCompraList(String cnpjCpfFor, String cnpjEmpresa, Long codItem, String somenteAutorizado, String filtro, Integer limit, Integer offset) {
-        List<ItemPedidoCompra> list = nativeFindAll(query -> {
+        /*List<ItemPedidoCompra> list = nativeFindAll(query -> {
             query.add("SELECT ");
             query.add("  a.seq_pedido, ");
             query.add("  a.seq_item, ");
@@ -189,7 +191,8 @@ public class ItemPedidoCompraRepo extends DataRepository<ItemPedidoCompra, ItemP
                 query.setOffset(offset);
         });
 
-        return list;
+        return list;*/
+        return null;
     }
 
 }

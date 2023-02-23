@@ -19,7 +19,8 @@ public class CidadeRepo extends DataRepository<Cidade, Integer> {
             montaSqlCidade(query);
             query.add("WHERE TRUE ");
             query.add("AND a.codigo IS NOT NULL ");
-            query.add("AND normalize(a.municipio) not in ('') ");
+            query.add("AND normali(a.municipio) not in ('') ");
+            //query.add("AND a.municipio not in ('') ");
             if (Numbers.isNonEmpty(codCidade)) {
                 query.add("AND a.codigo = :codCidade ");
                 query.set("codCidade", codCidade);
@@ -31,16 +32,19 @@ public class CidadeRepo extends DataRepository<Cidade, Integer> {
             }
 
             if (Strings.isNonEmpty(nomCidade)) {
-                query.add("AND normalize(a.municipio) ILIKE :nomCidade ");
-                query.set("nomCidade", Strings.normalize(nomCidade));
+                query.add("AND normali(a.municipio) ILIKE :nomCidade ");
+                //query.add("AND a.municipio ILIKE :nomCidade ");
+                query.set("nomCidade", Strings.normali(nomCidade));
             }
 
             if (Strings.isNonEmpty(sglEstado)) {
-                query.add("AND normalize(a.uf) ILIKE :sglEstado ");
+                query.add("AND normali(a.uf) ILIKE :sglEstado ");
+                //query.add("AND a.uf ILIKE :sglEstado ");
                 query.set("sglEstado", sglEstado);
             }
 
-            query.add("ORDER BY normalize(a.municipio) ");
+            query.add("ORDER BY normali(a.municipio) ");
+            //query.add("ORDER BY a.municipio ");
         });
 
         return item;
@@ -49,9 +53,11 @@ public class CidadeRepo extends DataRepository<Cidade, Integer> {
     private void montaSqlCidade(QueryBuilder query) {
         query.clear();
         query.add("SELECT DISTINCT ");
-        query.add("  a.codigo AS cod_cidade, ");
-        query.add("  normalize(a.municipio) AS nom_cidade, ");
-        query.add("  normalize(a.uf) AS sgl_estado, ");
+        query.add("  CAST(a.codigo AS integer) AS cod_cidade, ");
+        query.add("  normali(a.municipio) AS nom_cidade, ");
+        query.add("  normali(a.uf) AS sgl_estado, ");
+        //query.add("  a.municipio AS nom_cidade, ");
+        //query.add("  a.uf AS sgl_estado, ");
         query.add("  CAST(a.codigo AS TEXT) AS cod_ibge ");
         query.add("FROM municipio_view a ");
     }

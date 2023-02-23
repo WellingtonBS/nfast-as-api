@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "tab_rateio_despesa")
 public class RateioDespesa {
     @EmbeddedId
     @JsonIgnore

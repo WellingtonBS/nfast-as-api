@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Api(tags = "/api/estoque")
@@ -285,6 +286,29 @@ public interface EstoqueApi {
             @ApiParam(value = "Filtro") @RequestParam(value = "filtro", required = false) String filtro,
             @ApiParam(value = "Limit", defaultValue = "50") @RequestParam(value = "limit", required = false) Integer limit,
             @ApiParam(value = "Offset") @RequestParam(value = "offset", required = false) Integer offset
+    );
+
+    @ApiOperation(value = "Produto validade nota NF-e", response = ApiSuccess.class)
+    @ApiResponse(code = 200, message = "Sucesso", response = ApiSuccess.class)
+    @RequestMapping(value = "/produto-validade-nota", method = RequestMethod.POST, produces = "application/json")
+    ResponseEntity<ApiSuccess> produtoValidadeNfe(
+            @ApiParam(value = "Access Token", required = true) @RequestHeader("token") String token,
+            @ApiParam(value = "Client ID", required = true) @RequestHeader("clientId") String clientId,
+            @ApiParam(value = "Seq Nota", required = true) @RequestParam(value = "seqNota") Long seqNota,
+            @ApiParam(value = "Cod Item", required = true) @RequestParam(value = "codItem") Long codItem,
+            @ApiParam(value = "Dta Validade", required = true) @RequestParam(value = "dtaValidade") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dtaValidade,
+            @ApiParam(value = "Qtd Item", required = true) @RequestParam(value = "qtdItem") Double qtdItem,
+            @ApiParam(value = "Dta Importacao", required = true) @RequestParam(value = "dtaImportacao") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dtaImportacao
+    );
+
+    @ApiOperation(value = "Exclui Produto validade nota NF-e", response = ApiSuccess.class)
+    @ApiResponse(code = 200, message = "Sucesso", response = ApiSuccess.class)
+    @RequestMapping(value = "/exclui-produto-validade-nota", method = RequestMethod.POST, produces = "application/json")
+    ResponseEntity<ApiSuccess> excluiProdutoValidadeNfe(
+            @ApiParam(value = "Access Token", required = true) @RequestHeader("token") String token,
+            @ApiParam(value = "Client ID", required = true) @RequestHeader("clientId") String clientId,
+            @ApiParam(value = "Chave", required = true) @RequestParam(value = "chave") String chave,
+            @ApiParam(value = "Cod Empresa", required = true) @RequestParam(value = "codEmpresa") Long codEmpresa
     );
 
 }

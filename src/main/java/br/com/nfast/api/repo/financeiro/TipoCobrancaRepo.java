@@ -19,7 +19,8 @@ public class TipoCobrancaRepo extends DataRepository<TipoCobranca, Integer> {
         TipoCobranca item = nativeFind(query -> {
             query.add("SELECT ");
             query.add("  codigo AS cod_tipo_cobranca, ");
-            query.add("  normalize(nome) as des_tipo_cobranca, ");
+            query.add("  normali(nome) as des_tipo_cobranca, ");
+            //query.add("  nome as des_tipo_cobranca, ");
             query.add("  CASE WHEN flag='A' THEN 'S' ELSE 'N' END AS ind_status ");
             query.add("FROM motivo_movto ");
             query.add("WHERE flag = 'A' ");
@@ -34,18 +35,21 @@ public class TipoCobrancaRepo extends DataRepository<TipoCobranca, Integer> {
         List<TipoCobranca> list = nativeFindAll(query -> {
             query.add("SELECT ");
             query.add("  codigo AS cod_tipo_cobranca, ");
-            query.add("  normalize(nome) as des_tipo_cobranca, ");
+            query.add("  normali(nome) as des_tipo_cobranca, ");
+            //query.add("  nome as des_tipo_cobranca, ");
             query.add("  CASE WHEN flag='A' THEN 'S' ELSE 'N' END AS ind_status ");
             query.add("FROM motivo_movto ");
             query.add("WHERE flag = 'A' ");
             if (Strings.isNonEmpty(filtro)) {
                 query.add("AND ( ");
                 query.add("  (CONCAT(codigo, '') LIKE :filtro) OR ");
-                query.add("  (LOWER(normalize(nome) ) LIKE :filtro) ");
+                query.add("  (LOWER(normali(nome) ) LIKE :filtro) ");
+                //query.add("  (LOWER(nome ) LIKE :filtro) ");
                 query.add(") ");
                 query.set("filtro", "%" + filtro.toLowerCase() + "%");
             }
-            query.add("ORDER BY normalize(nome) ");
+            query.add("ORDER BY normali(nome) ");
+            //query.add("ORDER BY (nome ");
             if (Numbers.isNonEmpty(limit))
                 query.setLimit(limit);
             if (Numbers.isNonEmpty(offset))
