@@ -2,8 +2,6 @@ package br.com.nfast.api.repo.estoque;
 
 import br.com.nfast.api.config.jpa.DataRepository;
 import br.com.nfast.api.model.estoque.ProdutoCad;
-import br.com.nfast.api.model.estoque.ProdutoEmpresaCad;
-import br.com.nfast.api.model.estoque.ProdutoEmpresaIdCad;
 import br.com.nfast.api.utils.Numbers;
 import br.com.nfast.api.utils.StringList;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +21,7 @@ public class ProdutoCadRepo extends DataRepository<ProdutoCad, Long> {
     }
 
     public ProdutoCad gravaProduto(ProdutoCad produto) {
-        Integer cod =(nativeFindValue("SELECT COALESCE(MAX(CAST(codigo as INT)), 0) + 1 FROM produto WHERE tipo NOT IN ('K')"));
+        Integer cod = (nativeFindValue("SELECT COALESCE(MAX(CAST(codigo as INT)), 0) + 1 FROM produto WHERE tipo NOT IN ('K')"));
 
         produto.setCodItem(Long.valueOf(cod));
 
@@ -99,17 +97,17 @@ public class ProdutoCadRepo extends DataRepository<ProdutoCad, Long> {
         Query q = em.createNativeQuery(sql.toString());
         q.setParameter("cod_ncm", produto.getCodNcm());
         q.setParameter("cod_barra", produto.getCodBarra());
-        q.setParameter("cst_cofins_entrada",produto.getEmpresas().get(0).getCodTributacaoCofinsEntrada());
+        q.setParameter("cst_cofins_entrada", produto.getEmpresas().get(0).getCodTributacaoCofinsEntrada());
         q.setParameter("subgrupo", produto.getCodSubgrupoItem());
         q.setParameter("cod_barra", produto.getCodBarra());
-        q.setParameter("cst_cofins",produto.getEmpresas().get(0).getCodTributacaoCofins());
-        q.setParameter("cst_pis",produto.getEmpresas().get(0).getCodTributacaoPis());
-        q.setParameter("unid_med",produto.getCodUnidade());
-        q.setParameter("nome",produto.getDesItem());
-        q.setParameter("cst_pis_entrada",produto.getEmpresas().get(0).getCodTributacaoPisEntrada());
-        q.setParameter("codigo",produto.getCodItem());
-        q.setParameter("tributacao",produto.getEmpresas().get(0).getCodClasseFiscal());
-        q.setParameter("grupo",produto.getCodSubgrupoItem());
+        q.setParameter("cst_cofins", produto.getEmpresas().get(0).getCodTributacaoCofins());
+        q.setParameter("cst_pis", produto.getEmpresas().get(0).getCodTributacaoPis());
+        q.setParameter("unid_med", produto.getCodUnidade());
+        q.setParameter("nome", produto.getDesItem());
+        q.setParameter("cst_pis_entrada", produto.getEmpresas().get(0).getCodTributacaoPisEntrada());
+        q.setParameter("codigo", produto.getCodItem());
+        q.setParameter("tributacao", produto.getEmpresas().get(0).getCodClasseFiscal());
+        q.setParameter("grupo", produto.getCodSubgrupoItem());
 
         if (Numbers.isNonEmpty(produto.getCodPessoaFornecedor())) {
             produtoRepo.vinculaProdutoFor(produto.getCodItem(), produto.getCodPessoaFornecedor(), produto.getCodReferencia(), null, 0.0);
@@ -119,7 +117,6 @@ public class ProdutoCadRepo extends DataRepository<ProdutoCad, Long> {
 
         return result;
     }
-
 
 
 }

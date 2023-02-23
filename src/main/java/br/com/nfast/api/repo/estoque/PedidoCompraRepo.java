@@ -2,8 +2,6 @@ package br.com.nfast.api.repo.estoque;
 
 import br.com.nfast.api.config.jpa.DataRepository;
 import br.com.nfast.api.model.estoque.PedidoCompra;
-import br.com.nfast.api.utils.Numbers;
-import br.com.nfast.api.utils.Strings;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

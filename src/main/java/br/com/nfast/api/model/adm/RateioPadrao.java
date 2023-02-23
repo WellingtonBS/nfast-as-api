@@ -3,7 +3,6 @@ package br.com.nfast.api.model.adm;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 @Entity
 public class RateioPadrao {

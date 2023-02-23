@@ -1,6 +1,9 @@
 package br.com.nfast.api.model.estoque;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Transient;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;

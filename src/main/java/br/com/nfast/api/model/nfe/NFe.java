@@ -125,16 +125,22 @@ public class NFe {
     private String desMensagem;
     @Column(name = "num_chave_nfe")
     private String numChaveNfe;
+    @Transient
+    private String xmlNfe;
     @Column(name = "ind_tipo_emissao_nfe")
     private Integer indTipoEmissaoNfe;
     @Column(name = "ind_tipo_ambiente_nfe")
     private String indTipoAmbienteNfe;
+    @Transient
+    private String idProtocoloNfe;
     @Column(name = "num_protocolo_nfe")
     private String numProtocoloNfe;
     @Column(name = "num_versao_prot_nfe")
     private String numVersaoProtNfe;
     @Column(name = "num_versao_apli_nfe")
     private String numVersaoApliNfe;
+    @Transient
+    private String dhRecbtoNfe;
     @Column(name = "dta_recebimento_nfe")
     private LocalDate dtaRecebimentoNfe;
     @Column(name = "hra_recebimento_nfe")
@@ -746,6 +752,14 @@ public class NFe {
         this.numChaveNfe = numChaveNfe;
     }
 
+    public String getXmlNfe() {
+        return xmlNfe;
+    }
+
+    public void setXmlNfe(String xmlNfe) {
+        this.xmlNfe = xmlNfe;
+    }
+
     public Integer getIndTipoEmissaoNfe() {
         return indTipoEmissaoNfe;
     }
@@ -760,6 +774,14 @@ public class NFe {
 
     public void setIndTipoAmbienteNfe(String indTipoAmbienteNfe) {
         this.indTipoAmbienteNfe = indTipoAmbienteNfe;
+    }
+
+    public String getIdProtocoloNfe() {
+        return idProtocoloNfe;
+    }
+
+    public void setIdProtocoloNfe(String idProtocoloNfe) {
+        this.idProtocoloNfe = idProtocoloNfe;
     }
 
     public String getNumProtocoloNfe() {
@@ -784,6 +806,14 @@ public class NFe {
 
     public void setNumVersaoApliNfe(String numVersaoApliNfe) {
         this.numVersaoApliNfe = numVersaoApliNfe;
+    }
+
+    public String getDhRecbtoNfe() {
+        return dhRecbtoNfe;
+    }
+
+    public void setDhRecbtoNfe(String dhRecbtoNfe) {
+        this.dhRecbtoNfe = dhRecbtoNfe;
     }
 
     public LocalDate getDtaRecebimentoNfe() {

@@ -2,8 +2,6 @@ package br.com.nfast.api.repo.nfe;
 
 import br.com.nfast.api.config.jpa.DataRepository;
 import br.com.nfast.api.model.estoque.Produto;
-import br.com.nfast.api.model.estoque.ProdutoNcm;
-import br.com.nfast.api.model.fiscal.Ncm;
 import br.com.nfast.api.model.nfe.ItemNFe;
 import br.com.nfast.api.model.nfe.NFe;
 import br.com.nfast.api.model.nfe.NFeResumo;
@@ -64,165 +62,49 @@ public class NFeRepo extends DataRepository<NFe, Long> {
         if (nfe.getItens() == null)
             nfe.setItens(new ArrayList<>());
 
-        int seqMensNfRel = 0;
-        int seqAjDocFiscal = 0;
-        StringList sql = new StringList();
-
         BigInteger nfPessoaEmpresa = gravaNotaFiscalPessoaEmpresa(nfe);
         BigInteger nfPessoaFornecedor = gravaNotaFiscalPessoaFornecedor(nfe);
         BigInteger mlid = nativeFindValue("SELECT pgd_gxid_f(pgd_sid, NEXTVAL('pgd_rid_seq')) FROM pgd_lsite");
         BigInteger notaFiscal = gravaNotaFiscal(nfe, nfPessoaEmpresa, nfPessoaFornecedor, mlid);
-        BigInteger nfE = gravaNfe(nfe, notaFiscal);
+        BigInteger nfeId = gravaNfe(nfe, notaFiscal);
+        gravaXmlNfe(nfe, nfeId.longValue());
+        gravaProtocoloNfe(nfe, nfeId.longValue());
         gravaNotaFiscalProduto(nfe, notaFiscal, nfPessoaFornecedor, mlid);
         gravaMovtoFinanceiro(nfe, mlid);
 
-        /* Codigo antigo
-
-        if (nfe.getConhecimentoFrete() != null) {
-            nfe.getConhecimentoFrete().setSeqNota(nfe.getSeqNota());
-            nfe.getConhecimentoFrete().setNfe(nfe);
-            if (nfe.getConhecimentoFrete().getParcelas() != null) {
-                for (ConhecimentoFretePag parcela : nfe.getConhecimentoFrete().getParcelas()) {
-                    Assert.nonEmpty(parcela.getSeqParcela(), "seqParcela não informada nas parcelas do conhecimento");
-
-                    if (parcela.getId() == null) {
-                        parcela.setId(new ConhecimentoFretePagId());
-                        parcela.getId().setConhecimento(nfe.getConhecimentoFrete());
-                        parcela.getId().setSeqParcela(parcela.getSeqParcela());
-                    }
-                }
-            }
-        }
-
-        for (ItemNFe item : nfe.getItens()) {
-            Assert.nonEmpty(item.getSeqItem(), "seqItem não informada nos itens da nota");
-
-            if (item.getId() == null) {
-                item.setId(new ItemNFeId());
-                item.getId().setNfe(nfe);
-                item.getId().setSeqItem(item.getSeqItem());
-            }
-
-            if (item.getDespesa() != null) {
-                item.getDespesa().prepareToSave();
-                if (Numbers.isEmpty(item.getDespesa().getSeqDespesa()))
-                    item.getDespesa().setSeqDespesa(nativeFindValue("SELECT CAST(nextval('gen_outras_despesas') as INTEGER)"));
-            }
-
-            if (item.getAjustes() != null) {
-                for (AjusteDocFiscal ajuste : item.getAjustes()) {
-                    ajuste.setSeqNota(nfe.getSeqNota());
-                    ajuste.setSeqItem(item.getSeqItem());
-                    if (Numbers.isEmpty(ajuste.getCodItem()))
-                        ajuste.setCodItem(item.getCodItem());
-
-                    if (Numbers.isEmpty(ajuste.getSeqAjDocFiscal())) {
-                        if (seqAjDocFiscal <= 0)
-                            seqAjDocFiscal = maxSeqAjDocFiscal();
-
-                        seqAjDocFiscal++;
-                        ajuste.setSeqAjDocFiscal(seqAjDocFiscal);
-                    }
-                }
-            }
-        }
-
-        if (nfe.getParcelas() != null) {
-            for (ParcelaNFe parcela : nfe.getParcelas()) {
-                if (parcela.getId() == null) {
-                    parcela.setId(new ParcelaNFeId());
-                    parcela.getId().setNfe(nfe);
-                    parcela.getId().setSeqParcela(parcela.getSeqParcela());
-                }
-            }
-        }
-
-        if (nfe.getPagtosBanco() != null) {
-            for (NFePagtoBanco pagtoBanco : nfe.getPagtosBanco()) {
-                if (pagtoBanco.getId() == null) {
-                    pagtoBanco.setId(new NFePagtoBancoId());
-                    pagtoBanco.getId().setNfe(nfe);
-                    pagtoBanco.getId().setSeqPagamento(pagtoBanco.getSeqPagamento());
-                }
-            }
-        }
-
-        if (nfe.getMensagens() != null) {
-            for (MensNF mensagem : nfe.getMensagens()) {
-                mensagem.setNfe(nfe);
-                if (Numbers.isEmpty(mensagem.getSeqMensNfRel())) {
-                    if (seqMensNfRel <= 0)
-                        seqMensNfRel = maxSeqMensNfRel();
-
-                    seqMensNfRel++;
-                    mensagem.setSeqMensNfRel(seqMensNfRel);
-                }
-            }
-        }
-
-        if (nfe.getAjustes() != null) {
-            for (AjusteDocFiscal ajuste : nfe.getAjustes()) {
-                ajuste.setSeqNota(nfe.getSeqNota());
-                ajuste.setSeqItem(0);
-                ajuste.setCodItem(0);
-
-                if (Numbers.isEmpty(ajuste.getSeqAjDocFiscal())) {
-                    if (seqAjDocFiscal <= 0)
-                        seqAjDocFiscal = maxSeqAjDocFiscal();
-
-                    seqAjDocFiscal++;
-                    ajuste.setSeqAjDocFiscal(seqAjDocFiscal);
-                }
-            }
-        }
-
-        if (Strings.equals(nfe.getAtualizaNcm(), "S"))
-            atualizaNcm(nfe);
-*/
         ultimaChaveNota = nfe.getNumChaveNfe();
         ultimaImportacao = LocalDateTime.now();
 
         return nfeResumoRepo.obtem(notaFiscal);
     }
 
-    private void atualizaNcm(NFe nfe) {
-        for (ItemNFe item : nfe.getItens()) {
-            if (Strings.isNonEmpty(item.getNcm())) {
-                ProdutoNcm produtoNcm = produtoNcmRepo.findById(item.getCodItem()).orElse(null);
-                if (produtoNcm != null) {
-                    Ncm ncm = null;
-                    if (Numbers.isNonEmpty(produtoNcm.getSeqNcm()))
-                        ncm = ncmRepo.findById(produtoNcm.getSeqNcm()).orElse(null);
-
-                    if ((ncm == null) || Strings.diff(ncm.getCodNcm(), item.getNcm())) {
-                        ncm = ncmRepo.findBy("codNcm", item.getNcm());
-                        if (ncm != null) {
-                            produtoNcm.setSeqNcm(ncm.getSeqNcm());
-                            produtoNcmRepo.save(produtoNcm);
-                        }
-                    }
-                }
-            }
-        }
+    private void gravaXmlNfe(NFe nfe, Long nfeId) {
+        Query q = em.createNativeQuery("INSERT INTO nfe_xml(nfe, fonte_xml) VALUE(:nfe, :fonte_xml)");
+        q.setParameter("nfe", nfeId);
+        q.setParameter("fonte_xml", GZip.decodeB64AndUngzip(nfe.getXmlNfe()));
+        q.executeUpdate();
     }
 
-    private Integer maxSeqMensNfRel() {
-        return nativeFindValue("SELECT COALESCE(MAX(seq_mens_nf_rel), 0) FROM tab_mens_nf_rel");
-    }
-
-    private Integer maxSeqAjDocFiscal() {
-        return nativeFindValue("SELECT COALESCE(MAX(seq_aj_doc_fiscal), 0) FROM tab_aj_doc_fiscal");
+    private void gravaProtocoloNfe(NFe nfe, Long nfeId) {
+        Query q = em.createNativeQuery("INSERT INTO nfe_protocolo(nfe, ts_proc, numero, digest, versao_sefaz, _id, tipo_protocolo) VALUES(:nfe, :ts_proc, :numero, :digest, :versao_sefaz, :_id, 1)");
+        q.setParameter("nfe", nfeId);
+        q.setParameter("ts_proc", Dates.utcToDateTime(nfe.getDhRecbtoNfe()));
+        q.setParameter("numero", nfe.getNumProtocoloNfe());
+        q.setParameter("digest", nfe.getDigValNfe());
+        q.setParameter("versao_sefaz", nfe.getNumVersaoApliNfe());
+        q.setParameter("_id", nfe.getIdProtocoloNfe());
+        q.executeUpdate();
     }
 
     public void excluiNFe(String numChaveNfe, Long codEmpresa) {
         List<NFeResumo> notas = nfeResumoRepo.listaChave(codEmpresa, numChaveNfe);
         if (notas.isEmpty())
             return;
+
         if (notas.size() > 1)
             throw new RuntimeException("Foram encontradas " + notas.size() + " notas com essa chave");
 
         NFeResumo nfeResumo = notas.get(0);
-
         executeNative("DELETE FROM nota_fiscal_pessoa a WHERE exists (SELECT 1 FROM  nota_fiscal b WHERE b.destinatario = a.grid AND grid = " + nfeResumo.getSeqNota() + ")");
         executeNative("DELETE FROM nota_fiscal_pessoa a WHERE exists (SELECT 1 FROM  nota_fiscal b WHERE b.emitente = a.grid AND grid = " + nfeResumo.getSeqNota() + ")");
         executeNative("DELETE FROM nfe a WHERE nota_fiscal = " + nfeResumo.getSeqNota());
@@ -230,15 +112,10 @@ public class NFeRepo extends DataRepository<NFe, Long> {
         executeNative("DELETE FROM nota_fiscal_produto WHERE nota_fiscal = " + nfeResumo.getSeqNota());
         executeNative("DELETE FROM movto a WHERE exists (SELECT 1 FROM nota_fiscal b WHERE b.mlid = a.mlid AND grid = " + nfeResumo.getSeqNota() + ")");
         executeNative("DELETE FROM nota_fiscal WHERE grid = " + nfeResumo.getSeqNota());
-
-
     }
 
     public BigInteger gravaNotaFiscalPessoaEmpresa(final NFe nfe) {
-
         StringList sql = new StringList();
-
-        sql.clear();
         sql.add("INSERT INTO nota_fiscal_pessoa ( ");
         sql.add("	 fone, ");
         sql.add("    complemento, ");
@@ -288,14 +165,10 @@ public class NFeRepo extends DataRepository<NFe, Long> {
         BigInteger nf_pessoa_empresa = Cast.of(q.getSingleResult());
 
         return nf_pessoa_empresa;
-
     }
 
     public BigInteger gravaNotaFiscalPessoaFornecedor(final NFe nfe) {
-
         StringList sql = new StringList();
-
-        sql.clear();
         sql.add("INSERT INTO nota_fiscal_pessoa ( ");
         sql.add("  fone, ");
         sql.add("  nome, ");
@@ -341,10 +214,7 @@ public class NFeRepo extends DataRepository<NFe, Long> {
     }
 
     public BigInteger gravaNotaFiscal(final NFe nfe, BigInteger nf_pessoa_empresa, BigInteger nf_pessoa_fornecedor, BigInteger mlid) {
-
         StringList sql = new StringList();
-
-        sql.clear();
         sql.add("INSERT INTO nota_fiscal ( ");
         sql.add("  fone, ");
         sql.add("  valor_ipi, ");
@@ -395,21 +265,21 @@ public class NFeRepo extends DataRepository<NFe, Long> {
         sql.add("  modelo_doc ) ");
         sql.add(" ( SELECT ");
         sql.add("  a.fone, ");
-        sql.add( nfe.getValIpi() + ",");
-        sql.add( nfe.getValBaseIcmsSubstituicao() + ",");
+        sql.add(nfe.getValIpi() + ",");
+        sql.add(nfe.getValBaseIcmsSubstituicao() + ",");
         sql.add("  a.cep, ");
-        sql.add( mlid + ",");
+        sql.add(mlid + ",");
         sql.add("  a.municipio, ");
         sql.add("  CURRENT_TIMESTAMP, ");
         sql.add(" (SELECT cfop FROM cfop WHERE REPLACE(cfop,'.','') = '" + nfe.getCodNaturezaOperacao() + "' LIMIT 1),");
-        sql.add( nfe.getValDespesaAcessoria() + ",");
-        sql.add( nfe.getValBaseIcms() + ",");
+        sql.add(nfe.getValDespesaAcessoria() + ",");
+        sql.add(nfe.getValBaseIcms() + ",");
         sql.add("  CURRENT_DATE, ");
-        sql.add( nfe.getValCofins() + ",");
-        sql.add( nfe.getValTotalNota() + ",");
+        sql.add(nfe.getValCofins() + ",");
+        sql.add(nfe.getValTotalNota() + ",");
         sql.add("  'T', ");
         sql.add("  'C', ");
-        sql.add( nfe.getValFreteCif() + ",");
+        sql.add(nfe.getValFreteCif() + ",");
         sql.add("'" + nfe.getNumVersaoApliNfe() + "',");
         sql.add("  'CONTRATACAO PELO EMITENTE', ");
         sql.add("  a.cidade, ");
@@ -419,22 +289,22 @@ public class NFeRepo extends DataRepository<NFe, Long> {
         sql.add("   aliquota 1.86% ");
         sql.add("  Base calc. R$1140.00 Art. 23 da LC 123/2006->Valor aproximado de tributos R$ 0.00 (fonte IBPT).->->', ");
         sql.add("  (SELECT grid FROM pessoa WHERE codigo = " + nfe.getCodEmpresa() + "), ");
-        sql.add( nfe.getValIcmsSubstituicao() + ",");
+        sql.add(nfe.getValIcmsSubstituicao() + ",");
         sql.add("'" + nfe.getDtaEmissao() + "',");
-        sql.add( nfe.getValFreteCif() + ",");
+        sql.add(nfe.getValFreteCif() + ",");
         sql.add("  a.grid, ");
         sql.add("  '1', ");
         sql.add("  0.000000, ");
-        sql.add( nfe.getNumSerie() + ",");
+        sql.add(nfe.getNumSerie() + ",");
         sql.add("  CAST(" + nfe.getNumNota() + " AS INTEGER), ");
         sql.add("'" + nfe.getIndFinalidadeNota() + "',");
-        sql.add( nfe.getValIcms() + ",");
-        sql.add( nfe.getValSeguro() + ",");
-        sql.add( nf_pessoa_fornecedor + ",");
+        sql.add(nfe.getValIcms() + ",");
+        sql.add(nfe.getValSeguro() + ",");
+        sql.add(nf_pessoa_fornecedor + ",");
         sql.add(nfe.getValPis() + ",");
         sql.add("  a.cpf, ");
-        sql.add( nf_pessoa_empresa + ",");
-        sql.add( nfe.getValTotalNota() + ",");
+        sql.add(nf_pessoa_empresa + ",");
+        sql.add(nfe.getValTotalNota() + ",");
         sql.add("  a.bairro, ");
         sql.add("  a.numero, ");
         sql.add("  '55', ");
@@ -480,10 +350,7 @@ public class NFeRepo extends DataRepository<NFe, Long> {
     }
 
     public BigInteger gravaNfe(final NFe nfe, BigInteger nota_fiscal) {
-
         StringList sql = new StringList();
-
-        sql.clear();
         sql.add("INSERT INTO nfe ( ");
         sql.add("  forma_emissao, ");
         sql.add("  avulsa, ");
@@ -492,19 +359,17 @@ public class NFeRepo extends DataRepository<NFe, Long> {
         sql.add("  chave_acesso, ");
         sql.add("  retorno, ");
         sql.add("  tipo_ambiente ");
-        sql.add(" ) ( SELECT ");
+        sql.add(" ) (SELECT ");
         sql.add("  1, ");
         sql.add("  FALSE, ");
         sql.add("  '4.00', ");
         sql.add(nota_fiscal + ",");
         sql.add("'" + nfe.getNumChaveNfe() + "',");
         sql.add("'" + nfe.getCodSituacaoNfe() + "',");
-        //sql.add("'" + nfe.getIndTipoAmbienteNfe() + "'" );
         sql.add("  :tipo_ambiente");
         sql.add(") RETURNING grid ");
 
         Query q = em.createNativeQuery(sql.toString());
-
         q.setParameter("tipo_ambiente", Numbers.asInt(nfe.getIndTipoAmbienteNfe()));
 
         BigInteger nfE = Cast.of(q.getSingleResult());
@@ -519,10 +384,7 @@ public class NFeRepo extends DataRepository<NFe, Long> {
     }
 
     public BigInteger gravaBaixaEstoque(final NFe nfe, ItemNFe item, BigInteger nf_pessoa_fornecedor, BigInteger mlid) {
-
         StringList sql = new StringList();
-
-        sql.clear();
         sql.add("INSERT INTO lancto ( ");
         sql.add("hora, ");
         sql.add("empresa, ");
@@ -567,7 +429,7 @@ public class NFeRepo extends DataRepository<NFe, Long> {
         sql.add(item.getValUnitario() + ","); //preco_unit_fiscal
         sql.add(item.getQtdItem() + ","); //quantidade
         sql.add(" '" + nfe.getNomUsuario() + "',"); //usuario
-        sql.add( item.getCodTributacaoPis() + ","); //cst_pis
+        sql.add(item.getCodTributacaoPis() + ","); //cst_pis
         sql.add("99 ) RETURNING grid "); //turno
 
         Query q = em.createNativeQuery(sql.toString());
@@ -577,11 +439,8 @@ public class NFeRepo extends DataRepository<NFe, Long> {
     }
 
     public void gravaNotaFiscalProduto(final NFe nfe, BigInteger nota_fiscal, BigInteger nf_pessoa_fornecedor, BigInteger mlid) {
-
         StringList sql = new StringList();
-
         for (ItemNFe item : nfe.getItens()) {
-
             BigInteger lancto = gravaBaixaEstoque(nfe, item, nf_pessoa_fornecedor, mlid);
 
             sql.clear();
@@ -642,7 +501,7 @@ public class NFeRepo extends DataRepository<NFe, Long> {
             sql.add(" (SELECT cfop FROM cfop WHERE REPLACE(cfop,'.','') = '" + item.getCodNaturezaOperacao() + "' LIMIT 1),"); //cfop_origem
             sql.add(item.getSeqItem() + ","); //numero_item
             sql.add(item.getPerAliquotaIcms() + ","); //aliquota_icms_efetivo
-            sql.add(" (SELECT cfop FROM cfop WHERE REPLACE(cfop,'.','') = '" +item.getCodNaturezaOperacao() + "' LIMIT 1),"); //cfop
+            sql.add(" (SELECT cfop FROM cfop WHERE REPLACE(cfop,'.','') = '" + item.getCodNaturezaOperacao() + "' LIMIT 1),"); //cfop
             sql.add(item.getValIcmsOutros() + ","); //valor_outr_des
             sql.add(item.getValBaseIcms() + ","); //base_icms
             sql.add(" (SELECT codigo FROM nfast_tributacao WHERE cod_tributacao = " + item.getCodTributacaoIcms() + "),"); //cst_origem
@@ -663,14 +522,14 @@ public class NFeRepo extends DataRepository<NFe, Long> {
             sql.add(null + ","); //perc_red_base_icms
             sql.add(item.getValBaseIcms() + ","); //base_icms_efetivo
             sql.add(item.getValBaseIcms() + ","); //valor_icms
-            sql.add( item.getCodItem() + ","); //codigo
+            sql.add(item.getCodItem() + ","); //codigo
             sql.add(item.getValAcrescimo() + ","); //valor_acrescimo
             sql.add("  CASE WHEN (('" + item.getCodTributacaoIcms() + "' ILIKE '5%') OR ('" + item.getCodTributacaoIcms() + "' ILIKE '1%')) THEN '" + item.getCodTributacaoIcms() + "' ELSE null END ,"); //csosn
             sql.add("  (SELECT grid FROM produto WHERE codigo = '" + item.getCodItem() + "'),"); //produto
             sql.add(nota_fiscal + ","); //nota_fiscal
             sql.add(" (SELECT codigo FROM nfast_tributacao WHERE cod_tributacao = " + item.getCodTributacaoIcms() + "),"); //cst
             sql.add(item.getCodTributacaoIcms() + ","); //cst_tributacao
-            sql.add( item.getPerAliquotaIpi() + ","); //aliquota_ipi
+            sql.add(item.getPerAliquotaIpi() + ","); //aliquota_ipi
             sql.add(item.getValTotalItem() + ","); //subtotal
             sql.add(item.getQtdItem() + ","); //quantidade
             sql.add(item.getPerAliquotaIcms()); //aliquota_icms
@@ -728,11 +587,8 @@ public class NFeRepo extends DataRepository<NFe, Long> {
     }
 
     public void gravaMovtoFinanceiro(final NFe nfe, BigInteger mlid) {
-
         StringList sql = new StringList();
-
         for (ParcelaNFe parcela : nfe.getParcelas()) {
-
             sql.add("INSERT INTO movto ( ");
             sql.add(" empresa, ");
             sql.add(" seq, ");
@@ -770,19 +626,13 @@ public class NFeRepo extends DataRepository<NFe, Long> {
 
             Query q = em.createNativeQuery(sql.toString());
             BigInteger nf_parcelas = Cast.of(q.getSingleResult());
-
-
         }
-
     }
 
     public NFeResumo buscaNfe(BigInteger grid) {
-
         NFeResumo nf = new NFeResumo();
-
         return nf;
     }
-
 
 }
 

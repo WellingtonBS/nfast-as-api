@@ -3,7 +3,6 @@ package br.com.nfast.api.repo.estoque;
 import br.com.nfast.api.config.jpa.DataRepository;
 import br.com.nfast.api.model.estoque.PrecoProduto;
 import br.com.nfast.api.model.estoque.Produto;
-import br.com.nfast.api.model.nfe.NFeResumo;
 import br.com.nfast.api.repo.nfe.NFeResumoRepo;
 import br.com.nfast.api.utils.Dates;
 import br.com.nfast.api.utils.Numbers;

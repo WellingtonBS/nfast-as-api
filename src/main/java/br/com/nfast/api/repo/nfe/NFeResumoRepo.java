@@ -165,7 +165,7 @@ public class NFeResumoRepo extends DataRepository<NFeResumo, Long> {
         if (Numbers.isNonEmpty(codFornecedor))
             sql.add("      AND d.codigo = " + codFornecedor + " ");
         if (Strings.isNonEmpty(filtroProduto)) {
-                      Long codItem = Numbers.asLong(filtroProduto, 0L);
+            Long codItem = Numbers.asLong(filtroProduto, 0L);
             sql.add("  AND ( ");
             if (codItem > 0)
                 sql.add("            (a.codigo = " + codItem + ") OR ");

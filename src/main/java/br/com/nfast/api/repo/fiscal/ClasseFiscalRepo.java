@@ -2,7 +2,6 @@ package br.com.nfast.api.repo.fiscal;
 
 import br.com.nfast.api.config.jpa.DataRepository;
 import br.com.nfast.api.model.fiscal.ClasseFiscal;
-import br.com.nfast.api.model.fiscal.Ncm;
 import br.com.nfast.api.utils.Numbers;
 import br.com.nfast.api.utils.Strings;
 import org.springframework.stereotype.Repository;
@@ -30,7 +29,7 @@ public class ClasseFiscalRepo extends DataRepository<ClasseFiscal, Integer> {
 
     }
 
-    public  List<ClasseFiscal> classeFiscalList(String filtro, Integer limit, Integer offset) {
+    public List<ClasseFiscal> classeFiscalList(String filtro, Integer limit, Integer offset) {
         List<ClasseFiscal> list = nativeFindAll(query -> {
             query.add("SELECT ");
             query.add("  b.cod_tributacao AS cod_classe_fiscal, ");
