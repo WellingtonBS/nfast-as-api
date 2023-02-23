@@ -5,7 +5,7 @@ import br.com.nfast.api.utils.Strings;
 import java.time.LocalDateTime;
 
 public class Config {
-    public static final String API_VERSION = "1.0.36";
+    public static final String API_VERSION = "1.0.38";
     public static final String INSTANCE_ID = Strings.randomAlphanumeric(16).toUpperCase();
     public static final LocalDateTime START_TIME = LocalDateTime.now();
 
