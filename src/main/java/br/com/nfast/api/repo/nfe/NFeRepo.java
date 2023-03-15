@@ -397,7 +397,7 @@ public class NFeRepo extends DataRepository<NFe, Long> {
         sql.add("cst_pis, ");
         sql.add("turno ) ");
         sql.add("(SELECT ");
-        sql.add(" '" + nfe.getDtaDigitacao() + "',"); //hora
+        sql.add(" :hora,"); //hora
         sql.add("(SELECT grid FROM pessoa WHERE codigo = '" + nfe.getCodEmpresa() + "'),"); //empresa
         sql.add(" row_number() OVER (PARTITION by 0), "); //seq
         sql.add(" '" + nfe.getDtaEmissao() + "',"); //data_doc
@@ -411,16 +411,17 @@ public class NFeRepo extends DataRepository<NFe, Long> {
         sql.add(" 'E', "); //operacao
         sql.add(" (SELECT cst FROM tributacao a INNER JOIN nfast_tributacao b ON (a.codigo = b.codigo) WHERE b.tipo = 'ICMS' AND b.cod_tributacao = " + item.getCodTributacaoIcms() + "),"); //tributacao
         sql.add(mlid + ","); //mlid
-        sql.add(item.getValUnitario() + ","); //preco_unit
+        sql.add(item.getValUnitarioReal() + ","); //preco_unit
         sql.add(" '" + nfe.getDtaEmissao() + "',"); //data
         sql.add("NULL, "); //natureza_receita
-        sql.add(item.getValUnitario() + ","); //preco_unit_fiscal
+        sql.add(item.getValUnitarioReal() + ","); //preco_unit_fiscal
         sql.add(item.getQtdItemConvertido() + ","); //quantidade
         sql.add(" '" + nfe.getNomUsuario() + "',"); //usuario
         sql.add(item.getCodTributacaoPis() + ","); //cst_pis
         sql.add("99 ) RETURNING grid "); //turno
 
         Query q = em.createNativeQuery(sql.toString());
+        q.setParameter("hora", nfe.getDtaDigitacao().atTime(Dates.toTime(nfe.getHraDigitacao()+":00")));
         BigInteger lancto = Cast.of(q.getSingleResult());
 
         return lancto;

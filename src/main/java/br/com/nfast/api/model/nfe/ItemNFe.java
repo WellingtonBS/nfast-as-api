@@ -30,6 +30,8 @@ public class ItemNFe {
     private Double qtdItemConvertido = 0.0;
     @Column(name = "val_unitario")
     private Double valUnitario = 0.0;
+    @Transient
+    private Double valUnitarioReal = 0.0;
     @Column(name = "val_bruto_item")
     private Double valBrutoItem = 0.0;
     @Column(name = "val_desconto")
@@ -368,6 +370,14 @@ public class ItemNFe {
 
     public void setValUnitario(Double valUnitario) {
         this.valUnitario = valUnitario;
+    }
+
+    public Double getValUnitarioReal() {
+        return valUnitarioReal;
+    }
+
+    public void setValUnitarioReal(Double valUnitarioReal) {
+        this.valUnitarioReal = valUnitarioReal;
     }
 
     public Double getValBrutoItem() {
