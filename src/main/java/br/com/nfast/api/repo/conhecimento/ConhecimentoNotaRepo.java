@@ -17,16 +17,16 @@ public class ConhecimentoNotaRepo extends DataRepository<ConhecimentoNota, Integ
     }
 
     public void excluiConhecimentoNota(Long seqNotaEntrada) {
-        executeNative("DELETE FROM tab_conhecimento_nota WHERE seq_nota = " + seqNotaEntrada);
+        //executeNative("DELETE FROM tab_conhecimento_nota WHERE seq_nota = " + seqNotaEntrada);
     }
 
     public void gravaConhecimentoNota(Integer seqNota, Integer seqConhecimento, String indEntradaSaida) {
-        executeNative(query -> {
+        /*executeNative(query -> {
             query.add("INSERT INTO tab_conhecimento_nota (seq_nota, seq_conhecimento, ind_entrada_saida) ");
             query.add("VALUES (:seq_nota, :seq_conhecimento, :ind_entrada_saida) ");
             query.set("seq_nota", seqNota);
             query.set("seq_conhecimento", seqConhecimento);
             query.set("ind_entrada_saida", indEntradaSaida);
-        });
+        });*/
     }
 }

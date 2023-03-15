@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/api/conhecimento-frete")
 public interface ConhecimentoFreteApi {
 
-    @ApiOperation(value = "Obtem conhecimento conhecimetno de frete", response = ConhecimentoFreteResumo.class)
+    @ApiOperation(value = "Obtem conhecimento de frete", response = ConhecimentoFreteResumo.class)
     @ApiResponse(code = 200, message = "Sucesso", response = ConhecimentoFreteResumo.class)
     @RequestMapping(value = "/resumo", method = RequestMethod.GET, produces = "application/json")
     ResponseEntity<ConhecimentoFreteResumo> obtemConhecimentoFrete(

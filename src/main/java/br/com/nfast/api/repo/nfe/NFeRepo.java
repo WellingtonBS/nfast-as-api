@@ -51,9 +51,10 @@ public class NFeRepo extends DataRepository<NFe, Long> {
             throw new RuntimeException("Lançamento Retroativo não Permitido - Data de Entrada " + Dates.format(nfe.getDtaEntrada()));
 
         BigInteger seqNota = nativeFindValue(query -> {
-            query.add("SELECT COALESCE(grid,0) ");
+            query.add("SELECT COALESCE(grid, 0) ");
             query.add("FROM nfe a ");
             query.add("WHERE a.chave_acesso = '" + nfe.getNumChaveNfe() + "' ");
+            query.add("AND a.nota_fiscal IS NOT NULL ");
         });
 
         if (Numbers.isNonEmpty(seqNota))
@@ -65,13 +66,11 @@ public class NFeRepo extends DataRepository<NFe, Long> {
         boolean notaDespesa = false;
 
         for (ItemNFe item : nfe.getItens()) {
-
             if (item.getCodItem() == null) {
                 notaDespesa = true;
                 break;
             }
         }
-
 
         BigInteger nfPessoaEmpresa = gravaNotaFiscalPessoaEmpresa(nfe);
         BigInteger nfPessoaFornecedor = gravaNotaFiscalPessoaFornecedor(nfe);

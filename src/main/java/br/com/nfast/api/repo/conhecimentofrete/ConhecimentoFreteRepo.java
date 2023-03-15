@@ -12,6 +12,8 @@ public class ConhecimentoFreteRepo extends DataRepository<ConhecimentoFreteResum
     }
 
     public ConhecimentoFreteResumo obtemConhecimentoFrete(String chave) {
-        return findBy("numChaveNfe", chave);
+        return null;
+        //return findBy("numChaveNfe", chave);
     }
+
 }
