@@ -17,7 +17,7 @@ public class TributacaoRepo extends DataRepository<Tributacao, Integer> {
 
     public Tributacao tributacao(Integer codTributacao) {
         Tributacao item = nativeFind(query -> {
-            query.add("SELECT ");
+            query.add("SELECT DISTINCT ");
             query.add("  b.cod_tributacao AS cod_tributacao, ");
             query.add("  normali(a.descricao) AS des_tributacao, ");
             query.add("  'ICMS' AS ind_tipo_tributo, ");
@@ -39,7 +39,7 @@ public class TributacaoRepo extends DataRepository<Tributacao, Integer> {
             query.add("AND b.tipo = 'ICMS'  ");
             query.add("AND b.cod_tributacao = " + codTributacao);
             query.add("UNION ALL ");
-            query.add("SELECT ");
+            query.add("SELECT DISTINCT ");
             query.add("  b.cod_tributacao AS cod_tributacao, ");
             query.add("  normali(a.descricao) AS des_tributacao, ");
             query.add("  'PIS' AS ind_tipo_tributo, ");
@@ -58,7 +58,7 @@ public class TributacaoRepo extends DataRepository<Tributacao, Integer> {
             query.add("AND b.tipo = 'PIS'  ");
             query.add("AND b.cod_tributacao = " + codTributacao);
             query.add("UNION ALL ");
-            query.add("SELECT ");
+            query.add("SELECT DISTINCT ");
             query.add("  b.cod_tributacao AS cod_tributacao, ");
             query.add("  normali(a.descricao) AS des_tributacao, ");
             query.add("  'COFINS' AS ind_tipo_tributo, ");
@@ -77,26 +77,24 @@ public class TributacaoRepo extends DataRepository<Tributacao, Integer> {
             query.add("AND b.tipo = 'COFINS'  ");
             query.add("AND b.cod_tributacao = " + codTributacao);
             query.add("UNION ALL ");
-            query.add("SELECT ");
-            query.add("b.cod_tributacao AS cod_tributacao, ");
-            query.add("        normali(a.descricao) AS des_tributacao, ");
-            query.add("'IPI' AS ind_tipo_tributo, ");
-            query.add("'T' ind_coluna_tributo, ");
-            query.add("        'E' AS ind_entrada_saida, ");
-            query.add("a.codigo AS cod_situacao_tributaria, ");
-            query.add("        '' AS cod_csosn, ");
-            query.add("0 AS per_aliquota, ");
-            query.add("0 AS per_reducao_base, ");
-            query.add("'N' ind_substituicao_tributaria, ");
-            query.add("        'N' AS ind_ipi_integra_base, ");
-            query.add("'S' AS ind_inativa ");
+            query.add("SELECT DISTINCT ");
+            query.add("  b.cod_tributacao AS cod_tributacao, ");
+            query.add("  normali(a.descricao) AS des_tributacao, ");
+            query.add("  'IPI' AS ind_tipo_tributo, ");
+            query.add("  'T' AS ind_coluna_tributo, ");
+            query.add("  'E' AS ind_entrada_saida, ");
+            query.add("  a.codigo AS cod_situacao_tributaria, ");
+            query.add("  '' AS cod_csosn, ");
+            query.add("  0 AS per_aliquota, ");
+            query.add("  0 AS per_reducao_base, ");
+            query.add("  'N' ind_substituicao_tributaria, ");
+            query.add("  'N' AS ind_ipi_integra_base, ");
+            query.add("  'S' AS ind_inativa ");
             query.add("FROM cst_ipi a ");
             query.add("INNER JOIN nfast_tributacao b ON (a.codigo = b.codigo) ");
             query.add("WHERE a.tipo IN ('E', 'ES') ");
-            query.add("AND b.tipo = 'IPI'  ");
+            query.add("AND b.tipo = 'IPI' ");
             query.add("AND b.cod_tributacao = " + codTributacao);
-
-
             query.add("ORDER BY 1 ");
 
         });
@@ -105,7 +103,7 @@ public class TributacaoRepo extends DataRepository<Tributacao, Integer> {
 
     public List<Tributacao> tributacaoList(String indEntradaSaida, String indTipoTributo, String filtro, Integer limit, Integer offset) {
         List<Tributacao> list = nativeFindAll(query -> {
-            query.add("SELECT ");
+            query.add("SELECT DISTINCT ");
             query.add("  b.cod_tributacao AS cod_tributacao, ");
             query.add("  normali(a.descricao) AS des_tributacao, ");
             query.add("  'ICMS' AS ind_tipo_tributo, ");
@@ -143,7 +141,7 @@ public class TributacaoRepo extends DataRepository<Tributacao, Integer> {
                 query.set("filtro", "%" + filtro.toLowerCase() + "%");
             }
             query.add("UNION ALL ");
-            query.add("SELECT ");
+            query.add("SELECT DISTINCT ");
             query.add("  b.cod_tributacao AS cod_tributacao, ");
             query.add("  normali(a.descricao) AS des_tributacao, ");
             query.add("  'PIS' AS ind_tipo_tributo, ");
@@ -172,7 +170,7 @@ public class TributacaoRepo extends DataRepository<Tributacao, Integer> {
             }
 
             query.add("UNION ALL ");
-            query.add("SELECT ");
+            query.add("SELECT DISTINCT ");
             query.add("  b.cod_tributacao AS cod_tributacao, ");
             query.add("  normali(a.descricao) AS des_tributacao, ");
             query.add("  'COFINS' AS ind_tipo_tributo, ");
@@ -201,10 +199,10 @@ public class TributacaoRepo extends DataRepository<Tributacao, Integer> {
             }
 
             query.add("UNION ALL ");
-            query.add("SELECT ");
+            query.add("SELECT DISTINCT ");
             query.add("  b.cod_tributacao AS cod_tributacao, ");
             query.add("  normali(a.descricao) AS des_tributacao, ");
-            query.add("  'COFINS' AS ind_tipo_tributo, ");
+            query.add("  'IPI' AS ind_tipo_tributo, ");
             query.add("  'T' ind_coluna_tributo, ");
             query.add("  '" + indEntradaSaida + "' AS ind_entrada_saida, ");
             query.add("  a.codigo AS cod_situacao_tributaria, ");
@@ -219,7 +217,7 @@ public class TributacaoRepo extends DataRepository<Tributacao, Integer> {
             query.add("WHERE a.tipo IN ('E', 'ES') ");
             query.add("AND b.tipo = 'IPI'  ");
             if (Strings.isNonEmpty(indTipoTributo))
-                query.add("AND 'IPI' = '" + indTipoTributo + "' ");
+                query.add("AND '" + indTipoTributo + "' in ('I','IPI') ");
             if (Strings.isNonEmpty(filtro)) {
                 query.add("AND ( ");
                 query.add("  (CONCAT(b.cod_tributacao, '') LIKE :filtro) OR ");

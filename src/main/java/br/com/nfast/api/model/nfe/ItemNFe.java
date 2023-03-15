@@ -282,6 +282,8 @@ public class ItemNFe {
     private Double valIcmsSubstituto = 0.0;
     @Column(name = "num_item_xml")
     private Integer numItemXml;
+    @Column(name = "des_item_xml")
+    private String desItemXml;
     @Column(name = "val_bc_st_xml")
     private Double valBcStXml = 0.0;
     @Column(name = "val_icms_st_xml")
@@ -293,6 +295,9 @@ public class ItemNFe {
 
     @Transient
     private String ncm;
+
+    @Transient
+    private Integer cfopXml;
 
     @OrderBy("seq_aj_doc_fiscal")
     @Fetch(FetchMode.SELECT)
@@ -1365,6 +1370,10 @@ public class ItemNFe {
         this.numItemXml = numItemXml;
     }
 
+    public String getDesItemXml() { return desItemXml; }
+
+    public void setDesItemXml(String desItemXml) { this.desItemXml = desItemXml; }
+
     public Double getValBcStXml() {
         return valBcStXml;
     }
@@ -1412,5 +1421,10 @@ public class ItemNFe {
     public void setAjustes(List<AjusteDocFiscal> ajustes) {
         this.ajustes = ajustes;
     }
+
+    public Integer getCfopXml() {return cfopXml; }
+
+    public void setCfopXml(Integer cfopXml) {this.cfopXml = cfopXml; }
+
 
 }

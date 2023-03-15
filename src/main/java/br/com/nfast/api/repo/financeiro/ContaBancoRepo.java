@@ -32,9 +32,10 @@ public class ContaBancoRepo extends DataRepository<ContaBanco, Integer> {
             query.add("  'S' as ind_ativo, ");
             query.add("  CAST(d.codigo AS INTEGER) AS cod_empresa ");
             query.add("FROM conta_corrente a ");
-            query.add("INNER JOIN banco b on (b.codigo = a.banco) ");
-            query.add("INNER JOIN empresa d ON (d.grid = a.empresa) ");
-            query.add("WHERE CAST(a.nr_conta || '-' || a.digito AS VARCHAR(10)) = '" + numMnemonico + "' ");
+            query.add("INNER JOIN banco b on (b.codigo = a.banco), ");
+            query.add("           empresa d ");
+            query.add("WHERE ((d.grid = a.empresa) OR (a.empresa is null))  ");
+            query.add(" AND CAST(a.nr_conta || '-' || a.digito AS VARCHAR(10)) = '" + numMnemonico + "' ");
         });
         return item;
     }
@@ -51,8 +52,10 @@ public class ContaBancoRepo extends DataRepository<ContaBanco, Integer> {
             query.add("  'S' as ind_ativo, ");
             query.add("  CAST(d.codigo AS INTEGER) AS cod_empresa ");
             query.add("FROM conta_corrente a ");
-            query.add("INNER JOIN banco b on (b.codigo = a.banco) ");
-            query.add("INNER JOIN empresa d ON (d.grid = a.empresa) ");
+            query.add("INNER JOIN banco b on (b.codigo = a.banco), ");
+            query.add("           empresa d ");
+            query.add("WHERE TRUE ");
+
             if (Numbers.isNonEmpty(codEmpresa))
                 query.add("AND CAST(d.codigo AS INTEGER) = " + codEmpresa + " ");
             if (Strings.isNonEmpty(filtro)) {

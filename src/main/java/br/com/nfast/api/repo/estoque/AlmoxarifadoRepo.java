@@ -28,7 +28,7 @@ public class AlmoxarifadoRepo extends DataRepository<Almoxarifado, Integer> {
             query.add("  CASE WHEN a.flag = 'A' THEN 'S' ELSE 'N' END AS ind_desativado ");
             query.add("FROM deposito a ");
             query.add("INNER JOIN empresa b ON (a.empresa = b.grid) ");
-            query.add("LEFT JOIN produto c ON (c.grid = a.empresa) ");
+            query.add("LEFT JOIN produto c ON (c.grid = a.produto) ");
             query.add("WHERE TRUE = 't' ");
             query.add("AND a.codigo = :codAlmoxarifado");
             query.set("codAlmoxarifado", codAlmoxarifado);
@@ -49,7 +49,7 @@ public class AlmoxarifadoRepo extends DataRepository<Almoxarifado, Integer> {
             query.add("  CASE WHEN a.flag = 'A' THEN 'S' ELSE 'N' END AS ind_desativado ");
             query.add("FROM deposito a ");
             query.add("INNER JOIN empresa b ON (a.empresa = b.grid) ");
-            query.add("LEFT JOIN produto c ON (c.grid = a.empresa) ");
+            query.add("LEFT JOIN produto c ON (c.grid = a.produto) ");
             query.add("WHERE TRUE = 't' ");
             query.add("AND a.flag = 'A' ");
 

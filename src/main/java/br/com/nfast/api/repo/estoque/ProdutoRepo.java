@@ -63,7 +63,13 @@ public class ProdutoRepo extends DataRepository<Produto, Long> {
     }
 
     public Double getSaldoEstoque(Long codEmpresa, Long codItem, Long codAlmoxarifado, LocalDate data) {
-        Double qtdSaldo = nativeFindValue("SELECT sp_obtem_saldo_item_qtde(" + codEmpresa + ", " + codItem + ", " + codAlmoxarifado + ", '" + Dates.format(data, "yyyy-MM-dd") + "', 'N') ");
+        //Double qtdSaldo = nativeFindValue("SELECT sp_obtem_saldo_item_qtde(" + codEmpresa + ", " + codItem + ", " + codAlmoxarifado + ", '" + Dates.format(data, "yyyy-MM-dd") + "', 'N') ");
+        Double qtdSaldo = nativeFindValue("SELECT produto_estoque_f(" +
+                "(SELECT grid FROM empresa WHERE codigo = " + codEmpresa + ") , " +
+                "(SELECT grid FROM deposito WHERE codigo = " + codAlmoxarifado + ") , " +
+                "(SELECT grid FROM produto WHERE codigo = '" + codItem + "') , " +
+                " '" + Dates.format(data, "yyyy-MM-dd") + "' , NULL, NULL) limit 1 ");
+
         return qtdSaldo;
     }
 
@@ -107,7 +113,7 @@ public class ProdutoRepo extends DataRepository<Produto, Long> {
                     query.add("FROM produto_empresa a ");
                     query.add("INNER JOIN produto b ON (a.produto = b.grid) ");
                     query.add("INNER JOIN empresa c ON (a.empresa = c.grid) ");
-                    query.add("WHERE CAST(b.codigo AS INTEGER) = " + codItem + " ");
+                    query.add("WHERE b.codigo = '" + codItem + "' ");
                     query.add("AND CAST(c.codigo AS INTEGER) = " + codEmpresa + " ");
                 });
             }

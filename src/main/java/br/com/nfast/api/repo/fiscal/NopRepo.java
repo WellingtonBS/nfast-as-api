@@ -53,7 +53,7 @@ public class NopRepo extends DataRepository<Nop, Integer> {
             query.add("  CASE WHEN CAST(only_numbers(a.codigo) AS INTEGER) > 5000 THEN 'S' ELSE 'E' END AS ind_entrada_saida, ");
             query.add("  CASE WHEN only_numbers(a.codigo) NOT IN ('1556','2556') THEN 'S' ELSE 'N' END AS ind_gera_estoque, ");
             query.add("  CASE WHEN only_numbers(a.codigo) IN ('1556','2556') THEN 'S' ELSE 'N' END AS ind_gera_despesa, ");
-            query.add("  'S' AS ind_gera_financeiro, ");
+            query.add("  CASE WHEN only_numbers(a.codigo) IN ('1910','2910','5910','6910') THEN 'N' ELSE 'S' END  AS ind_gera_financeiro, ");
             query.add("  CASE WHEN only_numbers(a.codigo) ILIKE '5%' THEN 'D' ");
             query.add("       WHEN only_numbers(a.codigo) ILIKE '1%' THEN 'D' ");
             query.add("       ELSE 'F' END AS ind_origem_destino, ");

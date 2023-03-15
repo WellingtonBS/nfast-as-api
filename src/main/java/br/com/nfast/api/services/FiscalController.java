@@ -109,29 +109,13 @@ public class FiscalController implements FiscalApi {
 
     @Override
     public ResponseEntity<AjusteIcms> ajusteIcms(String token, String clientId, Integer seqAjApurIcms) {
-        AjusteIcms item = ajusteIcmsRepo.findById(seqAjApurIcms).orElse(null);
+        AjusteIcms item = ajusteIcmsRepo.ajusteIcms(seqAjApurIcms);
         return new ResponseEntity<>(item, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<List<AjusteIcms>> ajusteIcmsList(String token, String clientId, String filtro, Integer limit, Integer offset) {
-        List<AjusteIcms> list = ajusteIcmsRepo.findAll(query -> {
-            query.add("SELECT a FROM AjusteIcms a ");
-            query.add("WHERE a.indTipoAjuste IN('DF', 'AS') ");
-            query.add("AND SUBSTRING(a.codIcms, 1, 1) IN('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z') ");
-            if (Strings.isNonEmpty(filtro)) {
-                query.add("AND ( ");
-                query.add("  (LOWER(a.codIcms) LIKE :filtro) OR ");
-                query.add("  (LOWER(a.desIcms) LIKE :filtro) ");
-                query.add(") ");
-                query.set("filtro", "%" + filtro.toLowerCase() + "%");
-            }
-            query.add("ORDER BY a.codIcms, a.desIcms ");
-            if (Numbers.isNonEmpty(limit))
-                query.setLimit(limit);
-            if (Numbers.isNonEmpty(offset))
-                query.setOffset(offset);
-        });
+        List<AjusteIcms> list = ajusteIcmsRepo.ajusteIcmsList(filtro, limit, offset);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 

@@ -18,14 +18,14 @@ public class CentroCustoRepo extends DataRepository<CentroCusto, Integer> {
     public CentroCusto centroCusto(Long codCentroCusto) {
         CentroCusto item = nativeFind(query -> {
             query.add("SELECT ");
-            query.add("  a.codigo as cod_centro_custo, ");
-            query.add("  a.nome as des_centro_custo, ");
+            query.add("  only_numbers(a.codigo) as cod_centro_custo, ");
+            query.add("  normali(a.nome) as des_centro_custo, ");
             query.add("  1 as cod_empresa, ");
             query.add("  CAST('2000-01-01' as DATE) as dta_inicio_validade, ");
             query.add("  CAST('2099-01-01' as DATE) as dta_fim_validade, ");
             query.add("  'A' as ind_tipo ");
             query.add("FROM centro_custo a ");
-            query.add("WHERE a.codigo = :codCentroCusto ");
+            query.add("WHERE only_numbers(a.codigo) = :codCentroCusto ");
             query.set("codCentroCusto", codCentroCusto);
         }, CentroCusto.class);
         return item;
@@ -34,8 +34,8 @@ public class CentroCustoRepo extends DataRepository<CentroCusto, Integer> {
     public List<CentroCusto> centroCustoList(Long codEmpresa, String filtro, Integer limit, Integer offset) {
         List<CentroCusto> list = nativeFindAll(query -> {
             query.add("SELECT ");
-            query.add("  a.codigo as cod_centro_custo, ");
-            query.add("  a.nome as des_centro_custo, ");
+            query.add("  only_numbers(a.codigo) as cod_centro_custo, ");
+            query.add("  normali(a.nome) as des_centro_custo, ");
             query.add("  1 as cod_empresa, ");
             query.add("  CAST('2000-01-01' as DATE) as dta_inicio_validade, ");
             query.add("  CAST('2099-01-01' as DATE) as dta_fim_validade, ");
@@ -47,12 +47,12 @@ public class CentroCustoRepo extends DataRepository<CentroCusto, Integer> {
             //query.add("AND a.codEmpresa = " + codEmpresa + " ");/
             if (Strings.isNonEmpty(filtro)) {
                 query.add("AND ( ");
-                query.add("  (CONCAT(a.codigo, '') LIKE :filtro) OR ");
-                query.add("  (LOWER(a.nome) LIKE :filtro) ");
+                query.add("  (CONCAT(only_numbers(a.codigo), '') LIKE :filtro) OR ");
+                query.add("  (LOWER(normali(a.nome)) LIKE :filtro) ");
                 query.add(") ");
                 query.set("filtro", "%" + filtro.toLowerCase() + "%");
             }
-            query.add("ORDER BY a.nome ");
+            query.add("ORDER BY normali(a.nome) ");
             if (Numbers.isNonEmpty(limit))
                 query.setLimit(limit);
             if (Numbers.isNonEmpty(offset))
