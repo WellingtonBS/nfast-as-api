@@ -1370,9 +1370,13 @@ public class ItemNFe {
         this.numItemXml = numItemXml;
     }
 
-    public String getDesItemXml() { return desItemXml; }
+    public String getDesItemXml() {
+        return desItemXml;
+    }
 
-    public void setDesItemXml(String desItemXml) { this.desItemXml = desItemXml; }
+    public void setDesItemXml(String desItemXml) {
+        this.desItemXml = desItemXml;
+    }
 
     public Double getValBcStXml() {
         return valBcStXml;
@@ -1422,9 +1426,13 @@ public class ItemNFe {
         this.ajustes = ajustes;
     }
 
-    public Integer getCfopXml() {return cfopXml; }
+    public Integer getCfopXml() {
+        return cfopXml;
+    }
 
-    public void setCfopXml(Integer cfopXml) {this.cfopXml = cfopXml; }
+    public void setCfopXml(Integer cfopXml) {
+        this.cfopXml = cfopXml;
+    }
 
 
 }

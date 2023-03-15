@@ -14,6 +14,7 @@ import java.util.List;
 public class PessoaFullRepo extends DataRepository<PessoaFull, Integer> {
 
     private PessoaFull pessoa;
+
     public PessoaFullRepo() {
         super(PessoaFull.class);
     }

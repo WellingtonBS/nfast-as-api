@@ -1,108 +1,55 @@
-package br.com.nfast.api.model.adm;
+package br.com.nfast.api.dto;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-public class Despesa {
-    @Id
-    @Column(name = "seq_despesa")
+public class DespesaDTO {
+
     private Integer seqDespesa;
-    @Column(name = "cod_empresa")
     private Long codEmpresa;
-    @Column(name = "dta_despesa")
     private LocalDate dtaDespesa;
-    @Column(name = "cod_tipo_despesa")
     private Long codTipoDespesa;
-    @Column(name = "cod_tipo_despesa_sint")
     private Long codTipoDespesaSint;
-    @Column(name = "cod_pessoa_favorecido")
     private Long codPessoaFavorecido;
-    @Column(name = "num_doc_despesa")
     private String numDocDespesa;
-    @Column(name = "val_despesa")
     private Double valDespesa = 0.0;
-    @Column(name = "des_observacao")
     private String desObservacao;
-    @Column(name = "val_pagamento_banco")
     private Double valPagamentoBanco = 0.0;
-    @Column(name = "num_doc_banco")
     private String numDocBanco;
-    @Column(name = "num_mnemonico")
     private String numMnemonico;
-    @Column(name = "dta_predatado_banco")
     private LocalDate dtaPredatadoBanco;
-    @Column(name = "val_pagamento_caixa")
     private Double valPagamentoCaixa = 0.0;
-    @Column(name = "num_doc_caixa")
     private String numDocCaixa;
-    @Column(name = "cod_especie_caixa")
     private Integer codEspecieCaixa;
-    @Column(name = "cod_tipo_cobranca")
     private Integer codTipoCobranca;
-    @Column(name = "dta_inclusao")
     private LocalDate dtaInclusao;
-    @Column(name = "nom_usuario")
     private String nomUsuario;
-    @Column(name = "dta_validacao")
     private LocalDate dtaValidacao;
-    @Column(name = "nom_usuario_validacao")
     private String nomUsuarioValidacao;
-    @Column(name = "ind_aprovada")
     private String indAprovada = "S";
-    @Column(name = "ind_status")
     private String indStatus;
-    @Column(name = "nom_usuario_aprovacao")
     private String nomUsuarioAprovacao;
-    @Column(name = "dta_aprovacao")
     private LocalDate dtaAprovacao;
-    @Column(name = "cod_processo_producao")
     private Integer codProcessoProducao;
-    @Column(name = "cod_evento")
     private Integer codEvento;
-    @Column(name = "cod_ocorrencia_rh")
     private String codOcorrenciaRh;
-    @Column(name = "ind_capex_opex")
     private String indCapexOpex;
-    @Column(name = "ind_ida_volta")
     private String indIdaVolta;
-    @Column(name = "ind_tipo_provisao")
     private String indTipoProvisao;
-    @Column(name = "val_reversao")
     private Double valReversao = 0.0;
-    @Column(name = "ind_rpa")
     private String indRpa = "N";
-    @Column(name = "cod_natureza_retencao")
     private Integer codNaturezaRetencao;
-    @Column(name = "cod_identificador_imposto")
     private String codIdentificadorImposto;
-    @Column(name = "dta_referencia_imposto")
     private LocalDate dtaReferenciaImposto;
-    @Column(name = "per_darf")
     private String perDarf;
-    @Column(name = "cod_pagamento")
     private String codPagamento;
-    @Column(name = "nom_recolhedor")
     private String nomRecolhedor;
-    @Column(name = "des_extra_imposto")
     private String desExtraImposto;
-    @Column(name = "val_receita_imposto")
     private Double valReceitaImposto = 0.0;
 
-    @Fetch(FetchMode.SELECT)
-    @OrderBy("numParcela")
-    @OneToMany(mappedBy = "id.despesa", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<ParcelaDespesa> parcelas = new ArrayList<>();
-
-    @Fetch(FetchMode.SELECT)
-    @OrderBy("cod_centro_custo")
-    @OneToMany(mappedBy = "id.despesa", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<RateioDespesa> rateio = new ArrayList<>();
+    private List<ParcelaDespesaDTO> parcelas = new ArrayList<>();
+    private List<RateioDespesaDTO> rateio = new ArrayList<>();
 
     public Integer getSeqDespesa() {
         return seqDespesa;
@@ -432,49 +379,19 @@ public class Despesa {
         this.valReceitaImposto = valReceitaImposto;
     }
 
-    public List<ParcelaDespesa> getParcelas() {
+    public List<ParcelaDespesaDTO> getParcelas() {
         return parcelas;
     }
 
-    public void setParcelas(List<ParcelaDespesa> parcelas) {
+    public void setParcelas(List<ParcelaDespesaDTO> parcelas) {
         this.parcelas = parcelas;
     }
 
-    public List<RateioDespesa> getRateio() {
+    public List<RateioDespesaDTO> getRateio() {
         return rateio;
     }
 
-    public void setRateio(List<RateioDespesa> rateio) {
+    public void setRateio(List<RateioDespesaDTO> rateio) {
         this.rateio = rateio;
     }
-
-    public ParcelaDespesa addParcela() {
-        ParcelaDespesa item = new ParcelaDespesa();
-        item.setId(new ParcelaDespesaId());
-        item.getId().setDespesa(this);
-        item.getId().setNumParcela(parcelas.size() + 1);
-        parcelas.add(item);
-        return item;
-    }
-
-    public RateioDespesa addRateio() {
-        RateioDespesa item = new RateioDespesa();
-        item.setId(new RateioDespesaId());
-        item.getId().setDespesa(this);
-        rateio.add(item);
-        return item;
-    }
-
-    public void prepareToSave() {
-        if (rateio != null) {
-            for (RateioDespesa rateio : rateio) {
-                if (rateio.getId() == null) {
-                    rateio.setId(new RateioDespesaId());
-                    rateio.getId().setDespesa(this);
-                    rateio.getId().setCodCentroCusto(rateio.getCodCentroCusto());
-                }
-            }
-        }
-    }
-
 }
